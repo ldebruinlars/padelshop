@@ -38,14 +38,32 @@ export function Exploded() {
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
+      // Niet vastpinnen: de lagen gaan uit elkaar terwijl je gewoon doorscrolt.
       mm.add("(prefers-reduced-motion: no-preference)", () => {
         const tl = gsap.timeline({
-          scrollTrigger: { trigger: root.current, start: "top top", end: "+=160%", scrub: 1, pin: true },
+          scrollTrigger: { trigger: root.current, start: "top 80%", end: "center 45%", scrub: 1 },
         });
         tl.from(".stack", { rotateX: 0, rotateZ: 0, duration: 0.4, ease: "power2.inOut" })
           .to(".layer-face", { z: 150, duration: 0.6, ease: "power2.out" }, 0.35)
-          .to(".layer-frame", { z: -150, duration: 0.6, ease: "power2.out" }, 0.35)
-          .from(".hotspot", { opacity: 0, x: 30, stagger: 0.1, duration: 0.3 }, 0.6);
+          .to(".layer-frame", { z: -150, duration: 0.6, ease: "power2.out" }, 0.35);
+
+        // Labels en knoppen springen vanzelf in beeld, zoals de stappen 01 / 02 / 03
+        gsap.from(".layer-label", {
+          opacity: 0,
+          x: -20,
+          stagger: 0.15,
+          duration: 0.6,
+          ease: "back.out(1.7)",
+          scrollTrigger: { trigger: ".stack", start: "top 60%", toggleActions: "play none none reverse" },
+        });
+        gsap.from(".hotspot", {
+          opacity: 0,
+          y: 30,
+          stagger: 0.12,
+          duration: 0.7,
+          ease: "power3.out",
+          scrollTrigger: { trigger: ".hotspot-list", start: "top 85%", toggleActions: "play none none reverse" },
+        });
       });
       mm.add("(prefers-reduced-motion: reduce)", () => {
         gsap.set(".layer-face", { z: 150 });
@@ -59,7 +77,7 @@ export function Exploded() {
   const current = LAYERS.find((l) => l.id === active)!;
 
   return (
-    <section ref={root} className="relative grid min-h-[100svh] items-center overflow-hidden bg-navy py-20">
+    <section ref={root} className="relative grid items-center overflow-hidden bg-navy py-28">
       <div className="mx-auto grid w-full max-w-[1400px] items-center gap-12 px-5 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="relative mx-auto grid aspect-square w-[min(560px,88vw)] place-items-center [perspective:1400px]">
           <div className="stack relative h-[62%] w-[48%] [transform-style:preserve-3d] [transform:rotateX(58deg)_rotateZ(-28deg)]">
@@ -75,6 +93,15 @@ export function Exploded() {
               }}
             />
           </div>
+          {/* Labels naast de lagen */}
+          <ul className="pointer-events-none absolute top-[12%] right-0 bottom-[12%] flex flex-col justify-between font-ui text-[11px] font-semibold tracking-[0.14em] uppercase">
+            {LAYERS.map((l) => (
+              <li key={l.id} className={`layer-label flex items-center gap-2 ${active === l.id ? "text-lime" : "text-mist"}`}>
+                <span className="h-px w-8 bg-current" />
+                {l.name}
+              </li>
+            ))}
+          </ul>
         </div>
 
         <div>
@@ -84,7 +111,7 @@ export function Exploded() {
           </h2>
           <p className="mt-5 max-w-md text-white/70">Elk racket is opgebouwd uit dezelfde drie lagen. De keuzes per laag bepalen hoe hij speelt. Klik op een laag.</p>
 
-          <div className="mt-8 grid gap-2" role="group" aria-label="Lagen van het racket">
+          <div className="hotspot-list mt-8 grid gap-2" role="group" aria-label="Lagen van het racket">
             {LAYERS.map((l) => (
               <button
                 key={l.id}

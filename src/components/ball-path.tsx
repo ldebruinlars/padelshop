@@ -29,7 +29,9 @@ export function BallPath() {
         const tl = gsap.timeline({
           scrollTrigger: { trigger: root.current, start: "top 70%", end: "bottom 60%", scrub: 1 },
         });
-        tl.to(".trail", { strokeDashoffset: 0, ease: "none", duration: 1 }, 0)
+        gsap.set(".ball", { opacity: 0 });
+        tl.to(".ball", { opacity: 1, duration: 0.04 }, 0)
+          .to(".trail", { strokeDashoffset: 0, ease: "none", duration: 1 }, 0)
           .to(".ball", { motionPath: { path, align: path, alignOrigin: [0.5, 0.5] }, ease: "none", duration: 1 }, 0);
         gsap.utils.toArray<HTMLElement>(".step").forEach((el, i) => {
           tl.from(el, { y: 40, opacity: 0, duration: 0.15, ease: "power3.out" }, i * 0.33);
@@ -49,13 +51,13 @@ export function BallPath() {
         </h2>
 
         <div className="relative mt-16">
-          <svg viewBox="0 0 1200 260" preserveAspectRatio="none" className="pointer-events-none absolute inset-x-0 -top-6 hidden h-[260px] w-full md:block" aria-hidden="true">
-            <path id="lob" d="M60 230 C 260 -40, 420 -40, 600 200 S 940 -40, 1140 230" fill="none" stroke="transparent" />
-            <path className="trail" d="M60 230 C 260 -40, 420 -40, 600 200 S 940 -40, 1140 230" fill="none" stroke="#ccff00" strokeWidth="2" strokeLinecap="round" opacity="0.6" />
+          <svg viewBox="0 0 1200 260" className="pointer-events-none absolute inset-x-0 -top-6 hidden aspect-[1200/260] w-full md:block" aria-hidden="true">
+            <path id="lob" d="M60 230 C 240 20, 420 20, 600 200 S 960 20, 1140 230" fill="none" stroke="transparent" />
+            <path className="trail" d="M60 230 C 240 20, 420 20, 600 200 S 960 20, 1140 230" fill="none" stroke="#ccff00" strokeWidth="2" strokeLinecap="round" opacity="0.6" />
             <circle className="ball" r="11" fill="#ccff00" />
           </svg>
 
-          <ol className="relative grid gap-4 pt-[200px] max-md:pt-0 md:grid-cols-3">
+          <ol className="relative grid gap-4 pt-[clamp(140px,18vw,240px)] max-md:pt-0 md:grid-cols-3">
             {STEPS.map((s) => (
               <li key={s.n} className="step rounded-[var(--radius-card)] border border-white/5 bg-navy p-7">
                 <span className="font-serif text-4xl italic">{s.n}</span>

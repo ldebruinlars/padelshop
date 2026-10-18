@@ -69,14 +69,10 @@ export function Racket360() {
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
-      // Desktop: vastpinnen en draaien. Mobiel: niet pinnen (het blok is hoger dan het scherm), alleen meedraaien.
-      mm.add({ desktop: "(min-width: 1024px)", motion: "(prefers-reduced-motion: no-preference)" }, (ctx) => {
-        if (!ctx.conditions?.motion) return;
-        const desktop = ctx.conditions.desktop;
+      // Niet vastpinnen: het racket draait terwijl de sectie gewoon voorbij scrolt.
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
         const tl = gsap.timeline({
-          scrollTrigger: desktop
-            ? { trigger: root.current, start: "top top", end: "+=220%", scrub: 0.6, pin: true }
-            : { trigger: root.current, start: "top 80%", end: "bottom 20%", scrub: 0.6 },
+          scrollTrigger: { trigger: root.current, start: "top 85%", end: "bottom 15%", scrub: 0.6 },
         });
         if (useFrames) {
           const state = { f: 0 };
@@ -84,8 +80,18 @@ export function Racket360() {
         } else {
           tl.to(".spin", { rotateY: 360, ease: "none", duration: 1 }, 0);
         }
-        tl.from(".spec", { x: 40, opacity: 0, stagger: 0.12, duration: 0.2, ease: "power3.out" }, 0.1);
         tl.to(".spin-progress", { scaleX: 1, ease: "none", duration: 1 }, 0);
+        tl.to(".r360-copy", { y: -40, ease: "none", duration: 1 }, 0);
+
+        // Specs schuiven één voor één in zodra ze in beeld komen
+        gsap.from(".spec", {
+          x: 60,
+          opacity: 0,
+          stagger: 0.1,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: { trigger: ".spec-list", start: "top 80%", toggleActions: "play none none reverse" },
+        });
       });
       return () => mm.revert();
     },
@@ -93,9 +99,9 @@ export function Racket360() {
   );
 
   return (
-    <section ref={root} className="relative grid items-center overflow-hidden py-24 lg:h-[100svh] lg:py-0 bg-[radial-gradient(circle_at_40%_55%,#1d2f47,#05090f_65%)]">
+    <section ref={root} className="relative grid items-center overflow-hidden py-28 lg:py-36 bg-[radial-gradient(circle_at_40%_55%,#1d2f47,#05090f_65%)]">
       <div className="mx-auto grid w-full max-w-[1400px] items-center gap-10 px-5 lg:grid-cols-[1fr_1.1fr_0.9fr]">
-        <div>
+        <div className="r360-copy">
           <p className="eyebrow">Uitgelicht · {racket.style}</p>
           <h2 className="mt-5 text-[clamp(40px,5vw,72px)] leading-[0.95] font-medium">
             {racket.name}. <span className="accent">Draai</span> hem om.
@@ -116,7 +122,7 @@ export function Racket360() {
           </div>
         </div>
 
-        <ul className="grid gap-2">
+        <ul className="spec-list grid gap-2">
           {SPECS.map((s) => (
             <li key={s.k} className="spec flex items-baseline justify-between gap-4 rounded-2xl border border-white/5 bg-navy-2/80 px-5 py-4">
               <span className="font-ui text-[11px] font-semibold tracking-[0.14em] text-mist uppercase">{s.k}</span>

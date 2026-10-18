@@ -14,8 +14,9 @@ export const COACHES = [
 export const PLAYTOMIC_URL = "https://playtomic.com/clubs/poort-padel";
 
 // De publieke sleutel mag in de browser staan; de database laat bezoekers alleen boeken en bezette tijden zien.
-const URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
-const KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
+// Eigen Racket Lab-project (los van andere projecten in dezelfde Supabase-organisatie).
+const URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "https://pprmrrhiprchhxwkaocx.supabase.co";
+const KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "sb_publishable_KefKZ6wZjzeG3WJClyhuDQ_BOkiUu8w";
 
 let client: SupabaseClient | null = null;
 export function supabase() {

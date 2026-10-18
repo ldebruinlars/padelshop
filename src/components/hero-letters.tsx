@@ -1,0 +1,80 @@
+"use client";
+
+import { useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+import { MEDIA } from "@/lib/site";
+import { ArrowIcon } from "./icons";
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
+
+/**
+ * Header "video door de letters": de racketvideo speelt in de letters
+ * (multiply-overlay in navy), bij scrollen groeit de tekst tot de video het scherm vult.
+ */
+export function HeroLetters() {
+  const root = useRef<HTMLElement>(null);
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap.from(".hero-word", { yPercent: 110, duration: 1.1, ease: "expo.out", stagger: 0.08, delay: 0.2 });
+        gsap.from(".hero-copy > *", { y: 24, opacity: 0, duration: 0.9, ease: "power3.out", stagger: 0.08, delay: 0.6 });
+
+        const tl = gsap.timeline({
+          scrollTrigger: { trigger: root.current, start: "top top", end: "+=140%", scrub: 1, pin: true },
+        });
+        tl.to(".hero-copy", { opacity: 0, y: -40, duration: 0.25 }, 0)
+          .to(".hero-title", { scale: 9, duration: 1, ease: "power2.in" }, 0)
+          .to(".hero-mask", { opacity: 0, duration: 0.35 }, 0.6)
+          .to(".hero-media", { scale: 1, duration: 1 }, 0);
+      });
+      return () => mm.revert();
+    },
+    { scope: root },
+  );
+
+  return (
+    <section ref={root} id="top" className="relative h-[100svh] overflow-hidden bg-ink">
+      {/* Beeld of video onder de letters */}
+      <div className="hero-media absolute inset-0 scale-110 bg-[radial-gradient(circle_at_65%_40%,#3b5b86,#0b1420_60%)]">
+        {MEDIA.heroVideo ? (
+          <video className="size-full object-cover" src={MEDIA.heroVideo} autoPlay muted loop playsInline poster={MEDIA.hero} />
+        ) : (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img className="size-full object-cover" src={MEDIA.hero} alt="" />
+        )}
+      </div>
+
+      {/* Navy laag: alleen de witte letters laten het beeld door */}
+      <div className="hero-mask absolute inset-0 grid place-items-center bg-navy mix-blend-multiply">
+        <h1 className="hero-title px-4 text-center text-[clamp(64px,17vw,300px)] leading-[0.82] font-bold tracking-[-0.06em] text-white uppercase">
+          <span className="block overflow-hidden">
+            <span className="hero-word inline-block">Voel</span>
+          </span>
+          <span className="block overflow-hidden">
+            <span className="hero-word inline-block">het verschil</span>
+          </span>
+        </h1>
+      </div>
+
+      <div className="hero-copy pointer-events-none absolute inset-x-0 bottom-0 z-10 mx-auto flex max-w-[1400px] flex-wrap items-end justify-between gap-6 px-[max(20px,env(safe-area-inset-left))] pb-10">
+        <p className="eyebrow">Padel rackets · testcenter bij Poort Padel</p>
+        <p className="max-w-md text-[17px] leading-relaxed text-white/85">
+          Test je nieuwe racket eerst op de baan, met een coach van All Court Academy. Pas als het <span className="accent">goed voelt</span>, neem je hem mee.
+        </p>
+        <a
+          href="#testcenter"
+          className="pointer-events-auto flex items-center gap-3 rounded-full bg-lime py-2 pr-2 pl-5 text-sm font-semibold text-navy transition-transform hover:-translate-y-0.5"
+        >
+          Plan een test
+          <span className="grid size-8 place-items-center rounded-full bg-navy">
+            <ArrowIcon className="size-3 text-lime" />
+          </span>
+        </a>
+      </div>
+    </section>
+  );
+}

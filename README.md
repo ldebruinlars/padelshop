@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Racket Lab
 
-## Getting Started
+Padel webshop met een racket-testcenter bij Poort Padel in Almere, samen met All Court Academy.
 
-First, run the development server:
+Gebouwd met Next.js, Tailwind, GSAP (ScrollTrigger, MotionPath) en Lenis, in de Night Court-stijl: de huisstijl van All Court Academy (navy `#0B1420`, lime `#CCFF00`, Inter Tight en Fraunces), donker en filmisch.
+
+## Starten
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Waar staat wat
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Bestand | Inhoud |
+|---|---|
+| `src/lib/site.ts` | Naam, adres, beelden, speelstijlen, rackets (voorbeelddata) en merken |
+| `src/components/hero-letters.tsx` | Header: video in de letters, groeit tijdens scrollen |
+| `src/components/racket-360.tsx` | Racket draait 360° mee met scrollen (72 frames) |
+| `src/components/collection.tsx` | Horizontale collectie per speelstijl, power/control-balken, vergelijker |
+| `src/components/exploded.tsx` | Racket in lagen met klikbare uitleg |
+| `src/components/ball-path.tsx` | Balbaan langs Kies, Test en Koop |
+| `src/components/testcenter.tsx` | Testsessie boeken en thuistest (nog niet gekoppeld aan een agenda) |
+| `src/components/finder.tsx` | Racketfinder-quiz |
 
-## Learn More
+## Beelden
 
-To learn more about Next.js, take a look at the following resources:
+De beelden en video's zijn met Higgsfield gemaakt en staan in `public/media`. `scripts/fetch-media.sh` haalt de originelen opnieuw op en maakt de webp-bestanden, de hero-video en de turntable-frames.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Nog te doen
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Echte rackets, prijzen en voorraad (bijvoorbeeld via Shopify)
+- Boekingen koppelen aan een agenda
+- Productpagina's, winkelwagen en afrekenen

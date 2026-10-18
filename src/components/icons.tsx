@@ -8,7 +8,7 @@ export function ArrowIcon({ className }: { className?: string }) {
 
 export function Logo({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 40 40" fill="none" stroke="#ccff00" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+    <svg viewBox="0 0 40 40" fill="none" stroke="#f06a30" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
       <path d="M8 34 20 6l12 28" />
       <path d="M13 24c5-3 9-3 14 0" />
     </svg>

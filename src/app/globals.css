@@ -1,16 +1,17 @@
 @import "tailwindcss";
 
-/* Night Court: All Court Academy-huisstijl (navy, lime, Inter Tight + Fraunces), donker en filmisch */
+/* Gravel Night: espresso en krijt met één gravel-oranje accent en zand (Inter Tight + Fraunces), donker en filmisch */
 @theme {
-  --color-navy: #0b1420;
-  --color-navy-2: #142235;
-  --color-navy-3: #1d2f47;
-  --color-ink: #05090f;
-  --color-lime: #ccff00;
-  --color-stone: #f2f2ee;
-  --color-sand: #efd98a;
-  --color-mint: #edf4d1;
-  --color-mist: #a9b4c4;
+  --color-bg: #14110f;
+  --color-panel: #201a16;
+  --color-panel-2: #2c241f;
+  --color-ink: #0c0a09;
+  --color-fg: #f6efe6;
+  --color-muted: #b3a595;
+  --color-accent: #f06a30;
+  --color-accent-2: #e8d3a8;
+  /* Donkere tekst op accent, zand en de speelstijlkleuren (wit op oranje haalt geen AA) */
+  --color-on-accent: #14110f;
 
   --font-sans: var(--font-inter-tight), system-ui, sans-serif;
   --font-serif: var(--font-fraunces), Georgia, serif;
@@ -26,7 +27,7 @@ html {
 
 body {
   background: var(--color-ink);
-  color: #fff;
+  color: var(--color-fg);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
 }
@@ -44,7 +45,7 @@ h3 {
   font-style: italic;
   font-weight: 400;
   letter-spacing: -0.01em;
-  color: var(--color-lime);
+  color: var(--color-accent);
 }
 
 .eyebrow {
@@ -56,7 +57,7 @@ h3 {
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--color-lime);
+  color: var(--color-accent);
 }
 .eyebrow::before {
   content: "";

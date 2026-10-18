@@ -13,8 +13,8 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
 function Bar({ label, value, color }: { label: string; value: number; color: string }) {
   return (
     <div className="grid grid-cols-[64px_1fr_28px] items-center gap-3 font-ui text-[11px] font-semibold tracking-[0.1em] uppercase">
-      <span className="text-mist">{label}</span>
-      <span className="h-1.5 overflow-hidden rounded-full bg-navy-3">
+      <span className="text-muted">{label}</span>
+      <span className="h-1.5 overflow-hidden rounded-full bg-panel-2">
         <span className="block h-full rounded-full" style={{ width: `${value * 10}%`, background: color }} />
       </span>
       <span className="text-right tabular-nums">{value.toFixed(1)}</span>
@@ -25,15 +25,15 @@ function Bar({ label, value, color }: { label: string; value: number; color: str
 function RacketCard({ r, compare, onCompare }: { r: Racket; compare: boolean; onCompare: () => void }) {
   const style = STYLES.find((s) => s.id === r.style)!;
   return (
-    <article className="flex w-[min(380px,82vw)] shrink-0 flex-col rounded-[var(--radius-card)] border border-white/5 bg-navy-2 p-2">
-      <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-[radial-gradient(circle_at_50%_40%,#1d2f47,#0b1420_70%)]">
+    <article className="flex w-[min(380px,82vw)] shrink-0 flex-col rounded-[var(--radius-card)] border border-fg/5 bg-panel p-2">
+      <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-[radial-gradient(circle_at_50%_40%,var(--color-panel-2),var(--color-bg)_70%)]">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img loading="lazy" decoding="async" src={r.image} alt={`${r.name} padel racket`} className="size-full object-cover transition-transform duration-700 hover:scale-105" />
-        <span className="absolute top-3 left-3 rounded-full px-3 py-1 font-ui text-[11px] font-semibold tracking-[0.14em] text-navy uppercase" style={{ background: style.color }}>
+        <span className="absolute top-3 left-3 rounded-full px-3 py-1 font-ui text-[11px] font-semibold tracking-[0.14em] text-on-accent uppercase" style={{ background: style.color }}>
           {style.label}
         </span>
         {r.testable && (
-          <span className="absolute top-3 right-3 rounded-full bg-navy/80 px-3 py-1 font-ui text-[11px] font-semibold tracking-[0.12em] text-lime uppercase backdrop-blur">
+          <span className="absolute top-3 right-3 rounded-full bg-bg/80 px-3 py-1 font-ui text-[11px] font-semibold tracking-[0.12em] text-accent uppercase backdrop-blur">
             Ligt in het testcenter
           </span>
         )}
@@ -43,25 +43,25 @@ function RacketCard({ r, compare, onCompare }: { r: Racket; compare: boolean; on
           <h3 className="text-2xl font-semibold">{r.name}</h3>
           <span className="text-lg tabular-nums">€ {r.price}</span>
         </div>
-        <p className="text-sm text-mist">
+        <p className="text-sm text-muted">
           {r.shape} · {r.weight} · balans {r.balance} · {r.level}
         </p>
-        <Bar label="Power" value={r.power} color="#ccff00" />
-        <Bar label="Control" value={r.control} color="#9fb6d6" />
+        <Bar label="Power" value={r.power} color="#ff4a4a" />
+        <Bar label="Control" value={r.control} color="#d9a48f" />
         <div className="mt-1 flex gap-2">
           <button
             type="button"
             onClick={onCompare}
             aria-pressed={compare}
-            className={`flex-1 rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${compare ? "border-lime bg-lime text-navy" : "border-navy-3 text-white hover:border-white/40"}`}
+            className={`flex-1 rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${compare ? "border-accent bg-accent text-on-accent" : "border-panel-2 text-fg hover:border-fg/40"}`}
           >
             {compare ? "In vergelijking" : "Vergelijk"}
           </button>
           {r.testable && (
-            <a href="#testcenter" className="flex items-center gap-2 rounded-full bg-sand py-1.5 pr-1.5 pl-4 text-sm font-semibold text-navy">
+            <a href="#testcenter" className="flex items-center gap-2 rounded-full bg-accent-2 py-1.5 pr-1.5 pl-4 text-sm font-semibold text-on-accent">
               Test dit racket
-              <span className="grid size-7 place-items-center rounded-full bg-navy">
-                <ArrowIcon className="size-3 text-lime" />
+              <span className="grid size-7 place-items-center rounded-full bg-bg">
+                <ArrowIcon className="size-3 text-accent" />
               </span>
             </a>
           )}
@@ -121,15 +121,15 @@ export function Collection() {
             Power of <span className="accent">control</span>?
           </h2>
         </div>
-        <p className="max-w-md text-white/70">Onze coaches scoren elk racket op power en control. Kies er tot drie en zet ze naast elkaar.</p>
+        <p className="max-w-md text-fg/70">Onze coaches scoren elk racket op power en control. Kies er tot drie en zet ze naast elkaar.</p>
       </div>
 
       <div ref={track} className="flex gap-4 overflow-x-auto px-5 pb-4 md:overflow-visible md:pb-0">
         {STYLES.flatMap((s) => [
           <div key={s.id} className="flex w-[min(300px,70vw)] shrink-0 flex-col justify-end rounded-[var(--radius-card)] p-6" style={{ background: s.color }}>
-            <span className="font-ui text-[11px] font-semibold tracking-[0.14em] text-navy/70 uppercase">Speelstijl</span>
-            <span className="mt-2 text-5xl font-semibold tracking-tight text-navy">{s.label}</span>
-            <span className="mt-2 text-sm text-navy/75">{s.tagline}</span>
+            <span className="font-ui text-[11px] font-semibold tracking-[0.14em] text-on-accent/90 uppercase">Speelstijl</span>
+            <span className="mt-2 text-5xl font-semibold tracking-tight text-on-accent">{s.label}</span>
+            <span className="mt-2 text-sm text-on-accent/90">{s.tagline}</span>
           </div>,
           ...RACKETS.filter((r) => r.style === s.id).map((r) => (
             <RacketCard key={r.id} r={r} compare={compare.includes(r.id)} onCompare={() => toggle(r.id)} />
@@ -139,21 +139,21 @@ export function Collection() {
 
       {mounted && picked.length > 0 && createPortal(
         <div className="fixed inset-x-0 bottom-0 z-40 px-[max(10px,env(safe-area-inset-left))] pb-[calc(10px+env(safe-area-inset-bottom))]">
-          <div className="mx-auto flex max-w-[900px] flex-wrap items-center gap-4 rounded-[var(--radius-card)] border border-white/10 bg-navy/95 p-3 pl-5 shadow-2xl backdrop-blur">
-            <span className="font-ui text-[11px] font-semibold tracking-[0.14em] text-mist uppercase">Vergelijk ({picked.length}/3)</span>
+          <div className="mx-auto flex max-w-[900px] flex-wrap items-center gap-4 rounded-[var(--radius-card)] border border-fg/10 bg-bg/95 p-3 pl-5 shadow-2xl backdrop-blur">
+            <span className="font-ui text-[11px] font-semibold tracking-[0.14em] text-muted uppercase">Vergelijk ({picked.length}/3)</span>
             <div className="flex flex-1 flex-wrap gap-4">
               {picked.map((r) => (
                 <div key={r.id} className="min-w-[140px] flex-1">
                   <div className="text-sm font-semibold">{r.name}</div>
                   <div className="mt-1 grid gap-1">
-                    <Bar label="Power" value={r.power} color="#ccff00" />
-                    <Bar label="Control" value={r.control} color="#9fb6d6" />
+                    <Bar label="Power" value={r.power} color="#ff4a4a" />
+                    <Bar label="Control" value={r.control} color="#d9a48f" />
                   </div>
                 </div>
               ))}
             </div>
-            {full && <span className="w-full text-sm text-sand" role="status">Je vergelijkt er al drie. Haal er eerst een weg.</span>}
-            <button type="button" onClick={() => { setCompare([]); setFull(false); }} className="rounded-full border border-navy-3 px-4 py-2 text-sm text-mist hover:text-white">
+            {full && <span className="w-full text-sm text-accent-2" role="status">Je vergelijkt er al drie. Haal er eerst een weg.</span>}
+            <button type="button" onClick={() => { setCompare([]); setFull(false); }} className="rounded-full border border-panel-2 px-4 py-2 text-sm text-muted hover:text-fg">
               Wissen
             </button>
           </div>

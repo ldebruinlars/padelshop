@@ -2,7 +2,7 @@
 
 Padel webshop met een racket-testcenter bij Poort Padel in Almere, samen met All Court Academy.
 
-Gebouwd met Next.js, Tailwind, GSAP (ScrollTrigger, MotionPath) en Lenis, in de Night Court-stijl: de huisstijl van All Court Academy (navy `#0B1420`, lime `#CCFF00`, Inter Tight en Fraunces), donker en filmisch.
+Gebouwd met Next.js, Tailwind, GSAP (ScrollTrigger, MotionPath) en Lenis, in de eigen Gravel Night-stijl: espresso `#14110F`, krijt `#F6EFE6`, gravel-oranje `#F06A30` en zand `#E8D3A8`, met Inter Tight en Fraunces, donker en filmisch. De kleuren staan als betekenis-tokens in `src/app/globals.css` (`bg`, `panel`, `panel-2`, `ink`, `fg`, `muted`, `accent`, `accent-2`, `on-accent`); de speelstijlkleuren in `src/lib/site.ts`.
 
 ## Starten
 

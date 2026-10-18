@@ -73,18 +73,18 @@ export function Finder() {
           <h2 className="mt-5 text-[clamp(36px,4.6vw,64px)] leading-[0.95] font-medium">
             Welk racket <span className="accent">past</span> bij jou?
           </h2>
-          <p className="mt-5 max-w-md text-white/70">Drie vragen, dan weet je welke speelstijl bij je past. De rackets die eruit komen, kun je daarna testen.</p>
+          <p className="mt-5 max-w-md text-fg/70">Drie vragen, dan weet je welke speelstijl bij je past. De rackets die eruit komen, kun je daarna testen.</p>
         </div>
 
-        <div className="rounded-[var(--radius-panel)] border border-white/5 bg-navy p-6 md:p-10" aria-live="polite">
+        <div className="rounded-[var(--radius-panel)] border border-fg/5 bg-bg p-6 md:p-10" aria-live="polite">
           {!done ? (
             <>
               <div className="mb-6 flex gap-1.5" aria-hidden="true">
                 {QUESTIONS.map((_, i) => (
-                  <span key={i} className={`h-1 flex-1 rounded-full ${i <= step ? "bg-lime" : "bg-navy-3"}`} />
+                  <span key={i} className={`h-1 flex-1 rounded-full ${i <= step ? "bg-accent" : "bg-panel-2"}`} />
                 ))}
               </div>
-              <p className="font-ui text-[11px] font-semibold tracking-[0.14em] text-mist uppercase">
+              <p className="font-ui text-[11px] font-semibold tracking-[0.14em] text-muted uppercase">
                 Vraag {step + 1} van {QUESTIONS.length}
               </p>
               <h3 ref={heading} tabIndex={-1} className="mt-3 text-3xl font-medium outline-none">{QUESTIONS[step].q}</h3>
@@ -94,46 +94,46 @@ export function Finder() {
                     key={a.label}
                     type="button"
                     onClick={() => answer(a)}
-                    className="group flex items-center justify-between rounded-full border border-navy-3 px-6 py-4 text-left text-lg transition-colors hover:border-lime hover:bg-navy-2"
+                    className="group flex items-center justify-between rounded-full border border-panel-2 px-6 py-4 text-left text-lg transition-colors hover:border-accent hover:bg-panel"
                   >
                     {a.label}
-                    <ArrowIcon className="size-3 text-lime transition-transform group-hover:translate-x-1" />
+                    <ArrowIcon className="size-3 text-accent transition-transform group-hover:translate-x-1" />
                   </button>
                 ))}
               </div>
               {step > 0 && (
-                <button type="button" onClick={() => setAnswers((list) => list.slice(0, -1))} className="mt-4 text-sm text-mist underline-offset-4 hover:text-white hover:underline">
+                <button type="button" onClick={() => setAnswers((list) => list.slice(0, -1))} className="mt-4 text-sm text-muted underline-offset-4 hover:text-fg hover:underline">
                   Vorige vraag
                 </button>
               )}
             </>
           ) : (
             <>
-              <p className="font-ui text-[11px] font-semibold tracking-[0.14em] text-mist uppercase">Jouw speelstijl</p>
+              <p className="font-ui text-[11px] font-semibold tracking-[0.14em] text-muted uppercase">Jouw speelstijl</p>
               <h3 ref={heading} tabIndex={-1} className="mt-3 text-5xl font-semibold outline-none" style={{ color: style.color }}>
                 {style.label}
               </h3>
-              <p className="mt-2 text-white/70">{style.tagline}. Deze rackets leggen we voor je klaar:</p>
+              <p className="mt-2 text-fg/70">{style.tagline}. Deze rackets leggen we voor je klaar:</p>
               <ul className="mt-6 grid gap-2 sm:grid-cols-3">
                 {picks.map((r) => (
-                  <li key={r.id} className="rounded-2xl bg-navy-2 p-4">
+                  <li key={r.id} className="rounded-2xl bg-panel p-4">
                     <div className="font-semibold">{r.name}</div>
-                    <div className="text-sm text-mist">
+                    <div className="text-sm text-muted">
                       {r.shape} · € {r.price}
                     </div>
                   </li>
                 ))}
               </ul>
               <div className="mt-6 flex flex-wrap gap-3">
-                <a href="#testcenter" className="flex items-center gap-3 rounded-full bg-lime py-2 pr-2 pl-5 font-semibold text-navy">
+                <a href="#testcenter" className="flex items-center gap-3 rounded-full bg-accent py-2 pr-2 pl-5 font-semibold text-on-accent">
                   Test deze drie
-                  <span className="grid size-8 place-items-center rounded-full bg-navy">
-                    <ArrowIcon className="size-3 text-lime" />
+                  <span className="grid size-8 place-items-center rounded-full bg-bg">
+                    <ArrowIcon className="size-3 text-accent" />
                   </span>
                 </a>
                 <button
                   type="button"
-                  className="rounded-full border border-navy-3 px-5 py-2 text-mist hover:text-white"
+                  className="rounded-full border border-panel-2 px-5 py-2 text-muted hover:text-fg"
                   onClick={() => setAnswers([])}
                 >
                   Opnieuw

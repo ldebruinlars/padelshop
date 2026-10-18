@@ -53,16 +53,16 @@ export function BallPath() {
         <div className="relative mt-16">
           <svg viewBox="0 0 1200 260" className="pointer-events-none absolute inset-x-0 -top-6 hidden aspect-[1200/260] w-full md:block" aria-hidden="true">
             <path id="lob" d="M60 230 C 240 20, 420 20, 600 200 S 960 20, 1140 230" fill="none" stroke="transparent" />
-            <path className="trail" d="M60 230 C 240 20, 420 20, 600 200 S 960 20, 1140 230" fill="none" stroke="#ccff00" strokeWidth="2" strokeLinecap="round" opacity="0.6" />
-            <circle className="ball" r="11" fill="#ccff00" />
+            <path className="trail" d="M60 230 C 240 20, 420 20, 600 200 S 960 20, 1140 230" fill="none" stroke="#f06a30" strokeWidth="2" strokeLinecap="round" opacity="0.6" />
+            <circle className="ball" r="11" fill="#f06a30" />
           </svg>
 
           <ol className="relative grid gap-4 pt-[clamp(140px,18vw,240px)] max-md:pt-0 md:grid-cols-3">
             {STEPS.map((s) => (
-              <li key={s.n} className="step rounded-[var(--radius-card)] border border-white/5 bg-navy p-7">
+              <li key={s.n} className="step rounded-[var(--radius-card)] border border-fg/5 bg-bg p-7">
                 <span className="font-serif text-4xl italic">{s.n}</span>
                 <h3 className="mt-4 text-2xl font-semibold">{s.title}</h3>
-                <p className="mt-2 text-white/70">{s.text}</p>
+                <p className="mt-2 text-fg/70">{s.text}</p>
               </li>
             ))}
           </ol>

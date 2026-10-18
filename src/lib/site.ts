@@ -38,10 +38,10 @@ export type Racket = {
 };
 
 export const STYLES: { id: Style; label: string; tagline: string; color: string }[] = [
-  { id: "power", label: "Power", tagline: "Voor de smash die het glas raakt", color: "#ccff00" },
-  { id: "control", label: "Control", tagline: "Voor wie de bal wil plaatsen", color: "#9fb6d6" },
-  { id: "allround", label: "Allround", tagline: "Van alles een beetje, goed in balans", color: "#efd98a" },
-  { id: "licht", label: "Licht", tagline: "Voor beginners en een zachte arm", color: "#edf4d1" },
+  { id: "power", label: "Power", tagline: "Voor de smash die het glas raakt", color: "#ff4a4a" },
+  { id: "control", label: "Control", tagline: "Voor wie de bal wil plaatsen", color: "#d9a48f" },
+  { id: "allround", label: "Allround", tagline: "Van alles een beetje, goed in balans", color: "#e3bf78" },
+  { id: "licht", label: "Licht", tagline: "Voor beginners en een zachte arm", color: "#f2e6d6" },
 ];
 
 // Voorbeeldrackets: vervang door het echte assortiment.

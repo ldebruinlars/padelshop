@@ -3,23 +3,20 @@
 import { useEffect, useRef, useState } from "react";
 import { MEDIA } from "@/lib/site";
 import { RevealPanel } from "./reveal-panel";
+import { COACHES, TIMES, bookTest, hhmm, supabase, takenSlots, type Taken } from "@/lib/booking";
 
-// Voorbeelddata: later koppelen aan een echte agenda (bijv. Cal.com of Playtomic).
-const COACHES = [
-  { id: "any", name: "Eerste beschikbare coach" },
-  { id: "c1", name: "Coach Sanne" },
-  { id: "c2", name: "Coach Daan" },
-];
-const TIMES = ["09:00", "09:45", "10:30", "11:15", "13:00", "13:45", "14:30", "17:00", "17:45", "18:30", "19:15", "20:00"];
-// Geen echte agenda gekoppeld: elke tijd is een aanvraag die we per mail bevestigen, dus niets staat als bezet.
 const PRICE = 29.95;
+const DAYS = 14;
+
+/** Datum als yyyy-mm-dd in lokale tijd (niet UTC, anders schuift de dag 's avonds op). */
+const ymd = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 
 function nextDays(n: number) {
   const fmt = new Intl.DateTimeFormat("nl-NL", { weekday: "short", day: "numeric", month: "short" });
   return Array.from({ length: n }, (_, i) => {
     const d = new Date();
     d.setDate(d.getDate() + i + 1);
-    return { key: d.toISOString().slice(0, 10), label: fmt.format(d) };
+    return { key: ymd(d), label: fmt.format(d) };
   });
 }
 
@@ -28,11 +25,19 @@ export function Testcenter() {
   // Datums pas in de browser berekenen, zodat server en client hetzelfde renderen.
   const [days, setDays] = useState<{ key: string; label: string }[]>([]);
   const [day, setDay] = useState("");
+  const [taken, setTaken] = useState<Taken[]>([]);
+  const loadTaken = (d: { key: string }[]) =>
+    takenSlots(d[0].key, d[d.length - 1].key)
+      .then(setTaken)
+      .catch(() => setTaken([]));
   useEffect(() => {
-    const d = nextDays(6);
+    const d = nextDays(DAYS);
     setDays(d);
     setDay(d[0].key);
+    loadTaken(d);
   }, []);
+  const isTaken = (dayKey: string, t: string) => taken.some((x) => x.slot_date === dayKey && (x.whole_day || (x.slot_time && hhmm(x.slot_time) === t)));
+  const dayClosed = (dayKey: string) => taken.some((x) => x.slot_date === dayKey && x.whole_day) || TIMES.every((t) => isTaken(dayKey, t));
   const [time, setTime] = useState<string | null>(null);
   const [coach, setCoach] = useState("any");
   const [booked, setBooked] = useState(false);
@@ -104,17 +109,35 @@ export function Testcenter() {
                 setSending(true);
                 setError("");
                 try {
-                  // Netlify Forms: URL-encoded POST naar het statische skelet (public/__forms.html)
+                  const input = {
+                    date: day,
+                    time,
+                    coach: COACHES.find((c) => c.id === coach)?.name ?? "Eerste beschikbare coach",
+                    name: String(data.get("naam") ?? ""),
+                    email: String(data.get("email") ?? ""),
+                  };
+                  if (supabase()) {
+                    // Opslaan in de database; die blokkeert het moment meteen voor anderen
+                    await bookTest(input);
+                  }
+                  // Netlify Forms als extra melding (en als enige route zolang Supabase niet gekoppeld is)
                   const res = await fetch("/__forms.html", {
                     method: "POST",
                     headers: { "Content-Type": "application/x-www-form-urlencoded" },
                     body: new URLSearchParams(data as unknown as Record<string, string>).toString(),
-                  });
-                  if (!res.ok) throw new Error(String(res.status));
-                  setEmail(String(data.get("email") ?? ""));
+                  }).catch(() => null);
+                  if (!supabase() && !res?.ok) throw new Error("versturen");
+                  setEmail(input.email);
                   setBooked(true);
-                } catch {
-                  setError("Versturen lukte niet. Controleer je verbinding en probeer het opnieuw.");
+                  loadTaken(days);
+                } catch (err) {
+                  if (err instanceof Error && err.message === "moment_bezet") {
+                    setError("Net iemand anders je voor: deze tijd is zojuist geboekt. Kies een andere tijd.");
+                    setTime(null);
+                    loadTaken(days);
+                  } else {
+                    setError("Versturen lukte niet. Controleer je verbinding en probeer het opnieuw.");
+                  }
                 } finally {
                   setSending(false);
                 }
@@ -130,21 +153,27 @@ export function Testcenter() {
               </p>
               <fieldset>
                 <legend className="mb-2 label text-muted">Dag</legend>
-                <div className="flex flex-wrap gap-2">
-                  {days.map((d) => (
-                    <button
-                      key={d.key}
-                      type="button"
-                      onClick={() => {
-                        setDay(d.key);
-                        setTime(null);
-                      }}
-                      aria-pressed={day === d.key}
-                      className="chip capitalize"
-                    >
-                      {d.label}
-                    </button>
-                  ))}
+                {/* Twee weken vooruit, opzij te scrollen; volle of gesloten dagen staan uit */}
+                <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 [scrollbar-width:thin]">
+                  {days.map((d) => {
+                    const closed = dayClosed(d.key);
+                    return (
+                      <button
+                        key={d.key}
+                        type="button"
+                        disabled={closed}
+                        onClick={() => {
+                          setDay(d.key);
+                          setTime(null);
+                        }}
+                        aria-pressed={day === d.key}
+                        className={`chip shrink-0 capitalize ${closed ? "cursor-not-allowed text-fg/35 line-through" : ""}`}
+                      >
+                        {d.label}
+                        {closed && <span className="sr-only">, vol</span>}
+                      </button>
+                    );
+                  })}
                 </div>
               </fieldset>
 
@@ -152,15 +181,16 @@ export function Testcenter() {
                 <legend className="mb-2 label text-muted">Tijd</legend>
                 <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
                   {TIMES.map((t) => {
-                    const taken = false;
+                    const busy = isTaken(day, t);
                     return (
                       <button
                         key={t}
                         type="button"
-                        disabled={taken}
+                        disabled={busy}
                         onClick={() => setTime(t)}
                         aria-pressed={time === t}
-                        className={`chip justify-center tabular-nums ${taken ? "cursor-not-allowed border-transparent text-fg/30 line-through" : ""}`}
+                        aria-label={busy ? `${t}, bezet` : t}
+                        className={`chip justify-center tabular-nums ${busy ? "cursor-not-allowed border-transparent text-fg/35 line-through" : ""}`}
                       >
                         {t}
                       </button>

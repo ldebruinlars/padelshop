@@ -6,6 +6,7 @@ import { useGSAP } from "@gsap/react";
 import { CATALOG_RACKETS, SHAPES, brandName, styleColor, type CatalogRacket, type Shape } from "@/lib/catalog";
 import { SHOP, euro } from "@/lib/site";
 import { useDragScroll } from "./drag-scroll";
+import { BrandPicker } from "./brand-picker";
 import { ChevronIcon } from "./icons";
 import { QuickView } from "./quick-view";
 import { RacketArt } from "./racket-art";
@@ -13,8 +14,8 @@ import { RacketArt } from "./racket-art";
 gsap.registerPlugin(useGSAP);
 
 /** Alle rackets om en om per merk, met per merk een andere speelstijl voorop, zodat de wand gevarieerd hangt. */
-function wallOrder(shape: Shape | "") {
-  const all = CATALOG_RACKETS.filter((r) => !shape || r.shape === shape);
+function wallOrder(shape: Shape | "", brand: string) {
+  const all = CATALOG_RACKETS.filter((r) => (!shape || r.shape === shape) && (!brand || r.brand === brand));
   const perBrand = [...new Set(all.map((r) => r.brand))].map((b, i) => {
     const own = all.filter((r) => r.brand === b);
     return [...own.slice(i % own.length), ...own.slice(0, i % own.length)];
@@ -105,7 +106,10 @@ export function RacketWall() {
   const root = useRef<HTMLElement>(null);
   const [shape, setShape] = useState<Shape | "">("");
   const [open, setOpen] = useState<{ r: CatalogRacket; from: HTMLElement } | null>(null);
-  const list = useMemo(() => wallOrder(shape), [shape]);
+  const [brand, setBrand] = useState("");
+  const list = useMemo(() => wallOrder(shape, brand), [shape, brand]);
+  // Aantal per merk binnen de gekozen vorm, voor de merkenlijst
+  const brandCounts = useMemo(() => Object.fromEntries([...new Set(CATALOG_RACKETS.map((r) => r.brand))].map((b) => [b, CATALOG_RACKETS.filter((r) => r.brand === b && (!shape || r.shape === shape)).length])), [shape]);
   const half = Math.ceil(list.length / 2);
   const rows = [list.slice(0, half), list.slice(half)].filter((row) => row.length);
 
@@ -124,7 +128,7 @@ export function RacketWall() {
       });
       return () => mm.revert();
     },
-    { scope: root, dependencies: [shape], revertOnUpdate: true },
+    { scope: root, dependencies: [shape, brand], revertOnUpdate: true },
   );
 
   return (
@@ -141,19 +145,31 @@ export function RacketWall() {
               </p>
               <p className="mt-2 text-sm text-[#5b4f45]">Tekeningen per vorm; productfoto&apos;s volgen.</p>
             </div>
-            <div className="flex flex-wrap items-center gap-2" role="group" aria-label="Filter de wand op vorm">
-              {[{ id: "" as const, label: "Alle vormen" }, ...SHAPES].map((s) => (
-                <button key={s.id || "alle"} type="button" className="chip" aria-pressed={shape === s.id} onClick={() => setShape(s.id)}>
-                  {s.label}
-                </button>
-              ))}
+            <div className="flex flex-wrap items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2" role="group" aria-label="Filter de wand op vorm">
+                {[{ id: "" as const, label: "Alle vormen" }, ...SHAPES].map((s) => (
+                  <button key={s.id || "alle"} type="button" className="chip" aria-pressed={shape === s.id} onClick={() => setShape(s.id)}>
+                    {s.label}
+                  </button>
+                ))}
+              </div>
+              <span className="mx-1 h-6 w-px bg-on-accent/20 max-sm:hidden" aria-hidden="true" />
+              <BrandPicker value={brand} onChange={setBrand} counts={brandCounts} />
             </div>
           </div>
         </div>
 
         <div className="mx-auto max-w-[1600px]">
+          {list.length === 0 && (
+            <p className="mx-4 mb-8 rounded-[var(--radius-card)] bg-bg/90 p-6 text-fg md:mx-8">
+              Geen {shape} rackets van {brandName(brand)} aan de wand.{" "}
+              <button type="button" className="link text-accent" onClick={() => setShape("")}>
+                Toon alle vormen
+              </button>
+            </p>
+          )}
           {rows.map((row, i) => (
-            <Row key={`${shape}-${i}`} items={row} label={`Rackets, rij ${i + 1}`} onOpen={(racket, from) => setOpen({ r: racket, from })} />
+            <Row key={`${shape}-${brand}-${i}`} items={row} label={`Rackets, rij ${i + 1}`} onOpen={(racket, from) => setOpen({ r: racket, from })} />
           ))}
         </div>
       </div>
@@ -168,7 +184,7 @@ export function RacketWall() {
             <a href="#testcenter" className="btn btn-primary">
               Boek een racket-test
             </a>
-            <a href={`/rackets/${shape ? `?vorm=${shape}` : ""}`} className="btn btn-line">
+            <a href={`/rackets/?${new URLSearchParams(Object.entries({ vorm: shape, merk: brand }).filter(([, v]) => v))}`} className="btn btn-line">
               Filter alle {list.length} rackets
             </a>
           </div>

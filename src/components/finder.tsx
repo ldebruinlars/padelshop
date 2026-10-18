@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { RACKETS, STYLES, type Style } from "@/lib/site";
 import { ArrowIcon } from "./icons";
 
-type Answer = { label: string; score: Partial<Record<Style, number>> };
+type Answer = { label: string; score: Partial<Record<Style, number>>; maxPrice?: number };
 const QUESTIONS: { q: string; answers: Answer[] }[] = [
   {
     q: "Hoe lang speel je al padel?",
@@ -29,9 +29,17 @@ const QUESTIONS: { q: string; answers: Answer[] }[] = [
       { label: "Nee", score: { power: 1, allround: 1 } },
     ],
   },
+  {
+    q: "Wat wil je ongeveer uitgeven?",
+    answers: [
+      { label: "Tot € 150", score: {}, maxPrice: 150 },
+      { label: "Tot € 250", score: {}, maxPrice: 250 },
+      { label: "Maakt niet uit", score: {} },
+    ],
+  },
 ];
 
-/** Racketfinder: drie vragen, daarna advies per speelstijl met een link naar het testcenter. */
+/** Racketfinder: vier vragen, daarna advies per speelstijl met een link naar het testcenter. */
 export function Finder() {
   // Antwoorden als lijst, zodat "Vorige" een stap terug kan.
   const [answers, setAnswers] = useState<Answer[]>([]);
@@ -46,8 +54,12 @@ export function Finder() {
   const style = STYLES.find((s) => s.id === best)!;
   const armFriendly = best === "licht" || best === "control";
 
-  // Alleen testbare rackets; eerst de eigen stijl, daarna wat er qua karakter het dichtst bij ligt.
-  const picks = RACKETS.filter((r) => r.testable)
+  // Alleen testbare rackets binnen budget (tenzij er dan niets overblijft); eerst de eigen stijl,
+  // daarna wat er qua karakter het dichtst bij ligt.
+  const maxPrice = answers.find((a) => a.maxPrice)?.maxPrice;
+  const testable = RACKETS.filter((r) => r.testable);
+  const inBudget = maxPrice ? testable.filter((r) => r.price <= maxPrice) : testable;
+  const picks = (inBudget.length ? inBudget : testable)
     .sort((a, b) => {
       const own = Number(b.style === best) - Number(a.style === best);
       if (own) return own;
@@ -73,7 +85,7 @@ export function Finder() {
           <h2 className="mt-5 text-[clamp(36px,4.6vw,64px)] leading-[0.95] font-medium">
             Welk racket <span className="accent">past</span> bij jou?
           </h2>
-          <p className="mt-5 max-w-md text-fg/70">Drie vragen, dan weet je welke speelstijl bij je past. De rackets die eruit komen, kun je daarna testen.</p>
+          <p className="mt-5 max-w-md text-fg/70">Vier vragen, dan weet je welke speelstijl bij je past en welke rackets binnen je budget vallen. Die kun je daarna testen.</p>
         </div>
 
         <div className="rounded-[var(--radius-panel)] border border-fg/5 bg-bg p-6 md:p-10" aria-live="polite">

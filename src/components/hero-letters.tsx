@@ -39,12 +39,13 @@ export function HeroLetters() {
   return (
     <section ref={root} id="top" className="relative h-[100svh] overflow-hidden bg-ink">
       {/* Beeld of video onder de letters */}
-      <div className="hero-media absolute inset-0 scale-110 brightness-[1.9] contrast-[1.1] bg-[radial-gradient(circle_at_65%_40%,#5a3424,var(--color-bg)_60%)]">
+      {/* Natuurlijk daglicht, zonder extra helderheidsfilter (dat blies de hooglichten op) */}
+      <div className="hero-media absolute inset-0 scale-110 bg-panel">
         {MEDIA.heroVideo ? (
           <video className="size-full object-cover" src={MEDIA.heroVideo} autoPlay muted loop playsInline poster={MEDIA.hero} />
         ) : (
           // eslint-disable-next-line @next/next/no-img-element
-          <img className="size-full object-cover" src={MEDIA.hero} alt="Coach geeft een testracket aan een speler bij Poort Padel" />
+          <img className="size-full object-cover" src={MEDIA.hero} alt="Dubbelspel in een lichte padelhal met daglicht" fetchPriority="high" />
         )}
       </div>
 
@@ -75,17 +76,22 @@ export function HeroLetters() {
       <div className="hero-copy pointer-events-none absolute inset-x-0 bottom-0 z-10 mx-auto flex max-w-[1400px] flex-wrap items-end justify-between gap-6 px-[max(20px,env(safe-area-inset-left))] pb-10">
         <p className="eyebrow">Racket-testcenter · Poort Padel, Almere</p>
         <p className="max-w-md text-[17px] leading-relaxed text-fg/85">
-          Speel 45 minuten met 3 tot 5 rackets, met een coach van All Court Academy naast je. Pas als het <span className="accent">goed voelt</span>, koop je. De test krijg je dan terug.
+          Rackets, schoenen en alles voor padel. Twijfel je? Test 3 tot 5 rackets met een coach van All Court Academy. Pas als het <span className="accent">goed voelt</span>, koop je.
         </p>
-        <a
-          href="#testcenter"
-          className="pointer-events-auto flex items-center gap-3 rounded-full bg-accent py-2 pr-2 pl-5 text-sm font-semibold text-on-accent transition-transform hover:-translate-y-0.5"
-        >
-          Boek je racket-test
-          <span className="grid size-8 place-items-center rounded-full bg-bg">
-            <ArrowIcon className="size-3 text-accent" />
-          </span>
-        </a>
+        <div className="pointer-events-auto flex flex-wrap gap-2">
+          <a href="#collectie" className="flex items-center gap-3 rounded-full bg-accent-2 py-2 pr-2 pl-5 text-sm font-semibold text-on-accent transition-transform hover:-translate-y-0.5">
+            Shop rackets
+            <span className="grid size-8 place-items-center rounded-full bg-bg">
+              <ArrowIcon className="size-3 text-accent" />
+            </span>
+          </a>
+          <a href="#testcenter" className="flex items-center gap-3 rounded-full bg-accent py-2 pr-2 pl-5 text-sm font-semibold text-on-accent transition-transform hover:-translate-y-0.5">
+            Boek je racket-test
+            <span className="grid size-8 place-items-center rounded-full bg-bg">
+              <ArrowIcon className="size-3 text-accent" />
+            </span>
+          </a>
+        </div>
       </div>
     </section>
   );

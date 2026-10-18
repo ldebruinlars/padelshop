@@ -10,6 +10,8 @@
   --color-muted: #b3a595;
   --color-accent: #f06a30;
   --color-accent-2: #e8d3a8;
+  /* Achtergrond van de productfoto's, zodat kaart en foto naadloos in elkaar overlopen */
+  --color-paper: #ede4d3;
   /* Donkere tekst op accent, zand en de speelstijlkleuren (wit op oranje haalt geen AA) */
   --color-on-accent: #14110f;
 
@@ -69,6 +71,17 @@ h3 {
 /* Racketkop-vorm voor de lagen-animatie */
 .racket-head {
   border-radius: 50% 50% 46% 46% / 56% 56% 44% 44%;
+}
+
+@keyframes promise {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 @keyframes marquee {

@@ -1,15 +1,48 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { SITE, STYLES } from "@/lib/site";
+import { SHOP, SITE, STYLES, euro } from "@/lib/site";
 import { ArrowIcon, Logo } from "./icons";
 
 const LINKS = [
+  { href: "#categorieen", label: "Categorieën" },
   { href: "#testcenter", label: "Testcenter" },
   { href: "#finder", label: "Racketfinder" },
-  { href: "#merken", label: "Merken" },
-  { href: "#thuistest", label: "Thuistest" },
+  { href: "#advies", label: "Advies" },
 ];
+
+const PROMISES = [
+  `Gratis bezorging vanaf ${euro(SHOP.freeShippingFrom)}`,
+  `${SHOP.returnDays} dagen bedenktijd`,
+  `Test eerst bij ${SITE.location.split(",")[0]}`,
+  ...(SHOP.payLater ? [`Achteraf betalen met ${SHOP.payLater}`] : []),
+];
+
+/** Aankondigingsbalk: wisselt elke paar seconden van belofte; staat stil bij reduced motion. */
+function Announcement() {
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const t = setInterval(() => setI((n) => (n + 1) % PROMISES.length), 3500);
+    return () => clearInterval(t);
+  }, []);
+  return (
+    <div className="mx-auto mb-1.5 flex h-7 max-w-[1400px] items-center justify-center overflow-hidden rounded-full bg-bg/85 px-4 font-ui text-[11px] font-semibold tracking-[0.12em] text-muted uppercase backdrop-blur-md">
+      {/* Op brede schermen alles naast elkaar, op smalle schermen één regel die wisselt */}
+      <ul className="hidden gap-8 md:flex">
+        {PROMISES.map((p) => (
+          <li key={p} className="flex items-center gap-2">
+            <span className="size-1 rounded-full bg-accent" />
+            {p}
+          </li>
+        ))}
+      </ul>
+      <p key={i} className="animate-[promise_0.5s_ease-out] md:hidden" aria-live="off">
+        {PROMISES[i]}
+      </p>
+    </div>
+  );
+}
 
 export function Nav() {
   const [open, setOpen] = useState(false); // megamenu (desktop)
@@ -29,7 +62,8 @@ export function Nav() {
   }, []);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 px-[max(10px,env(safe-area-inset-left))] pt-[calc(10px+env(safe-area-inset-top))]">
+    <header className="fixed inset-x-0 top-0 z-50 px-[max(10px,env(safe-area-inset-left))] pt-[calc(4px+env(safe-area-inset-top))]">
+      <Announcement />
       <nav
         ref={navRef}
         className="relative mx-auto flex max-w-[1400px] items-center justify-between gap-3 rounded-full border border-fg/5 bg-bg/85 py-2 pr-2 pl-5 backdrop-blur-md"
@@ -53,7 +87,7 @@ export function Nav() {
             aria-expanded={open}
             aria-controls="megamenu"
           >
-            Shop per speelstijl
+            Rackets
           </button>
           {LINKS.map((l) => (
             <a key={l.href} href={l.href} className="rounded-full px-4 py-1.5 text-muted transition-colors hover:text-fg">

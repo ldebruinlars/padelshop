@@ -1,40 +1,49 @@
 #!/usr/bin/env bash
-# Haalt de Higgsfield-beelden en -video's op en zet ze klaar in public/media.
-# Draaiend racket: 72 frames uit de turntable-video (webp, 900 px).
+# Haalt de Higgsfield-beelden op en zet ze klaar in public/media.
+# De shopfoto's zijn tijdelijke placeholders tot de echte productfoto's uit de winkel er zijn.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 OUT=public/media
-mkdir -p "$OUT/turntable" .media-src
+mkdir -p "$OUT/shop" .media-src
 BASE=https://d8j0ntlcm91z4.cloudfront.net/user_3DTi6Z7G6lm7S5aYIwHXC1iM486
 
 get() { curl -fsSL --retry 3 -o ".media-src/$2" "$BASE/$1"; }
 
-get hf_20261018_154639_238f9448-4665-401e-acc5-3c0015374361.png hero-racket.png
-get hf_20261018_154512_63dcff56-9939-4224-8821-62e6ec89d319.png racket-power.png
-get hf_20261018_154512_31c30192-c63f-4937-92cf-5d9395b513ca.png racket-control.png
-get hf_20261018_154512_f5904eca-e887-4b88-86c8-98cf1ce472c9.png racket-allround.png
-get hf_20261018_154512_cc0f48ae-0122-483b-91df-25fb04b65a4d.png racket-light.png
-get hf_20261018_154512_425acc78-c2fb-407a-be1e-381a48042440.png exploded.png
-get hf_20261018_154512_7c4bbe6b-1264-4f9f-9373-a1a8423a89b0.png carbon-macro.png
-get hf_20261018_154512_4dea2664-b93f-468e-812e-c056ca85a43d.png player-smash.png
+# Testcenter (bestaand)
 get hf_20261018_154512_118eda62-18b0-4a7c-975f-bb9fbf498f14.png coach-testcenter.png
-get hf_20261018_154512_c94d6ac0-8c7c-49b4-a233-c8844260a10f.png racket-wall.png
-get hf_20261018_155156_e58f43c1-4772-4916-9536-0298e0543086.mp4 turntable.mp4
-get hf_20261018_155159_c228f783-f4da-4308-84e2-d7f8e911a4b4.mp4 hero-loop.mp4
 
-# Foto's: max 2000 px breed, webp kwaliteit 82 (bestandsnamen blijven .png-namen als .webp)
+# Hero: hal in natuurlijk daglicht
+get hf_20261018_184833_2d6379e1-f5c3-491e-97f2-cf911653d337.png hero-hal.png
+
+# Rackets op zandkleurige achtergrond (placeholders)
+get hf_20261018_184812_ae9de76e-1ccc-44ce-89f9-370ee51127d1.png racket-volt-x.png
+get hf_20261018_184812_1d4b51bc-cc35-43c4-bd38-1ef1fa22d8fd.png racket-aim-r.png
+get hf_20261018_184814_7b7c97a6-7aad-4ea3-afdf-376d992e924d.png racket-flow-t.png
+get hf_20261018_184814_8d6219d0-c45e-4312-8c16-3ada1c21bded.png racket-air-s.png
+get hf_20261018_184812_9420d0ca-e6d8-4eb1-a68a-1a6d7aeff06b.png racket-blaze-d.png
+get hf_20261018_184813_405d442e-9aea-4c80-94ca-01a8407453b6.png racket-edge-c.png
+get hf_20261018_184813_f2001742-4934-4d2c-b77b-6c759bdf20d4.png racket-mix-a.png
+get hf_20261018_184813_4ce74fc1-f6c2-41c5-b648-6ae1e5ddeacf.png racket-lite-k.png
+
+# Categorieën (placeholders)
+get hf_20261018_184813_964b96c0-6c78-44b4-b2a9-afa24123697c.png cat-schoenen.png
+get hf_20261018_184812_03c0bd53-ad97-458f-8d45-0acf29b0308d.png cat-tassen.png
+get hf_20261018_184813_9f06e40d-6fd2-4fdf-9c85-91a912e38647.png cat-ballen.png
+get hf_20261018_184812_91dd6756-db35-4757-a0b3-c5a4eceadb1c.png cat-accessoires.png
+get hf_20261018_184833_7828e03f-bbd9-4da5-b1ba-d42e903d65b7.png cat-kleding.png
+
 for f in .media-src/*.png; do
-  case "$f" in *racket-power*|*racket-control*|*racket-allround*|*racket-light*) W=900;; *) W=2000;; esac
   n=$(basename "$f" .png)
-  ffmpeg -loglevel error -y -i "$f" -vf "scale=min($W\,iw):-2" -quality 82 "$OUT/$n.webp"
+  case "$n" in
+    racket-*) W=800; DIR="$OUT/shop" ;;
+    cat-*) W=1200; DIR="$OUT/shop" ;;
+    *) W=2000; DIR="$OUT" ;;
+  esac
+  ffmpeg -loglevel error -y -i "$f" -vf "scale=min($W\,iw):-2" -c:v libwebp -quality 80 "$DIR/$n.webp"
 done
 
-# Hero-video: 1280 px, zonder audio, klein genoeg voor autoplay
-ffmpeg -loglevel error -y -i .media-src/hero-loop.mp4 -an -vf "scale=1280:-2" -c:v libx264 -crf 26 -preset slow -movflags +faststart -pix_fmt yuv420p "$OUT/hero-loop.mp4"
+# Deelafbeelding (WhatsApp, social): 1200x630 uit de hero
+ffmpeg -loglevel error -y -i .media-src/hero-hal.png -vf "scale=1200:-2,crop=1200:630" -q:v 3 public/og.jpg
 
-# Turntable: 72 frames gelijk verdeeld over de video
-DUR=$(ffprobe -v error -show_entries format=duration -of csv=p=0 .media-src/turntable.mp4)
-ffmpeg -loglevel error -y -i .media-src/turntable.mp4 -vf "fps=72/${DUR},scale=900:-2" -c:v libwebp -quality 78 "$OUT/turntable/f%03d.webp"
-
-echo "Klaar: $(ls "$OUT"/*.webp | wc -l) foto's, $(ls "$OUT/turntable" | wc -l) frames"
+echo "Klaar: $(ls "$OUT"/shop/*.webp | wc -l) shopfoto's"
 du -sh "$OUT"

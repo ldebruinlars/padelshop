@@ -154,7 +154,7 @@ export function CatalogBrowser({ brand }: { brand?: string }) {
         {list.length === 0 && <p className="rounded-[var(--radius-card)] bg-panel p-8 text-center text-muted">Geen rackets met deze combinatie. Probeer een filter minder.</p>}
       </div>
 
-      <QuickView racket={open?.r ?? null} from={open?.from ?? null} onClose={close} />
+      <QuickView racket={open?.r ?? null} from={open?.from ?? null} list={list} onChange={(r) => setOpen((o) => (o ? { ...o, r } : o))} onClose={close} />
     </div>
   );
 }

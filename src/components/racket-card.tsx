@@ -4,9 +4,9 @@ import { profile, brandName, styleColor, PLAYSTYLES, type CatalogRacket } from "
 import { euro } from "@/lib/site";
 import { RacketArt } from "./racket-art";
 
-export function ProfileBar({ label, value, color }: { label: string; value: number; color: string }) {
+export function ProfileBar({ label, value, color, wide }: { label: string; value: number; color: string; wide?: boolean }) {
   return (
-    <div className="grid grid-cols-[60px_1fr_24px] items-center gap-2 label sm:grid-cols-[64px_1fr_28px] sm:gap-3 sm:text-[11px] sm:tracking-[0.1em]">
+    <div className={`grid items-center gap-2 label text-[10px] sm:gap-3 sm:text-[11px] ${wide ? "grid-cols-[96px_1fr_28px]" : "grid-cols-[60px_1fr_24px] sm:grid-cols-[64px_1fr_28px]"}`}>
       <span className="text-muted">{label}</span>
       <span className="h-1.5 overflow-hidden rounded-full bg-panel-2">
         <span className="bar-fill block h-full origin-left rounded-full" style={{ width: `${value * 10}%`, background: color }} />

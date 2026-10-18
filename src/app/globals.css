@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* Gravel Night als racketwand: espresso slatwall, krijtwitte tekst, zandkleurige planklabels, gravel-oranje prijs en knoppen */
+/* Gravel Night met een lichte racketwand: espresso vlakken, krijtwitte tekst, donkere prijskaartjes, gravel-oranje prijs en knoppen */
 @theme {
   --color-bg: #14110f;
   --color-panel: #201a16;
@@ -171,13 +171,34 @@ body {
   }
 }
 
-/* Slatwall: de groeven van de winkelwand */
+/* Slatwall: lichte winkelwand met groeven, zodat de donkere rackets er scherp tegen afsteken */
 .slatwall {
-  background-color: var(--color-bg);
+  --wall: #e7ddcc;
+  background-color: var(--wall);
+  color: var(--color-on-accent);
   background-image:
-    radial-gradient(ellipse 34% 46% at 22% 0, rgb(255 226 190 / 0.07), transparent 70%),
-    radial-gradient(ellipse 34% 46% at 78% 0, rgb(255 226 190 / 0.07), transparent 70%),
-    repeating-linear-gradient(180deg, #1a1512 0 30px, #14110f 30px 46px, #0c0a09 46px 48px, #2a221d 48px 49px);
+    radial-gradient(ellipse 30% 55% at 18% 0, rgb(255 255 255 / 0.55), transparent 70%),
+    radial-gradient(ellipse 30% 55% at 50% 0, rgb(255 255 255 / 0.45), transparent 70%),
+    radial-gradient(ellipse 30% 55% at 82% 0, rgb(255 255 255 / 0.55), transparent 70%),
+    linear-gradient(180deg, transparent 60%, rgb(20 17 15 / 0.1)),
+    repeating-linear-gradient(180deg, #ede5d6 0 34px, #e3d8c5 34px 46px, #b9ab95 46px 48px, #f6f0e6 48px 49px);
+}
+.slatwall .chip {
+  border-color: rgb(20 17 15 / 0.22);
+  color: var(--color-on-accent);
+  background: rgb(255 255 255 / 0.35);
+}
+.slatwall .chip:hover {
+  border-color: rgb(20 17 15 / 0.6);
+}
+.slatwall .chip[aria-pressed="true"] {
+  background: var(--color-on-accent);
+  border-color: var(--color-on-accent);
+  color: var(--color-fg);
+}
+/* Rackets werpen een zachte schaduw op de wand */
+.hang img {
+  filter: drop-shadow(10px 14px 10px rgb(20 17 15 / 0.32));
 }
 
 /* Racket aan de haak: zwaait vanaf de haak, niet vanaf het midden */
@@ -197,11 +218,6 @@ body {
   }
 }
 
-/* Racketkop-vorm voor de lagen-animatie */
-.racket-head {
-  border-radius: 50% 50% 46% 46% / 56% 56% 44% 44%;
-}
-
 @keyframes promise {
   from {
     transform: translateY(100%);
@@ -213,18 +229,20 @@ body {
   }
 }
 
+/* Van links naar rechts: begint verschoven en loopt terug naar nul */
 @keyframes marquee {
   from {
-    transform: translateX(0);
+    transform: translateX(-50%);
   }
   to {
-    transform: translateX(-50%);
+    transform: translateX(0);
   }
 }
 .marquee-track {
-  animation: marquee 40s linear infinite;
+  animation: marquee 45s linear infinite;
 }
-.marquee:hover .marquee-track {
+.marquee:hover .marquee-track,
+.marquee.is-offscreen .marquee-track {
   animation-play-state: paused;
 }
 

@@ -1,11 +1,3 @@
-export function ArrowIcon({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" className={className} aria-hidden="true">
-      <path d="M3 9 9 3M4 3h5v5" />
-    </svg>
-  );
-}
-
 export function Logo({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 40 40" fill="none" stroke="#f06a30" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
@@ -27,6 +19,14 @@ export function CloseIcon({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" className={className} aria-hidden="true">
       <path d="m2 2 8 8M10 2l-8 8" />
+    </svg>
+  );
+}
+
+export function ChevronIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <path d="m4.5 2 4 4-4 4" />
     </svg>
   );
 }

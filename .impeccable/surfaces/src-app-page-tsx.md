@@ -13,7 +13,7 @@ Audience and job: padel players around Almere picking a new racket; action is pi
 
 THESIS: The homepage is the racket wall of a padel shop: rackets hang on pegs over a slatwall, each with a shelf label. Refuses the hero photo + headline + pill CTA and the eyebrow-over-heading section stack.
 
-OWN-WORLD: Espresso slatwall (#14110f with #201a16 grooves), chalk text, sand shelf labels (#ede4d3) with dark print, gravel-orange price and primary buttons. Square-cut 4px corners, no pills, no arrow glyphs. Archivo for display and labels, Inter Tight for body. Plain sentence-case headings, no italic accent words.
+OWN-WORLD: A lit, light slatwall (#e7ddcc with grooves and white top light pools) carries the rackets; espresso (#14110f) is the nav, the strip under the wall and the section grounds. Dark ink price tickets with chalk names and gravel-orange prices sit on a dark price rail. Square-cut 4px corners, no pills, no arrow glyphs on links (chevrons only for previous/next). Archivo for display and labels, Inter Tight for body. Plain sentence-case headings, no italic accent words. (Changed from an espresso wall on 2026-10-19 because the user said the rackets were hard to see.)
 
 STORY: The visitor sees the range at once, filters by shape, takes a racket off the wall to read its specs, then books a test or opens the full catalog.
 

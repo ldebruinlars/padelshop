@@ -63,3 +63,41 @@ export function profile(r: CatalogRacket) {
   const control = Math.min(10, 3 + (3 - shape) + (2 - bal) + (2 - feel) * 0.75);
   return { power: Math.round(power * 2) / 2, control: Math.round(control * 2) / 2 };
 }
+
+/** Specs als getallen tussen 0 en 1, voor de schattingen en de racketfinder. */
+export function encode(r: CatalogRacket) {
+  const s = { rond: 0, druppel: 0.5, diamant: 1 }[r.shape ?? "druppel"];
+  const b = { laag: 0, midden: 0.5, hoog: 1 }[r.balance ?? "midden"];
+  let h = { zacht: 0, medium: 0.5, hard: 1 }[r.feel ?? "medium"];
+  const core = (r.core ?? "").toLowerCase();
+  if (/medium\/soft|medium-soft|middelzacht/.test(core)) h = 0.25;
+  if (/super soft/.test(core)) h = 0;
+  const face = (r.face ?? "").toLowerCase();
+  const k = Number(face.match(/(\d+)k/)?.[1] ?? 0);
+  const glass = /fibre|fiber|glas/.test(face);
+  const carbon = /carbon/.test(face);
+  const f = glass && carbon ? 0.35 : glass ? 0 : !carbon ? 0.5 : k >= 18 ? 0.8 : k >= 12 ? 0.7 : 0.6;
+  const grams = (r.weight ?? "").match(/\d+/g)?.map(Number) ?? [];
+  const mid = grams.length ? grams.reduce((a, n) => a + n, 0) / grams.length : 365;
+  const w = Math.min(1, Math.max(0, (mid - 350) / 30));
+  return { s, b, h, f, w, grams: mid };
+}
+
+const clamp10 = (n: number) => Math.round(Math.min(10, Math.max(1, n)) * 2) / 2;
+
+/**
+ * Zes eigenschappen (1-10) zoals veel padelshops ze tonen. Racket Lab-schatting op basis van de specificaties,
+ * met de vuistregels uit racketgidsen (o.a. padelful.com/en/how-we-score, Tennis Warehouse, LTA). Geen labtest.
+ */
+export function ratings(r: CatalogRacket) {
+  const { s, b, h, f, w } = encode(r);
+  const p = profile(r);
+  return [
+    { id: "power", label: "Kracht", value: p.power, color: "#ff4a4a", hint: "Snelheid bij harde slagen en de smash" },
+    { id: "control", label: "Controle", value: p.control, color: "#d9a48f", hint: "Hoe precies je de bal plaatst" },
+    { id: "handling", label: "Wendbaarheid", value: clamp10(10 - 2.5 * w - 2 * b - 1 * s), color: "#e3bf78", hint: "Hoe snel het racket voelt aan het net" },
+    { id: "sweetspot", label: "Sweet spot", value: clamp10(9 - 1.5 * s - 1 * h - 0.5 * b - 0.5 * f), color: "#e3bf78", hint: "Hoe vergevingsgezind bij slagen buiten het midden" },
+    { id: "exit", label: "Balafgifte", value: clamp10(5 + 2.5 * (1 - h) + 1.5 * (1 - f) + 0.5 * (1 - s) + 0.5 * b), color: "#f2e6d6", hint: "Hoe makkelijk de bal wegkomt bij rustige slagen" },
+    { id: "comfort", label: "Comfort", value: clamp10(5 + 2.5 * (1 - h) + 1.5 * (1 - f) + 1 * (1 - b) + 0.5 * (1 - s) - 1 * w), color: "#f2e6d6", hint: "Hoe vriendelijk voor je arm en elleboog" },
+  ];
+}

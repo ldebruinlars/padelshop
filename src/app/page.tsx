@@ -1,8 +1,9 @@
 import { Advice } from "@/components/advice";
 import { BallPath } from "@/components/ball-path";
 import { BrandMarquee } from "@/components/brand-marquee";
+import { BrandScroller } from "@/components/brand-scroller";
 import { Categories } from "@/components/categories";
-import { Exploded } from "@/components/exploded";
+import { RacketAnatomy } from "@/components/racket-anatomy";
 import { Finder } from "@/components/finder";
 import { Footer } from "@/components/footer";
 import { Nav } from "@/components/nav";
@@ -22,8 +23,9 @@ export default function Home() {
         <BallPath />
         <Finder />
         <Categories />
-        <Exploded />
+        <RacketAnatomy />
         <Reviews />
+        <BrandScroller />
         <Advice />
         <Visit />
       </main>

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-18T21:39:15.772Z",
+  "generatedAt": "2026-10-18T22:24:40.000Z",
   "title": "Design System: Racket Lab",
   "extensions": {
     "colorMeta": {
@@ -109,6 +109,21 @@
           "#ffe9a1"
         ]
       },
+      "playstyle-light": {
+        "role": "tertiary",
+        "displayName": "Light Chalk",
+        "canonical": "oklch(93.0% 0.025 75)",
+        "tonalRamp": [
+          "#110902",
+          "#2b2216",
+          "#483e31",
+          "#665c4e",
+          "#897e70",
+          "#aea394",
+          "#d4c9b9",
+          "#f9eddc"
+        ]
+      },
       "bg": {
         "role": "neutral",
         "displayName": "Espresso",
@@ -214,26 +229,161 @@
           "#f2edea"
         ]
       },
+      "wall": {
+        "role": "neutral",
+        "displayName": "Lit Slatwall",
+        "canonical": "oklch(90.1% 0.025 81)",
+        "tonalRamp": [
+          "#110a02",
+          "#2a2316",
+          "#473f31",
+          "#655c4e",
+          "#887f70",
+          "#ada393",
+          "#d3c9b9",
+          "#f7eddc"
+        ]
+      },
+      "wall-groove-face": {
+        "role": "neutral",
+        "displayName": "Slat Face",
+        "canonical": "oklch(92.4% 0.022 83)",
+        "tonalRamp": [
+          "#100a03",
+          "#292318",
+          "#453f33",
+          "#645d50",
+          "#877f72",
+          "#aba496",
+          "#d1cabb",
+          "#f6eede"
+        ]
+      },
+      "wall-groove": {
+        "role": "neutral",
+        "displayName": "Slat",
+        "canonical": "oklch(88.6% 0.028 81)",
+        "tonalRamp": [
+          "#110a01",
+          "#2b2314",
+          "#473e2f",
+          "#665c4c",
+          "#897f6d",
+          "#aea391",
+          "#d4c9b6",
+          "#f8edda"
+        ]
+      },
+      "wall-groove-shadow": {
+        "role": "neutral",
+        "displayName": "Groove Shadow",
+        "canonical": "oklch(74.7% 0.035 79)",
+        "tonalRamp": [
+          "#130900",
+          "#2d2210",
+          "#4a3e2b",
+          "#685c48",
+          "#8b7e69",
+          "#b0a38d",
+          "#d7c8b2",
+          "#fbecd5"
+        ]
+      },
+      "wall-groove-light": {
+        "role": "neutral",
+        "displayName": "Groove Light",
+        "canonical": "oklch(95.7% 0.015 80)",
+        "tonalRamp": [
+          "#0e0b05",
+          "#28231c",
+          "#443f37",
+          "#625d54",
+          "#857f77",
+          "#a9a49a",
+          "#d0cac0",
+          "#f4eee4"
+        ]
+      },
+      "wall-text": {
+        "role": "neutral",
+        "displayName": "Cord Brown",
+        "canonical": "oklch(37.7% 0.020 58)",
+        "tonalRamp": [
+          "#120904",
+          "#2c221a",
+          "#483d35",
+          "#675b53",
+          "#8a7e75",
+          "#afa298",
+          "#d5c8be",
+          "#faece2"
+        ]
+      },
       "rail": {
         "role": "neutral",
-        "displayName": "Peg Steel",
-        "canonical": "oklch(32.1% 0.017 55)",
+        "displayName": "Rail Brown",
+        "canonical": "oklch(25.9% 0.015 53)",
         "tonalRamp": [
-          "#110905",
-          "#2b221c",
-          "#473e37",
-          "#655b55",
-          "#887e77",
-          "#ada29b",
-          "#d4c8c0",
-          "#f8ece4"
+          "#100906",
+          "#2a221d",
+          "#463e38",
+          "#655b56",
+          "#887e78",
+          "#ada29c",
+          "#d3c8c1",
+          "#f7ece5"
+        ]
+      },
+      "rail-lip": {
+        "role": "neutral",
+        "displayName": "Rail Lip",
+        "canonical": "oklch(60.8% 0.026 69)",
+        "tonalRamp": [
+          "#120902",
+          "#2c2216",
+          "#493d31",
+          "#685b4e",
+          "#8b7e70",
+          "#b0a294",
+          "#d6c8b9",
+          "#faecdc"
+        ]
+      },
+      "peg-light": {
+        "role": "neutral",
+        "displayName": "Peg Metal Light",
+        "canonical": "oklch(66.3% 0.021 67)",
+        "tonalRamp": [
+          "#110903",
+          "#2b2219",
+          "#473e34",
+          "#665c51",
+          "#897e73",
+          "#aea297",
+          "#d4c8bd",
+          "#f8ece0"
+        ]
+      },
+      "peg-dark": {
+        "role": "neutral",
+        "displayName": "Peg Metal Dark",
+        "canonical": "oklch(51.3% 0.019 64)",
+        "tonalRamp": [
+          "#110904",
+          "#2b221b",
+          "#473e35",
+          "#655c53",
+          "#897e75",
+          "#ada299",
+          "#d4c8be",
+          "#f8ece2"
         ]
       }
     },
     "typographyMeta": {
       "display": {
         "displayName": "Display",
-        "purpose": "One page title per page, Archivo at 90% width."
+        "purpose": "One page title per page, Archivo at 90% width; Print Ink on the lit wall. Brand marquee uses it at 85% width."
       },
       "headline": {
         "displayName": "Headline",
@@ -245,7 +395,7 @@
       },
       "price": {
         "displayName": "Price",
-        "purpose": "Prices on shelf labels, tabular figures, Print Ink on paper."
+        "purpose": "Prices on the wall's price tickets in Gravel Orange on Espresso, tabular figures; 30px in the quick view."
       },
       "body": {
         "displayName": "Body",
@@ -263,18 +413,28 @@
     "shadows": [
       {
         "name": "peg-cast",
-        "value": "0 2px 3px rgb(0 0 0 / 0.5)",
+        "value": "0 2px 3px rgb(20 17 15 / 0.35)",
         "purpose": "Hook in the wall."
       },
       {
-        "name": "shelf-label-drop",
-        "value": "0 6px 14px -6px rgb(0 0 0 / 0.7)",
-        "purpose": "Paper label under each racket."
+        "name": "racket-cast",
+        "value": "filter: drop-shadow(10px 14px 10px rgb(20 17 15 / 0.32))",
+        "purpose": "Racket illustration hanging on the lit wall; the art carries no floor shadow."
+      },
+      {
+        "name": "ticket-drop",
+        "value": "0 8px 16px -8px rgb(20 17 15 / 0.6)",
+        "purpose": "Dark price ticket under each racket."
       },
       {
         "name": "rail-drop",
-        "value": "0 6px 10px -4px rgb(0 0 0 / 0.7)",
+        "value": "0 8px 12px -6px rgb(20 17 15 / 0.5)",
         "purpose": "Price rail under each wall row."
+      },
+      {
+        "name": "wall-button",
+        "value": "0 6px 16px -6px rgb(20 17 15 / 0.6)",
+        "purpose": "Chevron buttons floating at the ends of a wall row."
       },
       {
         "name": "megamenu",
@@ -285,8 +445,18 @@
     "surfaces": [
       {
         "name": "slatwall",
-        "value": "background-color: #14110f; background-image: radial-gradient(ellipse 34% 46% at 22% 0, rgb(255 226 190 / 0.07), transparent 70%), radial-gradient(ellipse 34% 46% at 78% 0, rgb(255 226 190 / 0.07), transparent 70%), repeating-linear-gradient(180deg, #1a1512 0 30px, #14110f 30px 46px, #0c0a09 46px 48px, #2a221d 48px 49px)",
-        "purpose": "Ground of the racket wall: grooves plus two warm spotlights."
+        "value": "background-color: #e7ddcc; background-image: radial-gradient(ellipse 30% 55% at 18% 0, rgb(255 255 255 / 0.55), transparent 70%), radial-gradient(ellipse 30% 55% at 50% 0, rgb(255 255 255 / 0.45), transparent 70%), radial-gradient(ellipse 30% 55% at 82% 0, rgb(255 255 255 / 0.55), transparent 70%), linear-gradient(180deg, transparent 60%, rgb(20 17 15 / 0.1)), repeating-linear-gradient(180deg, #ede5d6 0 34px, #e3d8c5 34px 46px, #b9ab95 46px 48px, #f6f0e6 48px 49px)",
+        "purpose": "Ground of the racket wall: light grooves, three white top light pools, slight bottom darkening. Text on it is Print Ink."
+      },
+      {
+        "name": "price-rail",
+        "value": "height: 30px; background: #2a221d; border-top: 2px solid #8d8072",
+        "purpose": "Dark rail the price tickets sit on, under each wall row."
+      },
+      {
+        "name": "peg",
+        "value": "background: linear-gradient(to bottom, #9c9186, #6f655c); 36px x 10px; radius 2px; cord loop 12px x 16px, 2px #4a3f37, rounded bottom",
+        "purpose": "Metal hook with a wrist-cord loop."
       },
       {
         "name": "photo-warm-grade",
@@ -297,13 +467,18 @@
     "motion": [
       {
         "name": "settle",
-        "value": "expo.out, 1.1s, 45ms stagger, 0.2s delay",
+        "value": "expo.out, 1.1s, 35ms stagger, 0.2s delay",
         "purpose": "Rackets level out on their pegs after the drop."
       },
       {
         "name": "drop",
-        "value": "power3.out, 0.5s, from y -48px and +/-7deg alternating, 45ms stagger",
-        "purpose": "Rackets fall onto their pegs on load; shelf labels follow (y 12px, 0.45s, 0.3s delay)."
+        "value": "power3.out, 0.5s, from y -48px and +/-7deg alternating, 35ms stagger, first 18 rackets",
+        "purpose": "Rackets fall onto their pegs on load; price tickets follow (y 12px, 0.45s expo.out, 0.3s delay)."
+      },
+      {
+        "name": "hover-grow",
+        "value": "scale 1.06, 500ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Racket grows on its peg on hover."
       },
       {
         "name": "swing",
@@ -311,9 +486,44 @@
         "purpose": "Hover swing from the hook; hover-capable devices only."
       },
       {
-        "name": "lift-off",
-        "value": "expo.out, 0.55s (panel 0.45s); backdrop power2.out 0.25s",
-        "purpose": "Racket lifts off the wall into the quick view."
+        "name": "zoom-off-hook",
+        "value": "backdrop 0.35s power2.out; racket FLIP from hook, rotation -8deg to scale 1.08 / 2deg, 0.6s power3.inOut at 0.05s, settle 0.35s expo.out at 0.65s; panel 0.4s expo.out from scale 0.97 at 0.5s; content y 16px, 0.45s expo.out, 35ms stagger at 0.62s",
+        "purpose": "Quick view open: the racket flies off its hook, then the panel builds around it."
+      },
+      {
+        "name": "fly-back",
+        "value": "content fade 0.15s power2.in; racket FLIP back to hook, rotation -6deg, 0.45s expo.inOut; panel and backdrop 0.3s power2.in",
+        "purpose": "Quick view close; falls back to fade and scale 0.9 when the racket is not the one opened or its hook is offscreen."
+      },
+      {
+        "name": "quick-view-step",
+        "value": "racket x 70px and 4deg, 0.45s expo.out; content x 14px, 0.3s power2.out",
+        "purpose": "Previous/next in the quick view (chevrons, swipe over 50px, arrow keys)."
+      },
+      {
+        "name": "drag-fling",
+        "value": "power3.out, 0.9s, fling capped at one row width; engages after 4px",
+        "purpose": "Mouse drag on wall rows; touch scrolls natively."
+      },
+      {
+        "name": "row-step",
+        "value": "scrollBy 80% of row width, smooth (instant under reduced motion)",
+        "purpose": "Chevron buttons on wall rows."
+      },
+      {
+        "name": "marquee",
+        "value": "translateX(-50%) to 0, 45s linear infinite",
+        "purpose": "Brand band runs left to right; paused on hover and offscreen."
+      },
+      {
+        "name": "shape-morph",
+        "value": "MorphSVG, expo.out, 0.7s; sweet spot and balance marker tween with it",
+        "purpose": "Anatomy stage morphs between round, teardrop and diamond."
+      },
+      {
+        "name": "explode",
+        "value": "stack rotateX 60 / rotateZ -28 / scale 0.86, 0.9s expo.inOut; layers along z, 50ms per layer after 150ms; picked layer +40px z, 18px x, 0.5s expo.out",
+        "purpose": "Anatomy build mode: exploded layers."
       },
       {
         "name": "rise",
@@ -328,7 +538,7 @@
       {
         "name": "reduced-motion",
         "value": "prefers-reduced-motion: reduce",
-        "purpose": "Entrances, swing and marquee are disabled."
+        "purpose": "Entrances, swing, zoom, fling, morph and marquee are disabled."
       }
     ],
     "breakpoints": [
@@ -407,30 +617,54 @@
       "name": "Shelf Label",
       "kind": "custom",
       "refersTo": "shelf-label",
-      "description": "Signature: paper price label under each racket on the wall; price in Print Ink because orange on paper fails contrast.",
-      "html": "<div class=\"ds-shelf-wrap\"><div class=\"ds-shelf\"><p class=\"ds-shelf-brand\">Nox</p><p class=\"ds-shelf-model\">AT10 Genius 18K</p><p class=\"ds-shelf-row\"><span>druppel</span><span class=\"ds-shelf-price\">€ 279,95</span></p></div></div>",
-      "css": ".ds-shelf-wrap{background:repeating-linear-gradient(180deg,#1a1512 0 30px,#14110f 30px 46px,#0c0a09 46px 48px,#2a221d 48px 49px);padding:24px;} .ds-shelf{width:190px;border-radius:3px;background:#ede4d3;color:#14110f;padding:10px 12px;box-shadow:0 6px 14px -6px rgb(0 0 0/.7);font-family:'Inter Tight', system-ui, sans-serif;transition:transform .2s;} .ds-shelf:hover{transform:translateY(-2px);} .ds-shelf-brand{margin:0;font-family:Archivo, 'Inter Tight', system-ui, sans-serif;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:color-mix(in oklab,#14110f 70%,transparent);} .ds-shelf-model{margin:2px 0 0;font-size:15px;line-height:1.3;font-weight:600;} .ds-shelf-row{margin:4px 0 0;display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:12px;color:color-mix(in oklab,#14110f 70%,transparent);} .ds-shelf-price{font-family:Archivo, 'Inter Tight', system-ui, sans-serif;font-size:18px;line-height:1;font-weight:700;font-variant-numeric:tabular-nums;color:#14110f;}"
+      "description": "Signature: dark ink price ticket on the price rail under each racket; Chalk model name, Dust brand, Gravel Orange price (about 6:1).",
+      "html": "<div class=\"ds-shelf-wrap\"><div class=\"ds-shelf-rail\"></div><div class=\"ds-shelf\"><p class=\"ds-shelf-brand\">Nox</p><p class=\"ds-shelf-model\">AT10 Genius 18K</p><p class=\"ds-shelf-row\"><span>druppel</span><span class=\"ds-shelf-price\">€ 279,95</span></p></div></div>",
+      "css": ".ds-shelf-wrap{position:relative;background:repeating-linear-gradient(180deg,#ede5d6 0 34px,#e3d8c5 34px 46px,#b9ab95 46px 48px,#f6f0e6 48px 49px);padding:24px 24px 18px;} .ds-shelf-rail{position:absolute;left:0;right:0;bottom:30px;height:30px;background:#2a221d;border-top:2px solid #8d8072;box-shadow:0 8px 12px -6px rgb(20 17 15/.5);} .ds-shelf{position:relative;width:190px;border-radius:3px;background:#14110f;color:#f6efe6;padding:10px 12px;box-shadow:0 8px 16px -8px rgb(20 17 15/.6);font-family:'Inter Tight', system-ui, sans-serif;transition:transform .2s;} .ds-shelf:hover{transform:translateY(-2px);} .ds-shelf-brand{margin:0;font-family:Archivo, 'Inter Tight', system-ui, sans-serif;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:#b3a595;} .ds-shelf-model{margin:2px 0 0;font-size:15px;line-height:1.3;font-weight:600;} .ds-shelf-row{margin:4px 0 0;display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:12px;color:#b3a595;} .ds-shelf-price{font-family:Archivo, 'Inter Tight', system-ui, sans-serif;font-size:18px;line-height:1;font-weight:700;font-variant-numeric:tabular-nums;color:#f06a30;}"
+    },
+    {
+      "name": "Wall Chip",
+      "kind": "chip",
+      "refersTo": "chip-wall",
+      "description": "Shape filter on the lit slatwall: translucent white, Print Ink text; pressed fills Print Ink with Chalk.",
+      "html": "<div class=\"ds-wallchips\"><button class=\"ds-wchip\" aria-pressed=\"true\">Alle vormen</button><button class=\"ds-wchip\" aria-pressed=\"false\">Rond</button><button class=\"ds-wchip\" aria-pressed=\"false\">Druppel</button></div>",
+      "css": ".ds-wallchips{display:flex;gap:8px;padding:12px;background:#e7ddcc;} .ds-wchip{display:inline-flex;align-items:center;min-height:36px;padding:0 12px;border:1px solid rgb(20 17 15/.22);border-radius:4px;background:rgb(255 255 255/.35);font-family:'Inter Tight', system-ui, sans-serif;font-size:14px;color:#14110f;cursor:pointer;transition:border-color .15s ease,background-color .15s ease;} .ds-wchip:hover{border-color:rgb(20 17 15/.6);} .ds-wchip[aria-pressed=\"true\"]{background:#14110f;border-color:#14110f;color:#f6efe6;font-weight:600;} .ds-wchip:focus-visible{outline:2px solid #f06a30;outline-offset:2px;}"
+    },
+    {
+      "name": "Racket Peg",
+      "kind": "custom",
+      "refersTo": "wall-scroll-button",
+      "description": "Signature: metal hook with cord loop, hanging racket with drop-shadow cast, dark ticket on the rail, chevron row buttons at the ends.",
+      "html": "<div class=\"ds-peg-wall\"><button class=\"ds-wallbtn\" aria-label=\"Meer rackets links\"><svg viewBox=\"0 0 12 12\" width=\"16\" height=\"16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"transform:rotate(180deg)\" aria-hidden=\"true\"><path d=\"m4.5 2 4 4-4 4\"/></svg></button><div class=\"ds-peg-slot\"><span class=\"ds-peg\"></span><span class=\"ds-cord\"></span><svg class=\"ds-racket\" viewBox=\"0 0 200 300\" width=\"110\" height=\"165\" aria-hidden=\"true\"><rect x=\"88\" y=\"182\" width=\"24\" height=\"104\" rx=\"9\" fill=\"#1c1917\"/><ellipse cx=\"100\" cy=\"100\" rx=\"70\" ry=\"90\" fill=\"#1c1917\" stroke=\"#e3bf78\" stroke-width=\"9\"/></svg></div><button class=\"ds-wallbtn\" aria-label=\"Meer rackets rechts\"><svg viewBox=\"0 0 12 12\" width=\"16\" height=\"16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m4.5 2 4 4-4 4\"/></svg></button></div>",
+      "css": ".ds-peg-wall{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px;background-color:#e7ddcc;background-image:radial-gradient(ellipse 30% 55% at 50% 0,rgb(255 255 255/.45),transparent 70%),repeating-linear-gradient(180deg,#ede5d6 0 34px,#e3d8c5 34px 46px,#b9ab95 46px 48px,#f6f0e6 48px 49px);} .ds-peg-slot{display:flex;flex-direction:column;align-items:center;} .ds-peg{display:block;width:36px;height:10px;border-radius:2px;background:linear-gradient(to bottom,#9c9186,#6f655c);box-shadow:0 2px 3px rgb(20 17 15/.35);} .ds-cord{display:block;margin-top:-1px;width:12px;height:16px;border:2px solid #4a3f37;border-top:0;border-radius:0 0 999px 999px;} .ds-racket{margin-top:-3px;transform-origin:50% 0;filter:drop-shadow(10px 14px 10px rgb(20 17 15/.32));transition:transform .5s cubic-bezier(.16,1,.3,1);} .ds-peg-slot:hover .ds-racket{transform:scale(1.06);} .ds-wallbtn{display:grid;place-items:center;width:44px;height:44px;border:0;border-radius:4px;background:rgb(20 17 15/.9);color:#f6efe6;box-shadow:0 6px 16px -6px rgb(20 17 15/.6);cursor:pointer;} .ds-wallbtn:hover{background:#14110f;} .ds-wallbtn:focus-visible{outline:2px solid #f06a30;outline-offset:2px;}"
+    },
+    {
+      "name": "Rating Bars",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "Six estimated ratings in the quick view, playstyle-coloured fills on Deep Groove tracks, with the estimate note.",
+      "html": "<div class=\"ds-ratings\"><div class=\"ds-rbar\"><span>Kracht</span><i><b style=\"width:84.0%;background:#ff4a4a\"></b></i><span>8.4</span></div><div class=\"ds-rbar\"><span>Controle</span><i><b style=\"width:62.0%;background:#d9a48f\"></b></i><span>6.2</span></div><div class=\"ds-rbar\"><span>Wendbaarheid</span><i><b style=\"width:59.0%;background:#e3bf78\"></b></i><span>5.9</span></div><div class=\"ds-rbar\"><span>Sweet spot</span><i><b style=\"width:55.0%;background:#e3bf78\"></b></i><span>5.5</span></div><div class=\"ds-rbar\"><span>Balafgifte</span><i><b style=\"width:60.0%;background:#f2e6d6\"></b></i><span>6.0</span></div><div class=\"ds-rbar\"><span>Comfort</span><i><b style=\"width:51.0%;background:#f2e6d6\"></b></i><span>5.1</span></div><p class=\"ds-rnote\">Racket Lab-schatting op basis van vorm, balans, gewicht, kern en slagvlak. Geen labtest.</p></div>",
+      "css": ".ds-ratings{display:grid;grid-template-columns:1fr 1fr;gap:10px 32px;padding:20px;background:#14110f;color:#f6efe6;width:520px;} .ds-rbar{display:grid;grid-template-columns:96px 1fr 28px;align-items:center;gap:12px;font-family:Archivo, 'Inter Tight', system-ui, sans-serif;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;} .ds-rbar span:first-child{color:#b3a595;} .ds-rbar span:last-child{text-align:right;font-variant-numeric:tabular-nums;} .ds-rbar i{display:block;height:6px;border-radius:999px;background:#2c241f;overflow:hidden;} .ds-rbar b{display:block;height:100%;border-radius:999px;} .ds-rnote{grid-column:1/-1;margin:0;font-family:'Inter Tight', system-ui, sans-serif;font-size:12px;color:#b3a595;}"
     }
   ],
   "narrative": {
     "northStar": "The Racket Wall",
-    "overview": "The site is the back wall of a padel pro shop after closing: an espresso slatwall with warm light pooling from two spots at the top, rackets hanging on steel pegs, and a sand-coloured shelf label under each one. Everything is read the way you read a shop: brand, model, shape, price, then a decision to take it off the wall or book it on court. Density is retail-high, not editorial: many products in view at once, few words per item.\n\nThe material vocabulary is physical and warm. Grounds are dark brown-black, never neutral grey and never blue; text is chalk; the one loud colour is gravel orange, the colour of a clay court and of the ball. Corners are square-cut like printed shop labels. Type is Archivo slightly condensed for anything that names or prices a thing, Inter Tight for the sentences around it. Headings are plain sentence-case statements with no decoration around them.\n\nMotion is the wall behaving like a wall: rackets drop onto their pegs and settle, swing from the hook when touched, and lift off into the quick view. Transform and opacity only, exponential ease-out, and everything stands still under reduced motion.",
+    "overview": "The site is the back wall of a padel pro shop: a light, lit slatwall with three pools of white light at the top, dark rackets hanging on metal pegs, and a dark ink price ticket under each one on a dark price rail. Everything is read the way you read a shop: brand, model, shape, price, then a decision to take it off the wall or book it on court. Density is retail-high, not editorial: many products in view at once, few words per item.\n\nThe material vocabulary is physical and warm. The wall is a warm sand-white so the rackets stand out sharply against it; around it, the nav, the strip under the wall and the section grounds are espresso brown-black, never neutral grey and never blue; text on dark is chalk; the one loud colour is gravel orange, the colour of a clay court and of the ball. Corners are square-cut like printed shop labels. Type is Archivo slightly condensed for anything that names or prices a thing, Inter Tight for the sentences around it. Headings are plain sentence-case statements with no decoration around them.\n\nMotion is the wall behaving like a wall: rackets drop onto their pegs and settle, swing from the hook when touched, zoom off the hook into the quick view and fly back when it closes. Rows slide sideways under a drag or a chevron press. Transform and opacity only, exponential ease-out, and everything stands still under reduced motion.",
     "keyCharacteristics": [
-      "Espresso slatwall ground with warm top light; tonal depth, sparing physical shadows.",
-      "One accent (gravel orange) for primary action, live state and price; sand for secondary action and labels.",
-      "Square-cut corners on every control (4px); no pill buttons, no arrow glyphs.",
+      "Light lit slatwall for the rackets; espresso for the nav, the strip under the wall and section grounds; tonal depth, sparing physical shadows.",
+      "One accent (gravel orange) for primary action, live state and price; sand for secondary action.",
+      "Square-cut corners on every control (4px); no pill buttons, no arrow glyphs on links; chevrons only for previous/next and disclosure.",
       "Archivo at 90% width for display, labels and prices; Inter Tight for body.",
-      "Physical motion grammar: drop, settle, swing, lift; expo.out."
+      "Physical motion grammar: drop, settle, swing, zoom off the hook and back; expo.out."
     ],
     "rules": [
       {
         "name": "The Dark Print Rule",
-        "body": "Text on Gravel Orange, Court Sand, Label Paper or a playstyle colour is Print Ink, never white. White on orange fails AA.",
+        "body": "Text on Gravel Orange, Court Sand, Label Paper, the lit wall or a playstyle colour is Print Ink, never white. White on orange fails AA.",
         "section": "colors"
       },
       {
-        "name": "The Ink Price Rule",
-        "body": "On the sand shelf labels the price prints in Print Ink, not orange: orange on Label Paper fails contrast. Orange prices belong only on dark grounds.",
+        "name": "The Ticket Price Rule",
+        "body": "Prices on the wall print in Gravel Orange on the Espresso price tickets (about 6:1), with the model name in Chalk and the brand in Dust. Orange never prints as text on the light wall, Label Paper or sand: there it fails contrast.",
         "section": "colors"
       },
       {
@@ -455,12 +689,14 @@
       }
     ],
     "dos": [
-      "Do set text on Gravel Orange, Court Sand, Label Paper and playstyle colours in Print Ink (#14110f).",
-      "Do print shelf-label prices in Print Ink; keep orange prices on dark grounds only.",
+      "Do set text on Gravel Orange, Court Sand, Label Paper, the lit wall and playstyle colours in Print Ink (#14110f).",
+      "Do print wall prices in Gravel Orange on the Espresso price tickets; keep orange text off light grounds.",
+      "Do keep the racket wall light (Lit Slatwall) so the dark rackets read, and keep Espresso for the nav, the strip under the wall and section grounds.",
       "Do keep controls square-cut at 4px, cards at 6px, panels at 8px.",
       "Do settle motion on expo.out and animate only transform and opacity; stop everything under prefers-reduced-motion.",
       "Do warm-grade any photograph (`sepia(0.55) saturate(0.7) hue-rotate(-8deg) brightness(0.92)`) so no blue enters the palette.",
-      "Do use Archivo at 90% width for headings, labels and prices, Inter Tight for body."
+      "Do use Archivo at 90% width for headings, labels and prices, Inter Tight for body.",
+      "Do use a chevron only for previous/next, row scrolling and disclosure."
     ],
     "donts": [
       "Don't use pill-shaped buttons, chips or tags.",
@@ -469,7 +705,8 @@
       "Don't set an italic or coloured accent word inside a heading.",
       "Don't introduce blue or cool grey, in UI or in imagery.",
       "Don't put white text on Gravel Orange.",
-      "Don't add shadows to cards, buttons or fields; shadows are for objects hanging off the wall."
+      "Don't add shadows to cards, buttons or fields; shadows are for objects hanging off or floating on the wall.",
+      "Don't draw a floor shadow under a racket illustration; on the wall the cast comes from the drop-shadow."
     ]
   }
 }

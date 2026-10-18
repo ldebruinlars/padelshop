@@ -84,13 +84,13 @@ export function Exploded() {
           </h2>
           <p className="mt-5 max-w-md text-white/70">Elk racket is opgebouwd uit dezelfde drie lagen. De keuzes per laag bepalen hoe hij speelt. Klik op een laag.</p>
 
-          <div className="mt-8 grid gap-2" role="tablist" aria-label="Lagen van het racket">
+          <div className="mt-8 grid gap-2" role="group" aria-label="Lagen van het racket">
             {LAYERS.map((l) => (
               <button
                 key={l.id}
                 type="button"
-                role="tab"
-                aria-selected={active === l.id}
+                aria-pressed={active === l.id}
+                aria-controls="laag-uitleg"
                 onClick={() => setActive(l.id)}
                 className={`hotspot flex items-center justify-between gap-4 rounded-2xl border px-5 py-4 text-left transition-colors ${
                   active === l.id ? "border-lime bg-navy-2" : "border-white/5 bg-navy-2/50 hover:border-white/20"
@@ -104,7 +104,7 @@ export function Exploded() {
               </button>
             ))}
           </div>
-          <p className="mt-4 min-h-[5lh] rounded-2xl bg-ink/40 p-5 text-white/80" role="tabpanel">
+          <p id="laag-uitleg" aria-live="polite" className="mt-4 min-h-[4lh] rounded-2xl bg-ink/40 p-5 text-white/80">
             {current.text}
           </p>
         </div>

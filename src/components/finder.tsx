@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { RACKETS, STYLES, type Style } from "@/lib/site";
 import { ArrowIcon } from "./icons";
 
@@ -25,7 +25,7 @@ const QUESTIONS: { q: string; answers: Answer[] }[] = [
   {
     q: "Heb je last van je arm of elleboog?",
     answers: [
-      { label: "Ja, soms", score: { licht: 2, control: 1 } },
+      { label: "Ja, soms", score: { licht: 3, control: 2, power: -2 } },
       { label: "Nee", score: { power: 1, allround: 1 } },
     ],
   },
@@ -33,22 +33,37 @@ const QUESTIONS: { q: string; answers: Answer[] }[] = [
 
 /** Racketfinder: drie vragen, daarna advies per speelstijl met een link naar het testcenter. */
 export function Finder() {
-  const [step, setStep] = useState(0);
-  const [scores, setScores] = useState<Record<Style, number>>({ power: 0, control: 0, allround: 0, licht: 0 });
-
+  // Antwoorden als lijst, zodat "Vorige" een stap terug kan.
+  const [answers, setAnswers] = useState<Answer[]>([]);
+  const step = answers.length;
   const done = step >= QUESTIONS.length;
-  const best = (Object.entries(scores) as [Style, number][]).sort((a, b) => b[1] - a[1])[0][0];
-  const style = STYLES.find((s) => s.id === best)!;
-  const picks = [...RACKETS].sort((a, b) => Number(b.style === best) - Number(a.style === best)).slice(0, 3);
 
-  function answer(a: Answer) {
-    setScores((s) => {
-      const next = { ...s };
-      for (const [k, v] of Object.entries(a.score) as [Style, number][]) next[k] += v;
-      return next;
-    });
-    setStep((n) => n + 1);
-  }
+  const scores: Record<Style, number> = { power: 0, control: 0, allround: 0, licht: 0 };
+  for (const a of answers) for (const [k, v] of Object.entries(a.score) as [Style, number][]) scores[k] += v;
+  // Bij gelijke stand kiezen we de veiligste stijl voor de arm.
+  const SAFE_ORDER: Style[] = ["licht", "control", "allround", "power"];
+  const best = [...SAFE_ORDER].sort((a, b) => scores[b] - scores[a] || SAFE_ORDER.indexOf(a) - SAFE_ORDER.indexOf(b))[0];
+  const style = STYLES.find((s) => s.id === best)!;
+  const armFriendly = best === "licht" || best === "control";
+
+  // Alleen testbare rackets; eerst de eigen stijl, daarna wat er qua karakter het dichtst bij ligt.
+  const picks = RACKETS.filter((r) => r.testable)
+    .sort((a, b) => {
+      const own = Number(b.style === best) - Number(a.style === best);
+      if (own) return own;
+      return armFriendly ? b.control - a.control : b.power - a.power;
+    })
+    .slice(0, 3);
+
+  const answer = (a: Answer) => setAnswers((list) => [...list, a]);
+
+  // Na elk antwoord de focus naar de nieuwe vraag of de uitkomst, zodat toetsenbordgebruikers niet kwijtraken.
+  const heading = useRef<HTMLHeadingElement>(null);
+  const touched = useRef(false);
+  useEffect(() => {
+    if (touched.current) heading.current?.focus();
+    touched.current = true;
+  }, [step]);
 
   return (
     <section id="finder" className="bg-ink px-5 py-28">
@@ -72,7 +87,7 @@ export function Finder() {
               <p className="font-ui text-[11px] font-semibold tracking-[0.14em] text-mist uppercase">
                 Vraag {step + 1} van {QUESTIONS.length}
               </p>
-              <h3 className="mt-3 text-3xl font-medium">{QUESTIONS[step].q}</h3>
+              <h3 ref={heading} tabIndex={-1} className="mt-3 text-3xl font-medium outline-none">{QUESTIONS[step].q}</h3>
               <div className="mt-6 grid gap-2">
                 {QUESTIONS[step].answers.map((a) => (
                   <button
@@ -86,11 +101,16 @@ export function Finder() {
                   </button>
                 ))}
               </div>
+              {step > 0 && (
+                <button type="button" onClick={() => setAnswers((list) => list.slice(0, -1))} className="mt-4 text-sm text-mist underline-offset-4 hover:text-white hover:underline">
+                  Vorige vraag
+                </button>
+              )}
             </>
           ) : (
             <>
               <p className="font-ui text-[11px] font-semibold tracking-[0.14em] text-mist uppercase">Jouw speelstijl</p>
-              <h3 className="mt-3 text-5xl font-semibold" style={{ color: style.color }}>
+              <h3 ref={heading} tabIndex={-1} className="mt-3 text-5xl font-semibold outline-none" style={{ color: style.color }}>
                 {style.label}
               </h3>
               <p className="mt-2 text-white/70">{style.tagline}. Deze rackets leggen we voor je klaar:</p>
@@ -114,10 +134,7 @@ export function Finder() {
                 <button
                   type="button"
                   className="rounded-full border border-navy-3 px-5 py-2 text-mist hover:text-white"
-                  onClick={() => {
-                    setStep(0);
-                    setScores({ power: 0, control: 0, allround: 0, licht: 0 });
-                  }}
+                  onClick={() => setAnswers([])}
                 >
                   Opnieuw
                 </button>

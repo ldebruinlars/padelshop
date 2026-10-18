@@ -24,8 +24,9 @@ get hf_20261018_155159_c228f783-f4da-4308-84e2-d7f8e911a4b4.mp4 hero-loop.mp4
 
 # Foto's: max 2000 px breed, webp kwaliteit 82 (bestandsnamen blijven .png-namen als .webp)
 for f in .media-src/*.png; do
+  case "$f" in *racket-power*|*racket-control*|*racket-allround*|*racket-light*) W=900;; *) W=2000;; esac
   n=$(basename "$f" .png)
-  ffmpeg -loglevel error -y -i "$f" -vf "scale='min(2000,iw)':-2" -quality 82 "$OUT/$n.webp"
+  ffmpeg -loglevel error -y -i "$f" -vf "scale=min($W\,iw):-2" -quality 82 "$OUT/$n.webp"
 done
 
 # Hero-video: 1280 px, zonder audio, klein genoeg voor autoplay

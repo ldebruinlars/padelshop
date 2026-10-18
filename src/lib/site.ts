@@ -2,6 +2,7 @@
 export const SITE = {
   name: "Racket Lab",
   location: "Poort Padel, Neonweg 62, Almere",
+  url: "https://racket-lab.netlify.app", // vervang door het eigen domein zodra dat er is
 };
 
 // Alle beelden op één plek. Higgsfield-beelden komen in public/media.
@@ -48,7 +49,7 @@ export const RACKETS: Racket[] = [
   { id: "volt-x", name: "Volt X", style: "power", shape: "diamant", weight: "365 g", balance: "hoog", core: "EVA hard", face: "Carbon 18K", level: "Gevorderd", price: 289, power: 9.5, control: 6.5, image: "/media/racket-power.webp", testable: true },
   { id: "aim-r", name: "Aim R", style: "control", shape: "rond", weight: "355 g", balance: "laag", core: "EVA soft", face: "Carbon 3K", level: "Gemiddeld", price: 219, power: 6, control: 9.5, image: "/media/racket-control.webp", testable: true },
   { id: "flow-t", name: "Flow T", style: "allround", shape: "druppel", weight: "360 g", balance: "midden", core: "EVA medium", face: "Carbon 12K", level: "Gemiddeld", price: 249, power: 8, control: 8, image: "/media/racket-allround.webp", testable: true },
-  { id: "air-s", name: "Air S", style: "licht", shape: "rond", weight: "340 g", balance: "laag", core: "Foam", face: "Glasvezel", level: "Beginner", price: 129, power: 5.5, control: 8.5, image: "/media/racket-light.webp", testable: false },
+  { id: "air-s", name: "Air S", style: "licht", shape: "rond", weight: "340 g", balance: "laag", core: "Foam", face: "Glasvezel", level: "Beginner", price: 129, power: 5.5, control: 8.5, image: "/media/racket-light.webp", testable: true },
 ];
 
 export const BRANDS = ["Bullpadel", "Nox", "Adidas", "Head", "Babolat", "Siux", "StarVie", "Wilson"];

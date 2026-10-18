@@ -1,6 +1,7 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -27,12 +28,12 @@ function RacketCard({ r, compare, onCompare }: { r: Racket; compare: boolean; on
     <article className="flex w-[min(380px,82vw)] shrink-0 flex-col rounded-[var(--radius-card)] border border-white/5 bg-navy-2 p-2">
       <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-[radial-gradient(circle_at_50%_40%,#1d2f47,#0b1420_70%)]">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={r.image} alt={`${r.name} padel racket`} className="size-full object-cover transition-transform duration-700 hover:scale-105" />
-        <span className="absolute top-3 left-3 rounded-full px-3 py-1 font-ui text-[10px] font-semibold tracking-[0.14em] text-navy uppercase" style={{ background: style.color }}>
+        <img loading="lazy" decoding="async" src={r.image} alt={`${r.name} padel racket`} className="size-full object-cover transition-transform duration-700 hover:scale-105" />
+        <span className="absolute top-3 left-3 rounded-full px-3 py-1 font-ui text-[11px] font-semibold tracking-[0.14em] text-navy uppercase" style={{ background: style.color }}>
           {style.label}
         </span>
         {r.testable && (
-          <span className="absolute top-3 right-3 rounded-full bg-navy/80 px-3 py-1 font-ui text-[10px] font-semibold tracking-[0.12em] text-lime uppercase backdrop-blur">
+          <span className="absolute top-3 right-3 rounded-full bg-navy/80 px-3 py-1 font-ui text-[11px] font-semibold tracking-[0.12em] text-lime uppercase backdrop-blur">
             Ligt in het testcenter
           </span>
         )}
@@ -92,7 +93,23 @@ export function Collection() {
     { scope: root },
   );
 
-  const toggle = (id: string) => setCompare((c) => (c.includes(id) ? c.filter((x) => x !== id) : [...c, id].slice(-3)));
+  // Maximaal 3; een vierde keuze wordt geweigerd met een melding in plaats van stil de oudste te vervangen.
+  const [full, setFull] = useState(false);
+  const toggle = (id: string) =>
+    setCompare((c) => {
+      if (c.includes(id)) {
+        setFull(false);
+        return c.filter((x) => x !== id);
+      }
+      if (c.length >= 3) {
+        setFull(true);
+        return c;
+      }
+      return [...c, id];
+    });
+  // De balk staat via een portal in <body>: binnen de vastgepinde sectie zou position:fixed meeschuiven.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
   const picked = RACKETS.filter((r) => compare.includes(r.id));
 
   return (
@@ -120,7 +137,7 @@ export function Collection() {
         ])}
       </div>
 
-      {picked.length > 0 && (
+      {mounted && picked.length > 0 && createPortal(
         <div className="fixed inset-x-0 bottom-0 z-40 px-[max(10px,env(safe-area-inset-left))] pb-[calc(10px+env(safe-area-inset-bottom))]">
           <div className="mx-auto flex max-w-[900px] flex-wrap items-center gap-4 rounded-[var(--radius-card)] border border-white/10 bg-navy/95 p-3 pl-5 shadow-2xl backdrop-blur">
             <span className="font-ui text-[11px] font-semibold tracking-[0.14em] text-mist uppercase">Vergelijk ({picked.length}/3)</span>
@@ -129,17 +146,19 @@ export function Collection() {
                 <div key={r.id} className="min-w-[140px] flex-1">
                   <div className="text-sm font-semibold">{r.name}</div>
                   <div className="mt-1 grid gap-1">
-                    <Bar label="Pow" value={r.power} color="#ccff00" />
-                    <Bar label="Con" value={r.control} color="#9fb6d6" />
+                    <Bar label="Power" value={r.power} color="#ccff00" />
+                    <Bar label="Control" value={r.control} color="#9fb6d6" />
                   </div>
                 </div>
               ))}
             </div>
-            <button type="button" onClick={() => setCompare([])} className="rounded-full border border-navy-3 px-4 py-2 text-sm text-mist hover:text-white">
+            {full && <span className="w-full text-sm text-sand" role="status">Je vergelijkt er al drie. Haal er eerst een weg.</span>}
+            <button type="button" onClick={() => { setCompare([]); setFull(false); }} className="rounded-full border border-navy-3 px-4 py-2 text-sm text-mist hover:text-white">
               Wissen
             </button>
           </div>
-        </div>
+        </div>,
+        document.body,
       )}
     </section>
   );

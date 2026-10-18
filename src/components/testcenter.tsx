@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MEDIA, SITE } from "@/lib/site";
 import { ArrowIcon } from "./icons";
 import { RevealPanel } from "./reveal-panel";
@@ -12,7 +12,11 @@ const COACHES = [
   { id: "c2", name: "Coach Daan" },
 ];
 const TIMES = ["09:00", "09:45", "10:30", "11:15", "13:00", "13:45", "14:30", "17:00", "17:45", "18:30", "19:15", "20:00"];
-const TAKEN = new Set(["09:45", "13:00", "17:45", "19:15"]);
+// Voorbeeld: per dag een paar bezette tijden, tot er een echte agenda gekoppeld is.
+function takenFor(day: string) {
+  const seed = [...day].reduce((n, ch) => n + ch.charCodeAt(0), 0);
+  return new Set(TIMES.filter((_, i) => (i * 7 + seed) % 5 === 0));
+}
 const PRICE = 29.95;
 
 function nextDays(n: number) {
@@ -37,13 +41,28 @@ export function Testcenter() {
   const [time, setTime] = useState<string | null>(null);
   const [coach, setCoach] = useState("any");
   const [booked, setBooked] = useState(false);
+  const [email, setEmail] = useState("");
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState("");
+  const confirmRef = useRef<HTMLDivElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+  const touched = useRef(false);
+  // Focus naar de bevestiging na boeken, en terug naar het formulier bij "Ander moment kiezen".
+  useEffect(() => {
+    if (!touched.current) {
+      touched.current = true;
+      return;
+    }
+    if (booked) confirmRef.current?.focus();
+    else formRef.current?.querySelector<HTMLButtonElement>("button[aria-pressed=true]")?.focus();
+  }, [booked]);
 
   return (
     <RevealPanel id="testcenter" className="bg-navy">
       <div className="grid lg:grid-cols-[1fr_1.1fr]">
         <div className="relative min-h-[420px] bg-[radial-gradient(circle_at_40%_40%,#1d2f47,#0b1420)]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={MEDIA.coach} alt="Coach geeft een testracket aan een speler bij Poort Padel" className="absolute inset-0 size-full object-cover" />
+          <img loading="lazy" decoding="async" src={MEDIA.coach} alt="Coach geeft een testracket aan een speler bij Poort Padel" className="absolute inset-0 size-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/20 to-transparent" />
           <div className="absolute inset-x-0 bottom-0 grid grid-cols-3 gap-2 p-4 sm:p-8">
             {[
@@ -69,24 +88,57 @@ export function Testcenter() {
           </p>
 
           {booked ? (
-            <div className="mt-8 rounded-[var(--radius-card)] bg-lime p-6 text-navy" role="status">
-              <p className="font-ui text-[11px] font-semibold tracking-[0.14em] uppercase">Aanvraag ontvangen (voorbeeld)</p>
+            <div ref={confirmRef} tabIndex={-1} className="mt-8 rounded-[var(--radius-card)] bg-lime p-6 text-navy outline-none" role="status">
+              <p className="font-ui text-[11px] font-semibold tracking-[0.14em] uppercase">Aanvraag ontvangen</p>
               <p className="mt-2 text-2xl font-semibold">
                 {days.find((d) => d.key === day)?.label} om {time}
               </p>
-              <p className="mt-1">{COACHES.find((c) => c.id === coach)?.name}. Je krijgt een bevestiging per mail.</p>
+              <p className="mt-1">
+                {COACHES.find((c) => c.id === coach)?.name}. De bevestiging gaat naar {email}.
+              </p>
               <button type="button" className="mt-4 text-sm underline" onClick={() => setBooked(false)}>
                 Ander moment kiezen
               </button>
             </div>
           ) : (
             <form
+              ref={formRef}
               className="mt-8 grid gap-5"
-              onSubmit={(e) => {
+              name="racket-test"
+              method="POST"
+              data-netlify="true"
+              netlify-honeypot="bot-field"
+              onSubmit={async (e) => {
                 e.preventDefault();
-                if (time) setBooked(true);
+                if (!time || sending) return;
+                const data = new FormData(e.currentTarget);
+                setSending(true);
+                setError("");
+                try {
+                  // Netlify Forms: URL-encoded POST naar het statische skelet (public/__forms.html)
+                  const res = await fetch("/__forms.html", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    body: new URLSearchParams(data as unknown as Record<string, string>).toString(),
+                  });
+                  if (!res.ok) throw new Error(String(res.status));
+                  setEmail(String(data.get("email") ?? ""));
+                  setBooked(true);
+                } catch {
+                  setError("Versturen lukte niet. Controleer je verbinding en probeer het opnieuw.");
+                } finally {
+                  setSending(false);
+                }
               }}
             >
+              <input type="hidden" name="form-name" value="racket-test" />
+              <input type="hidden" name="dag" value={days.find((d) => d.key === day)?.label ?? day} />
+              <input type="hidden" name="tijd" value={time ?? ""} />
+              <p hidden>
+                <label>
+                  Niet invullen: <input name="bot-field" tabIndex={-1} autoComplete="off" />
+                </label>
+              </p>
               <fieldset>
                 <legend className="mb-2 font-ui text-[11px] font-semibold tracking-[0.14em] text-mist uppercase">Dag</legend>
                 <div className="flex flex-wrap gap-2">
@@ -111,7 +163,7 @@ export function Testcenter() {
                 <legend className="mb-2 font-ui text-[11px] font-semibold tracking-[0.14em] text-mist uppercase">Tijd</legend>
                 <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
                   {TIMES.map((t) => {
-                    const taken = TAKEN.has(t);
+                    const taken = takenFor(day).has(t);
                     return (
                       <button
                         key={t}
@@ -134,6 +186,7 @@ export function Testcenter() {
                 <span className="font-ui text-[11px] font-semibold tracking-[0.14em] text-mist uppercase">Coach</span>
                 <select
                   id="coach"
+                  name="coach"
                   value={coach}
                   onChange={(e) => setCoach(e.target.value)}
                   className="rounded-full border border-navy-3 bg-navy-2 px-4 py-3 text-white"
@@ -146,12 +199,46 @@ export function Testcenter() {
                 </select>
               </label>
 
+              <div className="grid gap-3 sm:grid-cols-2">
+                <label className="grid gap-2">
+                  <span className="font-ui text-[11px] font-semibold tracking-[0.14em] text-mist uppercase">Naam</span>
+                  <input
+                    id="naam"
+                    name="naam"
+                    required
+                    autoComplete="name"
+                    className="rounded-full border border-navy-3 bg-navy-2 px-4 py-3 text-white placeholder:text-white/40 focus:border-lime focus:outline-none"
+                    placeholder="Voor- en achternaam"
+                  />
+                </label>
+                <label className="grid gap-2">
+                  <span className="font-ui text-[11px] font-semibold tracking-[0.14em] text-mist uppercase">E-mail</span>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    required
+                    autoComplete="email"
+                    className="rounded-full border border-navy-3 bg-navy-2 px-4 py-3 text-white placeholder:text-white/40 focus:border-lime focus:outline-none"
+                    placeholder="naam@voorbeeld.nl"
+                  />
+                </label>
+              </div>
+              <p className="text-sm text-mist">
+                Neem je padelschoenen mee. Rackets en ballen liggen voor je klaar. We gebruiken je gegevens alleen om deze afspraak te bevestigen.
+              </p>
+              {error && (
+                <p className="rounded-2xl bg-sand px-4 py-3 text-sm text-navy" role="alert">
+                  {error}
+                </p>
+              )}
+
               <button
                 type="submit"
-                disabled={!time}
+                disabled={!time || sending}
                 className="flex items-center justify-between gap-3 rounded-full bg-lime py-2 pr-2 pl-6 font-semibold text-navy transition-opacity disabled:opacity-40"
               >
-                {time ? `Boek ${time} · € ${PRICE.toFixed(2).replace(".", ",")}` : "Kies eerst een tijd"}
+                {sending ? "Versturen…" : time ? `Boek ${time} · € ${PRICE.toFixed(2).replace(".", ",")}` : "Kies eerst een tijd"}
                 <span className="grid size-9 place-items-center rounded-full bg-navy">
                   <ArrowIcon className="size-3 text-lime" />
                 </span>

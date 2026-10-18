@@ -28,20 +28,34 @@ export function Racket360() {
   const useFrames = MEDIA.turntable.count > 0;
   const racket = RACKETS[0];
 
+  // Frames pas laden als de sectie in de buurt komt. Mobiel: elk tweede frame.
+  // Minder beweging: alleen het eerste frame.
   useEffect(() => {
-    if (!useFrames) return;
-    frames.current = Array.from({ length: MEDIA.turntable.count }, (_, i) => {
-      const img = new Image();
-      img.src = MEDIA.turntable.path(i);
-      return img;
-    });
-    frames.current[0].onload = () => draw(0);
+    if (!useFrames || !root.current) return;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const step = window.innerWidth < 768 ? 2 : 1;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        io.disconnect();
+        frames.current = Array.from({ length: MEDIA.turntable.count }, (_, i) => {
+          const img = new Image();
+          if (i === 0 || (!reduced && i % step === 0)) img.src = MEDIA.turntable.path(i);
+          return img;
+        });
+        frames.current[0].onload = () => draw(0);
+      },
+      { rootMargin: "800px 0px" },
+    );
+    io.observe(root.current);
+    return () => io.disconnect();
   }, [useFrames]);
 
   function draw(i: number) {
     const c = canvas.current;
-    const img = frames.current[i];
-    if (!c || !img?.complete) return;
+    let img = frames.current[i];
+    while (img && !(img.complete && img.naturalWidth) && i > 0) img = frames.current[--i];
+    if (!c || !img?.complete || !img.naturalWidth) return;
     const ctx = c.getContext("2d");
     if (!ctx) return;
     const dpr = Math.min(window.devicePixelRatio, 2);
@@ -56,7 +70,7 @@ export function Racket360() {
     () => {
       const mm = gsap.matchMedia();
       // Desktop: vastpinnen en draaien. Mobiel: niet pinnen (het blok is hoger dan het scherm), alleen meedraaien.
-      mm.add({ desktop: "(min-width: 768px)", motion: "(prefers-reduced-motion: no-preference)" }, (ctx) => {
+      mm.add({ desktop: "(min-width: 1024px)", motion: "(prefers-reduced-motion: no-preference)" }, (ctx) => {
         if (!ctx.conditions?.motion) return;
         const desktop = ctx.conditions.desktop;
         const tl = gsap.timeline({
@@ -79,8 +93,8 @@ export function Racket360() {
   );
 
   return (
-    <section ref={root} className="relative grid items-center overflow-hidden py-24 md:h-[100svh] md:py-0 bg-[radial-gradient(circle_at_40%_55%,#1d2f47,#05090f_65%)]">
-      <div className="mx-auto grid w-full max-w-[1400px] items-center gap-10 px-5 md:grid-cols-[1fr_1.1fr_0.9fr]">
+    <section ref={root} className="relative grid items-center overflow-hidden py-24 lg:h-[100svh] lg:py-0 bg-[radial-gradient(circle_at_40%_55%,#1d2f47,#05090f_65%)]">
+      <div className="mx-auto grid w-full max-w-[1400px] items-center gap-10 px-5 lg:grid-cols-[1fr_1.1fr_0.9fr]">
         <div>
           <p className="eyebrow">Uitgelicht · {racket.style}</p>
           <h2 className="mt-5 text-[clamp(40px,5vw,72px)] leading-[0.95] font-medium">
@@ -92,7 +106,7 @@ export function Racket360() {
         <div className="relative mx-auto aspect-[4/5] w-[min(420px,70vw)] [perspective:1200px]">
           <div className="absolute inset-[10%] rounded-full bg-lime/10 blur-3xl" />
           {useFrames ? (
-            <canvas ref={canvas} className="relative size-full [mask-image:radial-gradient(closest-side,#000_72%,transparent)]" />
+            <canvas ref={canvas} role="img" aria-label={`${racket.name} padel racket, draaiend`} className="relative size-full [mask-image:radial-gradient(closest-side,#000_72%,transparent)]" />
           ) : (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={racket.image} alt={`${racket.name} padel racket`} className="spin relative size-full object-contain [backface-visibility:visible]" />

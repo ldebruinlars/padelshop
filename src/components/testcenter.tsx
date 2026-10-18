@@ -225,7 +225,7 @@ export function Testcenter() {
                 </label>
               </div>
               <p className="text-sm text-mist">
-                Neem je padelschoenen mee. Rackets en ballen liggen voor je klaar. We gebruiken je gegevens alleen om deze afspraak te bevestigen.
+                Gratis annuleren tot 48 uur van tevoren. Neem je padelschoenen mee; rackets en ballen liggen klaar. We gebruiken je gegevens alleen om deze afspraak te bevestigen.
               </p>
               {error && (
                 <p className="rounded-2xl bg-sand px-4 py-3 text-sm text-navy" role="alert">

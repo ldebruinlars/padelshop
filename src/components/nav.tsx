@@ -40,7 +40,7 @@ export function Nav() {
         }}
         aria-label="Hoofdmenu"
       >
-        <a href="#top" className="flex items-center gap-2 text-[17px] font-semibold tracking-tight">
+        <a href="#top" className="flex items-center gap-2 text-[17px] font-semibold tracking-tight whitespace-nowrap">
           <Logo className="size-6" />
           {SITE.name}
         </a>
@@ -67,8 +67,8 @@ export function Nav() {
             href="#testcenter"
             className="flex items-center gap-3 rounded-full bg-sand py-1.5 pr-1.5 pl-4 text-[13px] font-semibold text-navy transition-transform hover:-translate-y-0.5"
           >
-            <span className="max-[380px]:hidden">Boek je racket-test</span>
-            <span className="hidden max-[380px]:inline">Boek een test</span>
+            <span className="max-sm:hidden">Boek je racket-test</span>
+            <span className="hidden whitespace-nowrap max-sm:inline">Boek een test</span>
             <span className="grid size-7 place-items-center rounded-full bg-navy">
               <ArrowIcon className="size-3 text-lime" />
             </span>

@@ -15,12 +15,12 @@ export default function Home() {
       <Nav />
       <main>
         <HeroLetters />
+        <BallPath />
+        <Testcenter />
         <BrandMarquee />
         <Racket360 />
         <Collection />
         <Exploded />
-        <BallPath />
-        <Testcenter />
         <Finder />
       </main>
       <Footer />

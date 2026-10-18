@@ -7,8 +7,8 @@ export const SITE = {
 
 // Alle beelden op één plek. Higgsfield-beelden komen in public/media.
 export const MEDIA = {
-  hero: "/media/hero-racket.webp",
-  heroVideo: "/media/hero-loop.mp4",
+  hero: "/media/hero-testcenter.webp",
+  heroVideo: "" as string, // "/media/hero-testcenter.mp4" zodra de video er is
   carbonMacro: "/media/carbon-macro.webp",
   exploded: "/media/exploded.webp",
   smash: "/media/player-smash.webp",

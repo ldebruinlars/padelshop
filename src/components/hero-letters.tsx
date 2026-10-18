@@ -44,7 +44,7 @@ export function HeroLetters() {
           <video className="size-full object-cover" src={MEDIA.heroVideo} autoPlay muted loop playsInline poster={MEDIA.hero} />
         ) : (
           // eslint-disable-next-line @next/next/no-img-element
-          <img className="size-full object-cover" src={MEDIA.hero} alt="" />
+          <img className="size-full object-cover" src={MEDIA.hero} alt="Coach geeft een testracket aan een speler bij Poort Padel" />
         )}
       </div>
 
@@ -73,9 +73,9 @@ export function HeroLetters() {
       </div>
 
       <div className="hero-copy pointer-events-none absolute inset-x-0 bottom-0 z-10 mx-auto flex max-w-[1400px] flex-wrap items-end justify-between gap-6 px-[max(20px,env(safe-area-inset-left))] pb-10">
-        <p className="eyebrow">Padel rackets · testcenter bij Poort Padel</p>
+        <p className="eyebrow">Racket-testcenter · Poort Padel, Almere</p>
         <p className="max-w-md text-[17px] leading-relaxed text-white/85">
-          Test je nieuwe racket eerst op de baan, met een coach van All Court Academy. Pas als het <span className="accent">goed voelt</span>, neem je hem mee.
+          Speel 45 minuten met 3 tot 5 rackets, met een coach van All Court Academy naast je. Pas als het <span className="accent">goed voelt</span>, koop je. De test krijg je dan terug.
         </p>
         <a
           href="#testcenter"

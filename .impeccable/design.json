@@ -1,0 +1,475 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-18T21:39:15.772Z",
+  "title": "Design System: Racket Lab",
+  "extensions": {
+    "colorMeta": {
+      "accent": {
+        "role": "primary",
+        "displayName": "Gravel Orange",
+        "canonical": "oklch(68.1% 0.179 41)",
+        "tonalRamp": [
+          "#250000",
+          "#4b0200",
+          "#751b00",
+          "#a13400",
+          "#d45007",
+          "#f47f51",
+          "#ffad86",
+          "#ffd7b5"
+        ]
+      },
+      "accent-hover": {
+        "role": "primary",
+        "displayName": "Hot Gravel",
+        "canonical": "oklch(72.8% 0.175 41)",
+        "tonalRamp": [
+          "#250000",
+          "#4b0200",
+          "#751b00",
+          "#a13400",
+          "#d25212",
+          "#f47f51",
+          "#ffad86",
+          "#ffd7b5"
+        ]
+      },
+      "accent-2": {
+        "role": "secondary",
+        "displayName": "Court Sand",
+        "canonical": "oklch(87.4% 0.061 84)",
+        "tonalRamp": [
+          "#160700",
+          "#312100",
+          "#4f3d15",
+          "#6d5b34",
+          "#917e55",
+          "#b6a279",
+          "#ddc89d",
+          "#ffecc0"
+        ]
+      },
+      "paper": {
+        "role": "secondary",
+        "displayName": "Label Paper",
+        "canonical": "oklch(92.1% 0.025 83)",
+        "tonalRamp": [
+          "#100a02",
+          "#2a2316",
+          "#463f31",
+          "#645d4e",
+          "#877f70",
+          "#aca494",
+          "#d2c9b9",
+          "#f7eddc"
+        ]
+      },
+      "playstyle-power": {
+        "role": "tertiary",
+        "displayName": "Power Red",
+        "canonical": "oklch(67.0% 0.218 25)",
+        "tonalRamp": [
+          "#260000",
+          "#4d0004",
+          "#771317",
+          "#a32c2c",
+          "#d74745",
+          "#f77971",
+          "#ffa89f",
+          "#ffd2c9"
+        ]
+      },
+      "playstyle-control": {
+        "role": "tertiary",
+        "displayName": "Control Clay",
+        "canonical": "oklch(76.3% 0.070 42)",
+        "tonalRamp": [
+          "#200000",
+          "#3f1604",
+          "#5e3220",
+          "#7f503d",
+          "#a4735f",
+          "#cb9782",
+          "#f3bca7",
+          "#ffe0ca"
+        ]
+      },
+      "playstyle-allround": {
+        "role": "tertiary",
+        "displayName": "Allround Straw",
+        "canonical": "oklch(82.1% 0.099 83)",
+        "tonalRamp": [
+          "#1c0400",
+          "#3a1c00",
+          "#583900",
+          "#785800",
+          "#9c7b33",
+          "#c29f59",
+          "#e9c57e",
+          "#ffe9a1"
+        ]
+      },
+      "bg": {
+        "role": "neutral",
+        "displayName": "Espresso",
+        "canonical": "oklch(18.1% 0.006 55)",
+        "tonalRamp": [
+          "#0d0a09",
+          "#272321",
+          "#423f3c",
+          "#615d5a",
+          "#837f7d",
+          "#a8a4a1",
+          "#cec9c7",
+          "#f2edea"
+        ]
+      },
+      "panel": {
+        "role": "neutral",
+        "displayName": "Groove Brown",
+        "canonical": "oklch(22.3% 0.012 55)",
+        "tonalRamp": [
+          "#0f0a07",
+          "#29231e",
+          "#453e3a",
+          "#635c57",
+          "#867e79",
+          "#aba39d",
+          "#d1c9c3",
+          "#f5ede7"
+        ]
+      },
+      "panel-2": {
+        "role": "neutral",
+        "displayName": "Deep Groove",
+        "canonical": "oklch(26.8% 0.015 53)",
+        "tonalRamp": [
+          "#100906",
+          "#2a221d",
+          "#463e38",
+          "#655b56",
+          "#887e78",
+          "#ada29c",
+          "#d3c8c1",
+          "#f7ece5"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Wall Shadow",
+        "canonical": "oklch(14.7% 0.004 49)",
+        "tonalRamp": [
+          "#0d0b0a",
+          "#262322",
+          "#423f3e",
+          "#605d5b",
+          "#827f7e",
+          "#a7a4a2",
+          "#cdcac8",
+          "#f1eeec"
+        ]
+      },
+      "fg": {
+        "role": "neutral",
+        "displayName": "Chalk",
+        "canonical": "oklch(95.5% 0.014 74)",
+        "tonalRamp": [
+          "#0f0a05",
+          "#28231d",
+          "#443f38",
+          "#625d55",
+          "#857f77",
+          "#aaa39b",
+          "#d0c9c1",
+          "#f4ede4"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Dust",
+        "canonical": "oklch(72.9% 0.028 71)",
+        "tonalRamp": [
+          "#120901",
+          "#2d2215",
+          "#493d30",
+          "#685b4d",
+          "#8b7e6e",
+          "#b0a292",
+          "#d6c8b7",
+          "#fbecdb"
+        ]
+      },
+      "on-accent": {
+        "role": "neutral",
+        "displayName": "Print Ink",
+        "canonical": "oklch(18.1% 0.006 55)",
+        "tonalRamp": [
+          "#0d0a09",
+          "#272321",
+          "#423f3c",
+          "#615d5a",
+          "#837f7d",
+          "#a8a4a1",
+          "#cec9c7",
+          "#f2edea"
+        ]
+      },
+      "rail": {
+        "role": "neutral",
+        "displayName": "Peg Steel",
+        "canonical": "oklch(32.1% 0.017 55)",
+        "tonalRamp": [
+          "#110905",
+          "#2b221c",
+          "#473e37",
+          "#655b55",
+          "#887e77",
+          "#ada29b",
+          "#d4c8c0",
+          "#f8ece4"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "One page title per page, Archivo at 90% width."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section headings, plain sentence case."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Guide titles, product names, step titles (80% width in the test explainer)."
+      },
+      "price": {
+        "displayName": "Price",
+        "purpose": "Prices on shelf labels, tabular figures, Print Ink on paper."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Sentences, 48-62ch measure; 18px lead copy from md."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Uppercase data label: brand, field, group, attribute. Never a section kicker."
+      },
+      "button": {
+        "displayName": "Button",
+        "purpose": "Button labels."
+      }
+    },
+    "shadows": [
+      {
+        "name": "peg-cast",
+        "value": "0 2px 3px rgb(0 0 0 / 0.5)",
+        "purpose": "Hook in the wall."
+      },
+      {
+        "name": "shelf-label-drop",
+        "value": "0 6px 14px -6px rgb(0 0 0 / 0.7)",
+        "purpose": "Paper label under each racket."
+      },
+      {
+        "name": "rail-drop",
+        "value": "0 6px 10px -4px rgb(0 0 0 / 0.7)",
+        "purpose": "Price rail under each wall row."
+      },
+      {
+        "name": "megamenu",
+        "value": "0 24px 40px -12px rgb(0 0 0 / 0.6)",
+        "purpose": "Dropdown panel under the nav."
+      }
+    ],
+    "surfaces": [
+      {
+        "name": "slatwall",
+        "value": "background-color: #14110f; background-image: radial-gradient(ellipse 34% 46% at 22% 0, rgb(255 226 190 / 0.07), transparent 70%), radial-gradient(ellipse 34% 46% at 78% 0, rgb(255 226 190 / 0.07), transparent 70%), repeating-linear-gradient(180deg, #1a1512 0 30px, #14110f 30px 46px, #0c0a09 46px 48px, #2a221d 48px 49px)",
+        "purpose": "Ground of the racket wall: grooves plus two warm spotlights."
+      },
+      {
+        "name": "photo-warm-grade",
+        "value": "filter: sepia(0.55) saturate(0.7) hue-rotate(-8deg) brightness(0.92)",
+        "purpose": "Keeps blue out of photography (testcenter court photo)."
+      }
+    ],
+    "motion": [
+      {
+        "name": "settle",
+        "value": "expo.out, 1.1s, 45ms stagger, 0.2s delay",
+        "purpose": "Rackets level out on their pegs after the drop."
+      },
+      {
+        "name": "drop",
+        "value": "power3.out, 0.5s, from y -48px and +/-7deg alternating, 45ms stagger",
+        "purpose": "Rackets fall onto their pegs on load; shelf labels follow (y 12px, 0.45s, 0.3s delay)."
+      },
+      {
+        "name": "swing",
+        "value": "keyframes 0 / 4deg / -2.5deg / 1deg / 0, 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform-origin 50% 0",
+        "purpose": "Hover swing from the hook; hover-capable devices only."
+      },
+      {
+        "name": "lift-off",
+        "value": "expo.out, 0.55s (panel 0.45s); backdrop power2.out 0.25s",
+        "purpose": "Racket lifts off the wall into the quick view."
+      },
+      {
+        "name": "rise",
+        "value": "cubic-bezier(0.2, 0.8, 0.2, 1), 0.7s, 70ms per index, from y 24px",
+        "purpose": "CSS-only page-head entrance."
+      },
+      {
+        "name": "state",
+        "value": "0.15s ease",
+        "purpose": "Colour and border changes on buttons, chips, links."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "prefers-reduced-motion: reduce",
+        "purpose": "Entrances, swing and marquee are disabled."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Gravel orange, Print Ink label. The one main action per view: book a racket test.",
+      "html": "<button class=\"ds-btn-primary\">Boek een racket-test</button>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 20px;border-radius:4px;font-family:Archivo, 'Inter Tight', system-ui, sans-serif;font-size:15px;font-weight:600;white-space:nowrap;border:0;cursor:pointer;transition:background-color .15s ease,border-color .15s ease,color .15s ease;background:#f06a30;color:#14110f;} .ds-btn-primary:hover{background:#ff7b45;} .ds-btn-primary:focus-visible{outline:2px solid #f06a30;outline-offset:2px;} .ds-btn-primary:disabled{opacity:.45;cursor:not-allowed;}"
+    },
+    {
+      "name": "Sand Button",
+      "kind": "button",
+      "refersTo": "button-sand",
+      "description": "Secondary action in Court Sand; the nav \"Boek een test\" in its small size.",
+      "html": "<button class=\"ds-btn-sand\">Kies je testrackets</button>",
+      "css": ".ds-btn-sand{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 20px;border-radius:4px;font-family:Archivo, 'Inter Tight', system-ui, sans-serif;font-size:15px;font-weight:600;white-space:nowrap;border:0;cursor:pointer;transition:background-color .15s ease,border-color .15s ease,color .15s ease;background:#e8d3a8;color:#14110f;} .ds-btn-sand:hover{background:#ede4d3;} .ds-btn-sand:focus-visible{outline:2px solid #f06a30;outline-offset:2px;}"
+    },
+    {
+      "name": "Line Button",
+      "kind": "button",
+      "refersTo": "button-line",
+      "description": "Hairline outline on dark grounds for catalog and see-all routes.",
+      "html": "<button class=\"ds-btn-line\">Alle 30 rackets</button>",
+      "css": ".ds-btn-line{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 20px;border-radius:4px;font-family:Archivo, 'Inter Tight', system-ui, sans-serif;font-size:15px;font-weight:600;white-space:nowrap;border:0;cursor:pointer;transition:background-color .15s ease,border-color .15s ease,color .15s ease;background:transparent;color:#f6efe6;border:1px solid color-mix(in oklab,#f6efe6 28%,transparent);} .ds-btn-line:hover{border-color:#f6efe6;} .ds-btn-line:focus-visible{outline:2px solid #f06a30;outline-offset:2px;}"
+    },
+    {
+      "name": "Filter Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Square-cut toggle for shape filters, booking days and time slots.",
+      "html": "<div style=\"display:flex;gap:8px;background:#14110f;padding:12px\"><button class=\"ds-chip\" aria-pressed=\"true\">Alle vormen</button><button class=\"ds-chip\" aria-pressed=\"false\">Rond</button><button class=\"ds-chip\" aria-pressed=\"false\">Druppel</button></div>",
+      "css": ".ds-chip{display:inline-flex;align-items:center;gap:8px;min-height:36px;padding:0 12px;border:1px solid #2c241f;border-radius:4px;background:transparent;font-family:'Inter Tight', system-ui, sans-serif;font-size:14px;color:color-mix(in oklab,#f6efe6 85%,transparent);cursor:pointer;transition:border-color .15s ease,background-color .15s ease;} .ds-chip:hover{border-color:color-mix(in oklab,#f6efe6 45%,transparent);} .ds-chip[aria-pressed=\"true\"]{border-color:#f6efe6;background:#f6efe6;color:#14110f;font-weight:600;} .ds-chip:focus-visible{outline:2px solid #f06a30;outline-offset:2px;}"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "field",
+      "description": "Groove Brown field with an uppercase label above; border turns orange on focus.",
+      "html": "<label class=\"ds-field-wrap\"><span class=\"ds-label\">E-mail</span><input class=\"ds-field\" type=\"email\" placeholder=\"naam@voorbeeld.nl\"></label>",
+      "css": ".ds-field-wrap{display:grid;gap:8px;background:#14110f;padding:12px;} .ds-label{font-family:Archivo, 'Inter Tight', system-ui, sans-serif;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:#b3a595;} .ds-field{min-height:46px;width:100%;border:1px solid #2c241f;border-radius:4px;background:#201a16;padding:0 14px;color:#f6efe6;font-family:'Inter Tight', system-ui, sans-serif;font-size:16px;} .ds-field::placeholder{color:#b3a595;} .ds-field:focus{border-color:#f06a30;outline:none;}"
+    },
+    {
+      "name": "Navigation Bar",
+      "kind": "nav",
+      "refersTo": "nav-bar",
+      "description": "64px Espresso bar: condensed logo, plain links, sand small button on the right.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav-logo\" href=\"#\">Racket Lab</a><div class=\"ds-nav-links\"><a class=\"ds-nav-link is-open\" href=\"#\">Rackets</a><a class=\"ds-nav-link\" href=\"#\">Merken</a><a class=\"ds-nav-link\" href=\"#\">Testcenter</a><a class=\"ds-nav-link\" href=\"#\">Racketfinder</a></div><a class=\"ds-nav-cta\" href=\"#\">Boek een test</a></nav>",
+      "css": ".ds-nav{display:flex;align-items:center;gap:32px;height:64px;padding:0 32px;background:#14110f;border-bottom:1px solid #2c241f;font-family:'Inter Tight', system-ui, sans-serif;} .ds-nav-logo{font-family:Archivo, 'Inter Tight', system-ui, sans-serif;font-stretch:90%;font-size:19px;font-weight:700;letter-spacing:-.02em;color:#f6efe6;text-decoration:none;} .ds-nav-links{display:flex;gap:28px;height:100%;} .ds-nav-link{display:flex;align-items:center;height:100%;font-size:15px;color:color-mix(in oklab,#f6efe6 80%,transparent);text-decoration:none;border-bottom:2px solid transparent;transition:color .15s;} .ds-nav-link:hover{color:#f6efe6;} .ds-nav-link.is-open{color:#f6efe6;border-bottom-color:#f06a30;} .ds-nav-link:focus-visible,.ds-nav-cta:focus-visible{outline:2px solid #f06a30;outline-offset:2px;} .ds-nav-cta{margin-left:auto;display:inline-flex;align-items:center;min-height:36px;padding:0 14px;border-radius:4px;background:#e8d3a8;color:#14110f;font-family:Archivo, 'Inter Tight', system-ui, sans-serif;font-size:14px;font-weight:600;text-decoration:none;} .ds-nav-cta:hover{background:#ede4d3;}"
+    },
+    {
+      "name": "Racket Card",
+      "kind": "card",
+      "refersTo": "racket-card",
+      "description": "Catalog product card: illustration on Label Paper, brand, model, price, meta, profile bar.",
+      "html": "<article class=\"ds-card\"><div class=\"ds-card-media\"><span class=\"ds-card-tag\" style=\"background:#ff4a4a\">Power</span><svg viewBox=\"0 0 200 300\" width=\"96\" height=\"144\" aria-hidden=\"true\"><rect x=\"88\" y=\"182\" width=\"24\" height=\"104\" rx=\"9\" fill=\"#1c1917\"/><ellipse cx=\"100\" cy=\"100\" rx=\"70\" ry=\"90\" fill=\"#1c1917\" stroke=\"#ff4a4a\" stroke-width=\"9\"/></svg></div><div class=\"ds-card-body\"><p class=\"ds-card-brand\">Bullpadel</p><div class=\"ds-card-row\"><h3 class=\"ds-card-model\">Vertex 04</h3><span class=\"ds-card-price\">€ 289,95</span></div><p class=\"ds-card-meta\">360-375 g · balans hoog · hard</p><div class=\"ds-bar\"><span>Kracht</span><i><b style=\"width:84%;background:#ff4a4a\"></b></i><span>8.4</span></div></div></article>",
+      "css": ".ds-card{display:flex;flex-direction:column;width:260px;overflow:hidden;border-radius:6px;border:1px solid color-mix(in oklab,#f6efe6 5%,transparent);background:#201a16;color:#f6efe6;font-family:'Inter Tight', system-ui, sans-serif;transition:transform .3s ease-out,border-color .3s ease-out;} .ds-card:hover{transform:translateY(-4px);border-color:color-mix(in oklab,#f6efe6 15%,transparent);} .ds-card-media{position:relative;display:grid;place-items:center;aspect-ratio:1;background:#ede4d3;} .ds-card-tag{position:absolute;top:12px;left:12px;padding:4px 12px;border-radius:4px;color:#14110f;font-family:Archivo, 'Inter Tight', system-ui, sans-serif;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;} .ds-card-body{display:grid;gap:10px;padding:16px;} .ds-card-brand{margin:0;color:#f06a30;font-family:Archivo, 'Inter Tight', system-ui, sans-serif;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;} .ds-card-row{display:flex;justify-content:space-between;align-items:baseline;gap:12px;} .ds-card-model{margin:0;font-family:Archivo, 'Inter Tight', system-ui, sans-serif;font-stretch:90%;font-size:18px;font-weight:600;} .ds-card-price{font-weight:600;font-size:18px;font-variant-numeric:tabular-nums;} .ds-card-meta{margin:0;font-size:14px;color:#b3a595;} .ds-bar{display:grid;grid-template-columns:64px 1fr 28px;align-items:center;gap:12px;font-family:Archivo, 'Inter Tight', system-ui, sans-serif;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;} .ds-bar span:first-child{color:#b3a595;} .ds-bar i{display:block;height:6px;border-radius:999px;background:#2c241f;overflow:hidden;} .ds-bar b{display:block;height:100%;border-radius:999px;}"
+    },
+    {
+      "name": "Shelf Label",
+      "kind": "custom",
+      "refersTo": "shelf-label",
+      "description": "Signature: paper price label under each racket on the wall; price in Print Ink because orange on paper fails contrast.",
+      "html": "<div class=\"ds-shelf-wrap\"><div class=\"ds-shelf\"><p class=\"ds-shelf-brand\">Nox</p><p class=\"ds-shelf-model\">AT10 Genius 18K</p><p class=\"ds-shelf-row\"><span>druppel</span><span class=\"ds-shelf-price\">€ 279,95</span></p></div></div>",
+      "css": ".ds-shelf-wrap{background:repeating-linear-gradient(180deg,#1a1512 0 30px,#14110f 30px 46px,#0c0a09 46px 48px,#2a221d 48px 49px);padding:24px;} .ds-shelf{width:190px;border-radius:3px;background:#ede4d3;color:#14110f;padding:10px 12px;box-shadow:0 6px 14px -6px rgb(0 0 0/.7);font-family:'Inter Tight', system-ui, sans-serif;transition:transform .2s;} .ds-shelf:hover{transform:translateY(-2px);} .ds-shelf-brand{margin:0;font-family:Archivo, 'Inter Tight', system-ui, sans-serif;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:color-mix(in oklab,#14110f 70%,transparent);} .ds-shelf-model{margin:2px 0 0;font-size:15px;line-height:1.3;font-weight:600;} .ds-shelf-row{margin:4px 0 0;display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:12px;color:color-mix(in oklab,#14110f 70%,transparent);} .ds-shelf-price{font-family:Archivo, 'Inter Tight', system-ui, sans-serif;font-size:18px;line-height:1;font-weight:700;font-variant-numeric:tabular-nums;color:#14110f;}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Racket Wall",
+    "overview": "The site is the back wall of a padel pro shop after closing: an espresso slatwall with warm light pooling from two spots at the top, rackets hanging on steel pegs, and a sand-coloured shelf label under each one. Everything is read the way you read a shop: brand, model, shape, price, then a decision to take it off the wall or book it on court. Density is retail-high, not editorial: many products in view at once, few words per item.\n\nThe material vocabulary is physical and warm. Grounds are dark brown-black, never neutral grey and never blue; text is chalk; the one loud colour is gravel orange, the colour of a clay court and of the ball. Corners are square-cut like printed shop labels. Type is Archivo slightly condensed for anything that names or prices a thing, Inter Tight for the sentences around it. Headings are plain sentence-case statements with no decoration around them.\n\nMotion is the wall behaving like a wall: rackets drop onto their pegs and settle, swing from the hook when touched, and lift off into the quick view. Transform and opacity only, exponential ease-out, and everything stands still under reduced motion.",
+    "keyCharacteristics": [
+      "Espresso slatwall ground with warm top light; tonal depth, sparing physical shadows.",
+      "One accent (gravel orange) for primary action, live state and price; sand for secondary action and labels.",
+      "Square-cut corners on every control (4px); no pill buttons, no arrow glyphs.",
+      "Archivo at 90% width for display, labels and prices; Inter Tight for body.",
+      "Physical motion grammar: drop, settle, swing, lift; expo.out."
+    ],
+    "rules": [
+      {
+        "name": "The Dark Print Rule",
+        "body": "Text on Gravel Orange, Court Sand, Label Paper or a playstyle colour is Print Ink, never white. White on orange fails AA.",
+        "section": "colors"
+      },
+      {
+        "name": "The Ink Price Rule",
+        "body": "On the sand shelf labels the price prints in Print Ink, not orange: orange on Label Paper fails contrast. Orange prices belong only on dark grounds.",
+        "section": "colors"
+      },
+      {
+        "name": "The No Blue Rule",
+        "body": "The palette has no blue or cool grey, including in photography. The testcenter court photo carries a warm CSS grade (`sepia(0.55) saturate(0.7) hue-rotate(-8deg) brightness(0.92)`) to pull the court blue into the palette; any new photo gets the same treatment.",
+        "section": "colors"
+      },
+      {
+        "name": "The Plain Heading Rule",
+        "body": "Headings are sentence-case statements with nothing above or inside them: no eyebrow or kicker label over a section heading, no italic or coloured accent word inside it.",
+        "section": "typography"
+      },
+      {
+        "name": "The Label Is Data Rule",
+        "body": "The uppercase label names a field, a group or a product attribute. It never introduces a section.",
+        "section": "typography"
+      },
+      {
+        "name": "The Hung Object Rule",
+        "body": "A shadow means the object hangs or floats in front of the wall. Cards, buttons and fields stay flat; their hover is a border or fill change, or a small lift (translateY -4px).",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do set text on Gravel Orange, Court Sand, Label Paper and playstyle colours in Print Ink (#14110f).",
+      "Do print shelf-label prices in Print Ink; keep orange prices on dark grounds only.",
+      "Do keep controls square-cut at 4px, cards at 6px, panels at 8px.",
+      "Do settle motion on expo.out and animate only transform and opacity; stop everything under prefers-reduced-motion.",
+      "Do warm-grade any photograph (`sepia(0.55) saturate(0.7) hue-rotate(-8deg) brightness(0.92)`) so no blue enters the palette.",
+      "Do use Archivo at 90% width for headings, labels and prices, Inter Tight for body."
+    ],
+    "donts": [
+      "Don't use pill-shaped buttons, chips or tags.",
+      "Don't put arrow glyphs in buttons or links; the label carries the action.",
+      "Don't place an eyebrow or kicker label above a section heading.",
+      "Don't set an italic or coloured accent word inside a heading.",
+      "Don't introduce blue or cool grey, in UI or in imagery.",
+      "Don't put white text on Gravel Orange.",
+      "Don't add shadows to cards, buttons or fields; shadows are for objects hanging off the wall."
+    ]
+  }
+}

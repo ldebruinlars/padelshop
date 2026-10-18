@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { CATALOG_RACKETS, brandName, profile, type Level } from "@/lib/catalog";
 import { STYLES, euro, type Style } from "@/lib/site";
-import { ArrowIcon } from "./icons";
 
 type Answer = { label: string; score: Partial<Record<Style, number>>; maxPrice?: number; level?: Level };
 const QUESTIONS: { q: string; answers: Answer[] }[] = [
@@ -80,9 +79,8 @@ export function Finder() {
     <section id="finder" className="bg-ink px-5 py-28">
       <div className="mx-auto grid max-w-[1400px] gap-12 lg:grid-cols-[0.9fr_1.1fr]">
         <div>
-          <p className="eyebrow">Racketfinder</p>
-          <h2 className="mt-5 text-[clamp(36px,4.6vw,64px)] leading-[0.95] font-medium">
-            Welk racket <span className="accent">past</span> bij jou?
+          <h2 className="text-[clamp(30px,3.2vw,44px)] leading-[1] font-bold">
+            Welk racket past bij jou?
           </h2>
           <p className="mt-5 max-w-md text-fg/70">Vier vragen, dan weet je welke speelstijl bij je past en welke rackets binnen je budget vallen. Die kun je daarna testen.</p>
         </div>
@@ -92,23 +90,19 @@ export function Finder() {
             <>
               <div className="mb-6 flex gap-1.5" aria-hidden="true">
                 {QUESTIONS.map((_, i) => (
-                  <span key={i} className={`h-1 flex-1 rounded-full ${i <= step ? "bg-accent" : "bg-panel-2"}`} />
+                  <span key={i} aria-hidden="true" className={`h-1 flex-1 rounded-full ${i <= step ? "bg-accent" : "bg-panel-2"}`} />
                 ))}
               </div>
-              <p className="font-ui text-[11px] font-semibold tracking-[0.14em] text-muted uppercase">
-                Vraag {step + 1} van {QUESTIONS.length}
-              </p>
-              <h3 ref={heading} tabIndex={-1} className="mt-3 text-3xl font-medium outline-none">{QUESTIONS[step].q}</h3>
+              <h3 ref={heading} tabIndex={-1} className="text-3xl font-medium outline-none">{QUESTIONS[step].q}</h3>
               <div className="mt-6 grid gap-2">
                 {QUESTIONS[step].answers.map((a) => (
                   <button
                     key={a.label}
                     type="button"
                     onClick={() => answer(a)}
-                    className="group flex items-center justify-between rounded-full border border-panel-2 px-6 py-4 text-left text-lg transition-colors hover:border-accent hover:bg-panel"
+                    className="group flex items-center justify-between rounded-[var(--radius-control)] border border-panel-2 px-6 py-4 text-left text-lg transition-colors hover:border-accent hover:bg-panel"
                   >
                     {a.label}
-                    <ArrowIcon className="size-3 text-accent transition-transform group-hover:translate-x-1" />
                   </button>
                 ))}
               </div>
@@ -120,15 +114,15 @@ export function Finder() {
             </>
           ) : (
             <>
-              <p className="font-ui text-[11px] font-semibold tracking-[0.14em] text-muted uppercase">Jouw speelstijl</p>
+              <p className="label text-muted">Jouw speelstijl</p>
               <h3 ref={heading} tabIndex={-1} className="mt-3 text-5xl font-semibold outline-none" style={{ color: style.color }}>
                 {style.label}
               </h3>
               <p className="mt-2 text-fg/70">{style.tagline}. Deze rackets leggen we voor je klaar:</p>
               <ul className="mt-6 grid gap-2 sm:grid-cols-3">
                 {picks.map((r) => (
-                  <li key={r.id} className="rounded-2xl bg-panel p-4">
-                    <div className="font-ui text-[10px] font-semibold tracking-[0.14em] text-accent uppercase">{brandName(r.brand)}</div>
+                  <li key={r.id} className="rounded-[var(--radius-card)] bg-panel p-4">
+                    <div className="label text-accent">{brandName(r.brand)}</div>
                     <div className="mt-1 font-semibold">{r.model}</div>
                     <div className="text-sm text-muted">
                       {r.shape}
@@ -138,15 +132,12 @@ export function Finder() {
                 ))}
               </ul>
               <div className="mt-6 flex flex-wrap gap-3">
-                <a href="#testcenter" className="flex items-center gap-3 rounded-full bg-accent py-2 pr-2 pl-5 font-semibold text-on-accent">
+                <a href="#testcenter" className="btn btn-primary">
                   Test deze drie
-                  <span className="grid size-8 place-items-center rounded-full bg-bg">
-                    <ArrowIcon className="size-3 text-accent" />
-                  </span>
                 </a>
                 <button
                   type="button"
-                  className="rounded-full border border-panel-2 px-5 py-2 text-muted hover:text-fg"
+                  className="rounded-[var(--radius-control)] border border-panel-2 px-5 py-2 text-muted hover:text-fg"
                   onClick={() => setAnswers([])}
                 >
                   Opnieuw

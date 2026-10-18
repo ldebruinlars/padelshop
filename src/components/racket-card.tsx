@@ -6,7 +6,7 @@ import { RacketArt } from "./racket-art";
 
 export function ProfileBar({ label, value, color }: { label: string; value: number; color: string }) {
   return (
-    <div className="grid grid-cols-[60px_1fr_24px] items-center gap-2 font-ui text-[10px] font-semibold tracking-[0.04em] uppercase sm:grid-cols-[64px_1fr_28px] sm:gap-3 sm:text-[11px] sm:tracking-[0.1em]">
+    <div className="grid grid-cols-[60px_1fr_24px] items-center gap-2 label sm:grid-cols-[64px_1fr_28px] sm:gap-3 sm:text-[11px] sm:tracking-[0.1em]">
       <span className="text-muted">{label}</span>
       <span className="h-1.5 overflow-hidden rounded-full bg-panel-2">
         <span className="bar-fill block h-full origin-left rounded-full" style={{ width: `${value * 10}%`, background: color }} />
@@ -34,15 +34,15 @@ export function RacketCard({ r, onOpen }: { r: CatalogRacket; onOpen: (r: Catalo
         </div>
         <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
           {r.playstyle && (
-            <span className="rounded-full px-3 py-1 font-ui text-[11px] font-semibold tracking-[0.14em] text-on-accent uppercase" style={{ background: color }}>
+            <span className="rounded-[var(--radius-control)] px-3 py-1 label text-on-accent" style={{ background: color }}>
               {PLAYSTYLES.find((s) => s.id === r.playstyle)?.label}
             </span>
           )}
-          {r.shape && <span className="rounded-full bg-bg px-3 py-1 font-ui text-[11px] font-semibold tracking-[0.14em] text-fg uppercase">{r.shape}</span>}
+          {r.shape && <span className="rounded-[var(--radius-control)] bg-bg px-3 py-1 label text-fg">{r.shape}</span>}
         </div>
       </div>
       <div className="grid flex-1 content-start gap-2.5 p-3 sm:p-4">
-        <p className="font-ui text-[11px] font-semibold tracking-[0.14em] text-accent uppercase">{brandName(r.brand)}</p>
+        <p className="label text-accent">{brandName(r.brand)}</p>
         <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-3">
           <h3 className="text-base leading-snug font-semibold sm:text-lg">{r.model}</h3>
           {r.price != null && <span className="shrink-0 font-semibold tabular-nums sm:text-lg">{euro(r.price)}</span>}

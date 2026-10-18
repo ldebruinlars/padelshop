@@ -18,7 +18,7 @@ const ICONS = {
 };
 
 const ITEMS: { icon: keyof typeof ICONS; title: string; text: string }[] = [
-  { icon: "coach", title: "Advies van coaches", text: "Test met een coach van All Court Academy" },
+  { icon: "coach", title: "Test op de baan", text: "45 minuten bij Poort Padel, met een coach" },
   { icon: "back", title: `${euro(SHOP.testPrice)} terug`, text: "Testkosten gaan van je racket af" },
   { icon: "truck", title: `Gratis vanaf ${euro(SHOP.freeShippingFrom)}`, text: `${SHOP.returnDays} dagen bedenktijd` },
   SHOP.payLater

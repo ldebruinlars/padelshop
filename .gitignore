@@ -42,3 +42,9 @@ next-env.d.ts
 .media-src/
 .netlify
 /out/
+
+# Impeccable: werkbestanden (screenshots, schetsen, bouwstatus)
+.impeccable/review/
+.impeccable/mocks/
+.impeccable/questions/
+.impeccable/build/

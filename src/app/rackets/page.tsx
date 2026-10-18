@@ -15,11 +15,10 @@ export default function RacketsPage() {
   return (
     <>
       <Nav />
-      <main className="pt-36">
-        <header className="mx-auto max-w-[1400px] px-4 pb-10 md:px-8">
-          <p className="eyebrow rise">Assortiment</p>
-          <h1 className="rise mt-4 text-[clamp(44px,7vw,104px)] leading-[0.92] font-medium" style={{ "--i": 1 } as React.CSSProperties}>
-            Alle <span className="accent">rackets</span>
+      <main className="pt-[calc(96px+env(safe-area-inset-top))]">
+        <header className="mx-auto max-w-[1400px] px-4 pt-10 pb-8 md:px-8">
+          <h1 className="rise text-[clamp(40px,5.4vw,76px)] leading-[0.92] font-bold" style={{ "--i": 1 } as React.CSSProperties}>
+            Alle rackets
           </h1>
           <p className="rise mt-5 max-w-xl text-lg text-fg/75" style={{ "--i": 2 } as React.CSSProperties}>
             {CATALOG_RACKETS.length} modellen van {BRAND_LIST.length} merken. Klik op een racket voor alle specificaties, of kies eerst een vorm.

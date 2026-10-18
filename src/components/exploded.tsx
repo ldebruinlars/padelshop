@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { PlusIcon } from "./icons";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -53,7 +54,7 @@ export function Exploded() {
           x: -20,
           stagger: 0.15,
           duration: 0.6,
-          ease: "back.out(1.7)",
+          ease: "expo.out",
           scrollTrigger: { trigger: ".stack", start: "top 60%", toggleActions: "play none none reverse" },
         });
         gsap.from(".hotspot", {
@@ -94,7 +95,7 @@ export function Exploded() {
             />
           </div>
           {/* Labels naast de lagen */}
-          <ul className="pointer-events-none absolute top-[12%] right-0 bottom-[12%] flex flex-col justify-between font-ui text-[11px] font-semibold tracking-[0.14em] uppercase">
+          <ul className="pointer-events-none absolute top-[12%] right-0 bottom-[12%] flex flex-col justify-between label">
             {LAYERS.map((l) => (
               <li key={l.id} className={`layer-label flex items-center gap-2 ${active === l.id ? "text-accent" : "text-muted"}`}>
                 <span className="h-px w-8 bg-current" />
@@ -105,9 +106,8 @@ export function Exploded() {
         </div>
 
         <div>
-          <p className="eyebrow">Wat zit er in een racket?</p>
-          <h2 className="mt-5 text-[clamp(36px,4.6vw,64px)] leading-[0.95] font-medium">
-            Drie lagen, <span className="accent">één</span> gevoel.
+          <h2 className="text-[clamp(30px,3.2vw,44px)] leading-[1] font-bold">
+            Wat zit er in een racket?
           </h2>
           <p className="mt-5 max-w-md text-fg/70">Elk racket is opgebouwd uit dezelfde drie lagen. De keuzes per laag bepalen hoe hij speelt. Klik op een laag.</p>
 
@@ -119,19 +119,21 @@ export function Exploded() {
                 aria-pressed={active === l.id}
                 aria-controls="laag-uitleg"
                 onClick={() => setActive(l.id)}
-                className={`hotspot flex items-center justify-between gap-4 rounded-2xl border px-5 py-4 text-left transition-colors ${
+                className={`hotspot flex items-center justify-between gap-4 rounded-[var(--radius-card)] border px-5 py-4 text-left transition-colors ${
                   active === l.id ? "border-accent bg-panel" : "border-fg/5 bg-panel/50 hover:border-fg/20"
                 }`}
               >
                 <span className="flex items-center gap-3">
-                  <span className={`grid size-6 place-items-center rounded-full text-[11px] font-bold ${active === l.id ? "bg-accent text-on-accent" : "bg-panel-2 text-muted"}`}>+</span>
+                  <span className={`grid size-6 place-items-center rounded-[var(--radius-control)] ${active === l.id ? "bg-accent text-on-accent" : "bg-panel-2 text-muted"}`} aria-hidden="true">
+                    <PlusIcon className="size-2.5" />
+                  </span>
                   <span className="text-lg font-semibold">{l.name}</span>
                 </span>
-                <span className="text-right font-ui text-[11px] font-semibold tracking-[0.1em] text-muted uppercase">{l.spec}</span>
+                <span className="text-right label text-muted">{l.spec}</span>
               </button>
             ))}
           </div>
-          <p id="laag-uitleg" aria-live="polite" className="mt-4 min-h-[4lh] rounded-2xl bg-ink/40 p-5 text-fg/80">
+          <p id="laag-uitleg" aria-live="polite" className="mt-4 min-h-[4lh] rounded-[var(--radius-card)] bg-ink/40 p-5 text-fg/80">
             {current.text}
           </p>
         </div>

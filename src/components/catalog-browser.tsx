@@ -24,7 +24,7 @@ const SORTS = [
 function Chips({ label, value, options, onChange }: { label: string; value: string; options: { id: string; label: string }[]; onChange: (v: string) => void }) {
   return (
     <fieldset className="grid gap-2">
-      <legend className="mb-2 font-ui text-[11px] font-semibold tracking-[0.14em] text-muted uppercase">{label}</legend>
+      <legend className="mb-2 label text-muted">{label}</legend>
       <div className="flex flex-wrap gap-1.5">
         {[{ id: "", label: "Alle" }, ...options].map((o) => (
           <button
@@ -32,9 +32,7 @@ function Chips({ label, value, options, onChange }: { label: string; value: stri
             type="button"
             aria-pressed={value === o.id}
             onClick={() => onChange(o.id)}
-            className={`rounded-full border px-3.5 py-1.5 text-[13px] transition-colors ${
-              value === o.id ? "border-accent bg-accent font-semibold text-on-accent" : "border-panel-2 text-fg/80 hover:border-fg/40"
-            }`}
+            className="chip"
           >
             {o.label}
           </button>
@@ -95,7 +93,7 @@ export function CatalogBrowser({ brand }: { brand?: string }) {
           start: "top 92%",
           once: true,
           onEnter: (batch) => {
-            gsap.to(batch, { y: 0, opacity: 1, duration: 0.6, ease: "back.out(1.6)", stagger: 0.06, clearProps: "transform" });
+            gsap.to(batch, { y: 0, opacity: 1, duration: 0.6, ease: "expo.out", stagger: 0.06, clearProps: "transform" });
             gsap.from(
               batch.flatMap((c) => [...c.querySelectorAll(".bar-fill")]),
               { scaleX: 0, duration: 0.8, ease: "power3.out", stagger: 0.03, delay: 0.15 },
@@ -125,7 +123,7 @@ export function CatalogBrowser({ brand }: { brand?: string }) {
         <Chips label="Speelstijl" value={f.stijl} options={PLAYSTYLES} onChange={set("stijl")} />
         <Chips label="Niveau" value={f.niveau} options={LEVELS.map((l) => ({ id: l, label: l }))} onChange={set("niveau")} />
         {active > 0 && (
-          <button type="button" onClick={() => SORTS && (window.history.replaceState(null, "", window.location.pathname), setF(EMPTY))} className="justify-self-start text-sm text-accent underline">
+          <button type="button" onClick={() => SORTS && (window.history.replaceState(null, "", window.location.pathname), setF(EMPTY))} className="link justify-self-start text-sm text-accent">
             Wis filters ({active})
           </button>
         )}
@@ -138,7 +136,7 @@ export function CatalogBrowser({ brand }: { brand?: string }) {
           </p>
           <label className="flex items-center gap-2 text-sm">
             <span className="text-muted">Sorteer</span>
-            <select value={f.sort} onChange={(e) => set("sort")(e.target.value)} className="rounded-full border border-panel-2 bg-panel px-3 py-1.5 text-fg">
+            <select value={f.sort} onChange={(e) => set("sort")(e.target.value)} className="field min-h-[38px] w-auto">
               {SORTS.map((s) => (
                 <option key={s.id} value={s.id}>
                   {s.label}

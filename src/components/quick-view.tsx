@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import gsap from "gsap";
 import { brandName, profile, styleColor, PLAYSTYLES, type CatalogRacket } from "@/lib/catalog";
 import { euro } from "@/lib/site";
-import { ArrowIcon } from "./icons";
+import { CloseIcon } from "./icons";
 import { ProfileBar } from "./racket-card";
 import { RacketArt } from "./racket-art";
 
@@ -80,16 +80,16 @@ export function QuickView({ racket, from, onClose }: { racket: CatalogRacket | n
           <div className="mx-auto aspect-[2/3] h-[30svh] md:h-auto md:max-h-none">
             <RacketArt shape={racket.shape} color={color} label={`${racket.model}, productfoto volgt`} />
           </div>
-          <p className="absolute bottom-3 left-4 font-ui text-[10px] font-semibold tracking-[0.14em] text-on-accent/70 uppercase">Illustratie · productfoto volgt</p>
+          <p className="absolute bottom-3 left-4 label text-on-accent/70">Illustratie · productfoto volgt</p>
         </div>
         <div className="grid content-start gap-5 p-6 sm:p-8">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <p className="qv-in font-ui text-[11px] font-semibold tracking-[0.14em] text-accent uppercase">{brandName(racket.brand)}</p>
+              <p className="qv-in label text-accent">{brandName(racket.brand)}</p>
               <h2 className="qv-in mt-2 text-3xl leading-tight font-semibold">{racket.model}</h2>
             </div>
-            <button ref={closeBtn} type="button" onClick={onClose} className="grid size-10 shrink-0 place-items-center rounded-full border border-panel-2 text-xl hover:border-fg/40" aria-label="Sluiten">
-              ×
+            <button ref={closeBtn} type="button" onClick={onClose} className="grid size-10 shrink-0 place-items-center rounded-[var(--radius-control)] border border-panel-2 hover:border-fg/40" aria-label="Sluiten">
+              <CloseIcon className="size-3.5" />
             </button>
           </div>
           {racket.price != null && (
@@ -109,19 +109,16 @@ export function QuickView({ racket, from, onClose }: { racket: CatalogRacket | n
               .filter(([, v]) => v)
               .map(([k, v]) => (
                 <div key={k} className="border-b border-fg/5 py-2">
-                  <dt className="font-ui text-[10px] font-semibold tracking-[0.14em] text-muted uppercase">{k}</dt>
+                  <dt className="label text-muted">{k}</dt>
                   <dd className="mt-0.5 first-letter:uppercase">{v}</dd>
                 </div>
               ))}
           </dl>
           <div className="qv-in flex flex-wrap gap-2">
-            <a href="/#testcenter" onClick={onClose} className="flex items-center gap-3 rounded-full bg-accent py-2 pr-2 pl-5 font-semibold text-on-accent">
+            <a href="/#testcenter" onClick={onClose} className="btn btn-primary">
               Test dit racket
-              <span className="grid size-8 place-items-center rounded-full bg-bg">
-                <ArrowIcon className="size-3 text-accent" />
-              </span>
             </a>
-            <a href="/#bezoek" onClick={onClose} className="rounded-full border border-panel-2 px-5 py-2.5 font-semibold hover:border-fg/40">
+            <a href="/#bezoek" onClick={onClose} className="btn btn-line">
               Bekijk in de winkel
             </a>
           </div>

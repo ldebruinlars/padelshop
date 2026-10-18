@@ -5,7 +5,6 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { CATEGORIES } from "@/lib/site";
-import { ArrowIcon } from "./icons";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -34,17 +33,14 @@ export function Categories() {
   return (
     <section ref={root} id="categorieen" className="bg-ink py-24">
       <div className="mx-auto max-w-[1400px] px-5">
-        <div className="flex flex-wrap items-end justify-between gap-6">
-          <div>
-            <p className="eyebrow">Shop per categorie</p>
-            <h2 className="mt-5 text-[clamp(36px,4.6vw,64px)] leading-[0.95] font-medium">
-              Alles voor <span className="accent">padel</span>.
-            </h2>
-          </div>
-          <p className="max-w-md text-fg/70">Rackets vergelijk je hier en test je bij ons op de baan. Schoenen, tassen, ballen en kleding vind je in de winkel bij Poort Padel.</p>
+        <div className="grid gap-3 border-b border-panel-2 pb-6">
+          <h2 className="text-[clamp(30px,3.2vw,44px)] leading-[1] font-bold">
+            Meer dan rackets
+          </h2>
+          <p className="max-w-[60ch] text-fg/70">Rackets vergelijk je hier en test je bij ons op de baan. Schoenen, tassen, ballen en kleding vind je in de winkel bij Poort Padel.</p>
         </div>
 
-        <ul className="mt-12 grid grid-cols-2 gap-3 md:grid-cols-3">
+        <ul className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-3">
           {CATEGORIES.map((c) => (
             <li key={c.id} className="cat-tile">
               <a href={c.online ? "#collectie" : "#bezoek"} className="group relative block aspect-[4/5] overflow-hidden rounded-[var(--radius-card)] bg-paper sm:aspect-[4/3]">
@@ -64,9 +60,6 @@ export function Categories() {
                       <span className="sm:hidden">{c.online ? "Bekijk alle" : "In de winkel"}</span>
                     </p>
                   </div>
-                  <span className="grid size-9 shrink-0 place-items-center rounded-full bg-accent text-on-accent transition-transform group-hover:-translate-y-0.5">
-                    <ArrowIcon className="size-3" />
-                  </span>
                 </div>
               </a>
             </li>

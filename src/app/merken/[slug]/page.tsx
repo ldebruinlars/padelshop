@@ -30,13 +30,13 @@ export default async function BrandPage({ params }: { params: Promise<{ slug: st
   return (
     <>
       <Nav />
-      <main className="pt-36">
-        <header className="mx-auto grid max-w-[1400px] gap-8 px-4 pb-12 md:px-8 lg:grid-cols-[1.4fr_1fr] lg:items-end">
+      <main className="pt-[calc(96px+env(safe-area-inset-top))]">
+        <header className="mx-auto grid max-w-[1400px] gap-8 px-4 pt-10 pb-12 md:px-8 lg:grid-cols-[1.4fr_1fr] lg:items-end">
           <div>
-            <a href="/merken/" className="eyebrow rise hover:text-fg">
-              Merken
-            </a>
-            <h1 className="rise mt-4 text-[clamp(56px,10vw,152px)] leading-[0.86] font-semibold tracking-[-0.045em]" style={{ "--i": 1 } as React.CSSProperties}>
+            <nav aria-label="Kruimelpad" className="rise text-sm text-muted">
+              <a href="/" className="hover:text-fg">Home</a> / <a href="/merken/" className="hover:text-fg">Merken</a> / <span className="text-fg">{b.name}</span>
+            </nav>
+            <h1 className="rise mt-4 text-[clamp(52px,8vw,120px)] leading-[0.86] font-bold tracking-[-0.03em]" style={{ "--i": 1 } as React.CSSProperties}>
               {b.name}
             </h1>
             <p className="rise mt-6 max-w-xl text-lg text-fg/75" style={{ "--i": 2 } as React.CSSProperties}>
@@ -45,11 +45,11 @@ export default async function BrandPage({ params }: { params: Promise<{ slug: st
           </div>
           <dl className="rise grid grid-cols-3 gap-3" style={{ "--i": 3 } as React.CSSProperties}>
             <div className="rounded-[var(--radius-card)] bg-panel p-4">
-              <dt className="font-ui text-[10px] font-semibold tracking-[0.14em] text-muted uppercase">Modellen</dt>
+              <dt className="label text-muted">Modellen</dt>
               <dd className="mt-2 text-3xl font-semibold tabular-nums">{own.length}</dd>
             </div>
             <div className="col-span-2 rounded-[var(--radius-card)] bg-panel p-4">
-              <dt className="font-ui text-[10px] font-semibold tracking-[0.14em] text-muted uppercase">Prijsklasse</dt>
+              <dt className="label text-muted">Prijsklasse</dt>
               <dd className="mt-2 text-3xl font-semibold tabular-nums">
                 {prices.length ? `€${Math.floor(Math.min(...prices))} - €${Math.ceil(Math.max(...prices))}` : "Op aanvraag"}
               </dd>
@@ -59,7 +59,7 @@ export default async function BrandPage({ params }: { params: Promise<{ slug: st
               {SHAPES.map((s) => {
                 const n = own.filter((r) => r.shape === s.id).length;
                 return (
-                  <dd key={s.id} className={`rounded-full border px-3 py-1 text-sm ${n ? "border-panel-2" : "border-transparent text-muted/60"}`}>
+                  <dd key={s.id} className={`rounded-[var(--radius-control)] border px-3 py-1 text-sm ${n ? "border-panel-2" : "border-transparent text-muted/60"}`}>
                     {s.label} · {n}
                   </dd>
                 );

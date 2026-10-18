@@ -43,9 +43,8 @@ export function Reviews() {
       <div className="mx-auto max-w-[1400px] px-5">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
-            <p className="eyebrow">Reviews</p>
-            <h2 className="mt-5 text-[clamp(36px,4.6vw,64px)] leading-[0.95] font-medium">
-              Getest en <span className="accent">goedgekeurd</span>.
+            <h2 className="text-[clamp(30px,3.2vw,44px)] leading-[1] font-bold">
+              Reviews
             </h2>
           </div>
           {RATING && (

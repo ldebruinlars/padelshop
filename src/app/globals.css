@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* Gravel Night: espresso en krijt met één gravel-oranje accent en zand (Inter Tight + Fraunces), donker en filmisch */
+/* Gravel Night als racketwand: espresso slatwall, krijtwitte tekst, zandkleurige planklabels, gravel-oranje prijs en knoppen */
 @theme {
   --color-bg: #14110f;
   --color-panel: #201a16;
@@ -10,21 +10,24 @@
   --color-muted: #b3a595;
   --color-accent: #f06a30;
   --color-accent-2: #e8d3a8;
-  /* Achtergrond van de productfoto's, zodat kaart en foto naadloos in elkaar overlopen */
+  /* Planklabels en de achtergrond van de productafbeeldingen */
   --color-paper: #ede4d3;
   /* Donkere tekst op accent, zand en de speelstijlkleuren (wit op oranje haalt geen AA) */
   --color-on-accent: #14110f;
 
   --font-sans: var(--font-inter-tight), system-ui, sans-serif;
-  --font-serif: var(--font-fraunces), Georgia, serif;
-  --font-ui: var(--font-space-grotesk), var(--font-inter-tight), system-ui, sans-serif;
+  --font-display: var(--font-archivo), var(--font-inter-tight), system-ui, sans-serif;
+  --font-ui: var(--font-archivo), var(--font-inter-tight), system-ui, sans-serif;
 
-  --radius-panel: 28px;
-  --radius-card: 20px;
+  /* Recht gesneden hoeken zoals winkellabels, geen pillen */
+  --radius-panel: 8px;
+  --radius-card: 6px;
+  --radius-control: 4px;
 }
 
 html {
   background: var(--color-ink);
+  scrollbar-color: var(--color-panel-2) var(--color-ink);
 }
 
 body {
@@ -32,43 +35,166 @@ body {
   color: var(--color-fg);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+  caret-color: var(--color-accent);
 }
 
-/* In de base-laag, zodat tracking-classes op koppen (zoals de hero) deze standaard kunnen overschrijven */
+::selection {
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+}
+
+/* In de base-laag, zodat utilities op koppen deze standaard kunnen overschrijven */
 @layer base {
   h1,
   h2,
   h3 {
-    letter-spacing: -0.03em;
+    font-family: var(--font-display);
+    font-stretch: 90%;
+    letter-spacing: -0.02em;
     text-wrap: balance;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+  a {
+    text-underline-offset: 4px;
   }
 }
 
-/* Het ene cursieve accentwoord per kop, zoals op allcourtacademy.com */
-.accent {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 400;
-  letter-spacing: -0.01em;
-  color: var(--color-accent);
+@layer components {
+  /* Knoppen: rechthoekig, geen pijltjes. Het label zegt wat er gebeurt. */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 20px;
+    border-radius: var(--radius-control);
+    font-family: var(--font-ui);
+    font-size: 15px;
+    font-weight: 600;
+    white-space: nowrap;
+    transition:
+      background-color 0.15s ease,
+      border-color 0.15s ease,
+      color 0.15s ease;
+  }
+  .btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+  .btn-primary {
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+  .btn-primary:hover:not(:disabled) {
+    background: #ff7b45;
+  }
+  .btn-sand {
+    background: var(--color-accent-2);
+    color: var(--color-on-accent);
+  }
+  .btn-sand:hover:not(:disabled) {
+    background: var(--color-paper);
+  }
+  .btn-line {
+    border: 1px solid color-mix(in oklab, var(--color-fg) 28%, transparent);
+    color: var(--color-fg);
+  }
+  .btn-line:hover:not(:disabled) {
+    border-color: var(--color-fg);
+  }
+  .btn-sm {
+    min-height: 36px;
+    padding: 0 14px;
+    font-size: 14px;
+  }
+  /* Tekstlink met onderstreping, zoals "Bekijk alles" in een winkel */
+  .link {
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-decoration-color: color-mix(in oklab, currentColor 45%, transparent);
+  }
+  .link:hover {
+    text-decoration-color: currentColor;
+  }
+  /* Klein label: merk, specnaam, filternaam */
+  .label {
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  /* Filterknop of keuzeknop: rechthoekig tagje */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 36px;
+    padding: 0 12px;
+    border: 1px solid var(--color-panel-2);
+    border-radius: var(--radius-control);
+    font-size: 14px;
+    color: color-mix(in oklab, var(--color-fg) 85%, transparent);
+    transition:
+      border-color 0.15s ease,
+      background-color 0.15s ease;
+  }
+  .chip:hover {
+    border-color: color-mix(in oklab, var(--color-fg) 45%, transparent);
+  }
+  .chip[aria-pressed="true"] {
+    border-color: var(--color-fg);
+    background: var(--color-fg);
+    color: var(--color-on-accent);
+    font-weight: 600;
+  }
+  .field {
+    min-height: 46px;
+    width: 100%;
+    border: 1px solid var(--color-panel-2);
+    border-radius: var(--radius-control);
+    background: var(--color-panel);
+    padding: 0 14px;
+    color: var(--color-fg);
+  }
+  .field::placeholder {
+    color: var(--color-muted);
+  }
+  .field:focus {
+    border-color: var(--color-accent);
+    outline: none;
+  }
 }
 
-.eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-family: var(--font-ui);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--color-accent);
+/* Slatwall: de groeven van de winkelwand */
+.slatwall {
+  background-color: var(--color-bg);
+  background-image:
+    radial-gradient(ellipse 34% 46% at 22% 0, rgb(255 226 190 / 0.07), transparent 70%),
+    radial-gradient(ellipse 34% 46% at 78% 0, rgb(255 226 190 / 0.07), transparent 70%),
+    repeating-linear-gradient(180deg, #1a1512 0 30px, #14110f 30px 46px, #0c0a09 46px 48px, #2a221d 48px 49px);
 }
-.eyebrow::before {
-  content: "";
-  width: 28px;
-  height: 1px;
-  background: currentColor;
+
+/* Racket aan de haak: zwaait vanaf de haak, niet vanaf het midden */
+.hang {
+  transform-origin: 50% 0;
+}
+@keyframes swing {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(4deg); }
+  55% { transform: rotate(-2.5deg); }
+  80% { transform: rotate(1deg); }
+  100% { transform: rotate(0deg); }
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .peg-slot:hover .hang {
+    animation: swing 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
 }
 
 /* Racketkop-vorm voor de lagen-animatie */

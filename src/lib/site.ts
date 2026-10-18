@@ -19,7 +19,7 @@ export const SHOP = {
 
 // Alle beelden op één plek. De shopfoto's zijn Higgsfield-placeholders tot de echte productfoto's er zijn.
 export const MEDIA = {
-  // Eigen foto: ACA-shoot bij Poort Padel (Google Drive). Responsief: 960, 1600 en 2400 px breed.
+  // Eigen foto: shoot bij Poort Padel (Google Drive). Responsief: 960, 1600 en 2400 px breed.
   hero: "/media/hero-poort-padel.webp",
   hero1600: "/media/hero-poort-padel-1600.webp",
   heroSrcSet: "/media/hero-poort-padel-960.webp 960w, /media/hero-poort-padel-1600.webp 1600w, /media/hero-poort-padel.webp 2400w",

@@ -11,7 +11,7 @@ gsap.registerPlugin(ScrollTrigger, MotionPathPlugin, useGSAP);
 
 const STEPS = [
   { n: "01", title: "Kies", text: "Doe de racketfinder of filter op niveau en speelstijl. Je krijgt drie rackets die bij je spel passen." },
-  { n: "02", title: "Test", text: "Speel 45 minuten op een baan bij Poort Padel, met een coach van All Court Academy die meekijkt." },
+  { n: "02", title: "Test", text: "Speel 45 minuten op een baan bij Poort Padel, met een coach die meekijkt." },
   { n: "03", title: "Koop", text: `Neem je favoriet direct mee of laat hem bezorgen. De ${euro(SHOP.testPrice)} testkosten gaan van de prijs af.` },
 ];
 
@@ -67,7 +67,7 @@ export function BallPath() {
           .to(".trail", { strokeDashoffset: 0, ease: "none", duration: 1 }, 0)
           .to(".ball", { motionPath: { path, align: path, alignOrigin: [0.5, 0.5] }, ease: "none", duration: 1 }, 0);
         gsap.utils.toArray<SVGElement>(".bounce").forEach((b, i) => {
-          tl.to(b, { scale: 1, duration: 0.06, ease: "back.out(3)" }, (i + 1) / 3 - 0.04);
+          tl.to(b, { scale: 1, duration: 0.06, ease: "expo.out" }, (i + 1) / 3 - 0.04);
         });
       });
       // Zonder animatie: alles meteen zichtbaar en alle stappen aan
@@ -82,9 +82,8 @@ export function BallPath() {
   return (
     <section ref={root} className="relative overflow-hidden bg-bg py-24">
       <div className="mx-auto max-w-[1400px] px-5">
-        <p className="eyebrow">Zo werkt het</p>
-        <h2 className="mt-5 max-w-2xl text-[clamp(36px,4.6vw,64px)] leading-[0.95] font-medium">
-          Van twijfel naar <span className="accent">je racket</span>.
+        <h2 className="max-w-2xl text-[clamp(30px,3.2vw,44px)] leading-[1] font-bold">
+          Zo werkt een racket-test
         </h2>
 
         <div className="mt-12 grid items-center gap-8 lg:grid-cols-[1.15fr_1fr]">
@@ -108,12 +107,11 @@ export function BallPath() {
           </svg>
         </div>
 
-        <ol className="grid gap-3">
+        <ol className="grid">
           {STEPS.map((s) => (
-            <li key={s.n} className="step group grid grid-cols-[auto_1fr] gap-x-5 rounded-[var(--radius-card)] border border-fg/5 bg-panel p-6 transition-colors duration-500 [&.is-on]:border-accent/50">
-              <span className="row-span-2 font-serif text-4xl text-muted italic transition-colors duration-500 group-[.is-on]:text-accent">{s.n}</span>
-              <h3 className="text-2xl font-semibold">{s.title}</h3>
-              <p className="mt-1 text-fg/70">{s.text}</p>
+            <li key={s.n} className="step border-l-0 border-b border-panel-2 py-5 first:pt-0 last:border-b-0">
+              <h3 className="font-display text-[clamp(28px,2.6vw,40px)] leading-none font-bold [font-stretch:80%] transition-colors duration-500 [.is-on>&]:text-accent">{s.title}</h3>
+              <p className="mt-2 max-w-[48ch] text-fg/75">{s.text}</p>
             </li>
           ))}
         </ol>

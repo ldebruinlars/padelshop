@@ -1,36 +1,32 @@
-import { BRAND_LIST } from "@/lib/catalog";
+import { BRAND_LIST, CATALOG_RACKETS } from "@/lib/catalog";
 
-const BADGES = ["Getest bij Poort Padel", "Advies van onze coaches", "Tien topmerken", "Testkosten terug bij aankoop"];
-
-/** Merkenband (stopt bij hover) met links naar de merkpagina's en de vertrouwensbadges eronder. */
+/** Merkenindex zoals in een winkel: tien merken op een rij, elk met het aantal modellen, naar de merkpagina. */
 export function BrandMarquee() {
-  const row = [...BRAND_LIST, ...BRAND_LIST];
   return (
-    <section id="merken" className="relative border-y border-fg/5 bg-bg py-10">
-      <div className="marquee overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)]">
-        <div className="marquee-track flex w-max gap-16 pr-16">
-          {row.map((b, i) => (
-            <a
-              key={i}
-              href={`/merken/${b.slug}/`}
-              // De tweede set is alleen voor de naadloze loop
-              aria-hidden={i >= BRAND_LIST.length || undefined}
-              tabIndex={i >= BRAND_LIST.length ? -1 : undefined}
-              className="text-[clamp(32px,4.5vw,64px)] font-semibold tracking-[-0.04em] whitespace-nowrap text-fg/40 transition-colors hover:text-fg focus-visible:text-fg"
-            >
-              {b.name}
-            </a>
-          ))}
+    <section id="merken" aria-labelledby="merken-titel" className="border-b border-panel-2 bg-bg">
+      <div className="mx-auto max-w-[1400px] px-4 py-10 md:px-8">
+        <div className="flex flex-wrap items-baseline justify-between gap-3">
+          <h2 id="merken-titel" className="text-2xl font-bold">
+            Shop per merk
+          </h2>
+          <a href="/merken/" className="link text-sm">
+            Alle merken
+          </a>
         </div>
+        <ul className="mt-5 grid grid-cols-2 border-t border-l border-panel-2 sm:grid-cols-5">
+          {BRAND_LIST.map((b) => {
+            const n = CATALOG_RACKETS.filter((r) => r.brand === b.slug).length;
+            return (
+              <li key={b.slug} className="border-r border-b border-panel-2">
+                <a href={`/merken/${b.slug}/`} className="group flex h-full items-baseline justify-between gap-3 px-4 py-5 transition-colors hover:bg-panel">
+                  <span className="font-display text-[clamp(20px,1.9vw,28px)] leading-none font-bold tracking-tight [font-stretch:90%] group-hover:text-accent">{b.name}</span>
+                  <span className="text-sm text-muted tabular-nums">{n}</span>
+                </a>
+              </li>
+            );
+          })}
+        </ul>
       </div>
-      <ul className="mx-auto mt-8 flex max-w-[1400px] flex-wrap justify-center gap-2 px-5">
-        {BADGES.map((b) => (
-          <li key={b} className="flex items-center gap-2 rounded-full border border-panel-2 px-4 py-2 font-ui text-[11px] font-semibold tracking-[0.12em] text-muted uppercase">
-            <span className="size-1.5 rounded-full bg-accent" />
-            {b}
-          </li>
-        ))}
-      </ul>
     </section>
   );
 }

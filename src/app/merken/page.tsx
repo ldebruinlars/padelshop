@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Footer } from "@/components/footer";
-import { ArrowIcon } from "@/components/icons";
 import { Nav } from "@/components/nav";
 import { BRAND_LIST, CATALOG_RACKETS } from "@/lib/catalog";
 
@@ -14,11 +13,10 @@ export default function BrandsPage() {
   return (
     <>
       <Nav />
-      <main className="pt-36 pb-24">
-        <header className="mx-auto max-w-[1400px] px-4 pb-10 md:px-8">
-          <p className="eyebrow rise">Merken</p>
-          <h1 className="rise mt-4 text-[clamp(44px,7vw,104px)] leading-[0.92] font-medium" style={{ "--i": 1 } as React.CSSProperties}>
-            Tien <span className="accent">topmerken</span>
+      <main className="pt-[calc(96px+env(safe-area-inset-top))] pb-24">
+        <header className="mx-auto max-w-[1400px] px-4 pt-10 pb-8 md:px-8">
+          <h1 className="rise text-[clamp(40px,5.4vw,76px)] leading-[0.92] font-bold" style={{ "--i": 1 } as React.CSSProperties}>
+            Tien topmerken
           </h1>
         </header>
         <ul className="mx-auto grid max-w-[1400px] gap-3 px-4 sm:grid-cols-2 md:px-8 lg:grid-cols-5">
@@ -35,9 +33,8 @@ export default function BrandsPage() {
                     <span className="mt-4 line-clamp-3 block text-sm text-muted">{b.about}</span>
                   </span>
                   <span>
-                    <span className="flex items-center gap-2 font-ui text-[11px] font-semibold tracking-[0.12em] text-accent uppercase">
+                    <span className="flex items-center gap-2 label text-accent">
                       {n} {n === 1 ? "model" : "modellen"}
-                      <ArrowIcon className="size-3 transition-transform group-hover:translate-x-1" />
                     </span>
                   </span>
                 </a>

@@ -22,7 +22,7 @@ Players compare rackets by shape (round, teardrop, diamond), balance, core hardn
 - Next.js static export on Netlify; Netlify Forms for the test booking and newsletter.
 - Catalog: 10 brands (Bullpadel, Nox, Adidas, Head, Babolat, Siux, StarVie, Wilson, Black Crown, Drop Shot), 30 models, specs and prices from brand and shop sites with a source per racket.
 - Online checkout is planned soon; design product and listing pages so a cart and "add to cart" fit later. Until then, no online ordering is claimed.
-- Shop facts (free shipping threshold, return days, pay-later, test price) are placeholders until the owner confirms them.
+- Shop facts (free shipping threshold, return days, pay-later, home test, warranty, test price) are placeholders until the owner confirms them. The owner chose to keep them visible on the site in the meantime (decided 2026-10-18); replace them in `src/lib/site.ts` (SHOP) when the real values arrive.
 
 ## Brand Commitments
 - Name: Racket Lab, with the existing "A" logo mark.

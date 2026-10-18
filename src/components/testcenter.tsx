@@ -70,7 +70,7 @@ export function Testcenter() {
               ["3 tot 5", "rackets voor jouw stijl"],
               ["€ 29,95", "terug bij aankoop"],
             ].map(([a, b]) => (
-              <div key={a} className="rounded-2xl border border-fg/10 bg-bg/70 p-3 backdrop-blur sm:p-4">
+              <div key={a} className="rounded-2xl border border-fg/10 bg-bg/85 p-3 sm:p-4">
                 <div className="text-lg font-semibold tracking-tight sm:text-2xl">{a}</div>
                 <div className="text-xs text-muted sm:text-sm">{b}</div>
               </div>

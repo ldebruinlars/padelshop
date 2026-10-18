@@ -12,6 +12,10 @@ const compat = new FlatCompat({
 const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
   {
+    // Bewust gewone links: filters lezen de querystring bij het laden en ankerlinks lopen via Lenis.
+    rules: { "@next/next/no-html-link-for-pages": "off" },
+  },
+  {
     ignores: [
       "node_modules/**",
       ".next/**",

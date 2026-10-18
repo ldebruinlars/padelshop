@@ -1,129 +1,40 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
+import { useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { RACKETS, STYLES, euro, type Racket, type Style } from "@/lib/site";
+import { CATALOG_RACKETS, PLAYSTYLES, SHAPES, type CatalogRacket, type Playstyle, type Shape } from "@/lib/catalog";
 import { ArrowIcon } from "./icons";
+import { QuickView } from "./quick-view";
+import { RacketCard } from "./racket-card";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
-
-const TABS: { id: string; label: string; test: (r: Racket) => boolean }[] = [
-  { id: "alle", label: "Alle", test: () => true },
-  { id: "bestseller", label: "Bestsellers", test: (r) => r.tags.includes("bestseller") },
-  { id: "beginner", label: "Beginner", test: (r) => r.level === "Beginner" },
-  { id: "gevorderd", label: "Gevorderd", test: (r) => r.level === "Gevorderd" },
-  { id: "nieuw", label: "Nieuw", test: (r) => r.tags.includes("nieuw") },
-  { id: "outlet", label: "Outlet", test: (r) => r.tags.includes("outlet") },
-];
-
-const POWER = "#ff4a4a";
-const CONTROL = "#d9a48f";
-
-function Bar({ label, value, color }: { label: string; value: number; color: string }) {
-  return (
-    <div className="grid grid-cols-[64px_1fr_28px] items-center gap-3 font-ui text-[11px] font-semibold tracking-[0.1em] uppercase">
-      <span className="text-muted">{label}</span>
-      <span className="h-1.5 overflow-hidden rounded-full bg-panel-2">
-        <span className="bar-fill block h-full origin-left rounded-full" style={{ width: `${value * 10}%`, background: color }} />
-      </span>
-      <span className="text-right tabular-nums">{value.toFixed(1)}</span>
-    </div>
-  );
-}
-
-function RacketCard({ r, compare, onCompare }: { r: Racket; compare: boolean; onCompare: () => void }) {
-  const style = STYLES.find((s) => s.id === r.style)!;
-  const media = useRef<HTMLDivElement>(null);
-
-  // Lichte kanteling naar de cursor (alleen met muis en zonder reduced motion)
-  const tilt = (e: React.PointerEvent) => {
-    if (e.pointerType !== "mouse" || !media.current || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const b = media.current.getBoundingClientRect();
-    const x = (e.clientX - b.left) / b.width - 0.5;
-    const y = (e.clientY - b.top) / b.height - 0.5;
-    gsap.to(media.current.querySelector("img"), { rotateY: x * 10, rotateX: -y * 8, scale: 1.03, duration: 0.5, ease: "power2.out" });
-  };
-  const untilt = () => {
-    if (media.current) gsap.to(media.current.querySelector("img"), { rotateY: 0, rotateX: 0, scale: 1, duration: 0.7, ease: "power3.out" });
-  };
-
-  return (
-    <article className="racket-card flex w-[min(320px,78vw)] shrink-0 snap-start flex-col overflow-hidden rounded-[var(--radius-card)] border border-fg/5 bg-panel">
-      <div ref={media} onPointerMove={tilt} onPointerLeave={untilt} className="relative aspect-[4/5] bg-paper [perspective:900px]">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img loading="lazy" decoding="async" draggable={false} src={r.image} alt={`${r.name} padel racket`} className="size-full object-cover will-change-transform [-webkit-user-drag:none]" />
-        <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
-          <span className="rounded-full px-3 py-1 font-ui text-[11px] font-semibold tracking-[0.14em] text-on-accent uppercase" style={{ background: style.color }}>
-            {style.label}
-          </span>
-          {r.tags.includes("nieuw") && <span className="rounded-full bg-on-accent px-3 py-1 font-ui text-[11px] font-semibold tracking-[0.14em] text-fg uppercase">Nieuw</span>}
-          {r.oldPrice && <span className="rounded-full bg-accent px-3 py-1 font-ui text-[11px] font-semibold tracking-[0.14em] text-on-accent uppercase">-{Math.round((1 - r.price / r.oldPrice) * 100)}%</span>}
-        </div>
-        {r.testable && (
-          <span className="absolute right-3 bottom-3 rounded-full bg-bg px-3 py-1 font-ui text-[11px] font-semibold tracking-[0.12em] text-accent uppercase">
-            Ligt in het testcenter
-          </span>
-        )}
-      </div>
-      <div className="grid flex-1 content-start gap-3 p-4">
-        <div className="flex items-baseline justify-between gap-3">
-          <h3 className="text-xl font-semibold">{r.name}</h3>
-          <span className="flex items-baseline gap-2 tabular-nums">
-            {r.oldPrice && <s className="text-sm text-muted">{euro(r.oldPrice)}</s>}
-            <span className="text-lg font-semibold">{euro(r.price)}</span>
-          </span>
-        </div>
-        <p className="text-sm text-muted">
-          {r.shape} · {r.weight} · balans {r.balance} · {r.level}
-        </p>
-        <Bar label="Power" value={r.power} color={POWER} />
-        <Bar label="Control" value={r.control} color={CONTROL} />
-        <div className="mt-auto flex gap-2 pt-1">
-          <button
-            type="button"
-            onClick={onCompare}
-            aria-pressed={compare}
-            className={`flex-1 rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${compare ? "border-accent bg-accent text-on-accent" : "border-panel-2 text-fg hover:border-fg/40"}`}
-          >
-            {compare ? "In vergelijking" : "Vergelijk"}
-          </button>
-          <a href={r.testable ? "#testcenter" : "#bezoek"} className="flex items-center gap-2 rounded-full bg-accent-2 py-1.5 pr-1.5 pl-4 text-sm font-semibold whitespace-nowrap text-on-accent">
-            {r.testable ? "Test dit racket" : "In de winkel"}
-            <span className="grid size-7 place-items-center rounded-full bg-bg">
-              <ArrowIcon className="size-3 text-accent" />
-            </span>
-          </a>
-        </div>
-      </div>
-    </article>
-  );
-}
 
 /** Rackets: tabs en speelstijl-filter, veegbare rij lichte productkaarten, en een vergelijker. */
 export function Collection() {
   const root = useRef<HTMLElement>(null);
   const track = useRef<HTMLDivElement>(null);
-  const [tab, setTab] = useState("alle");
-  const [style, setStyle] = useState<Style | null>(null);
-  const [compare, setCompare] = useState<string[]>([]);
-  const [full, setFull] = useState(false);
+  const [tab, setTab] = useState<Shape | "">("");
+  const [style, setStyle] = useState<Playstyle | null>(null);
+  const [open, setOpen] = useState<{ r: CatalogRacket; from: HTMLElement } | null>(null);
 
-  const list = RACKETS.filter((r) => TABS.find((t) => t.id === tab)!.test(r) && (!style || r.style === style));
+  // Op de homepage maximaal twaalf: om en om per merk, met per merk een andere speelstijl voorop; de rest staat op /rackets/
+  const all = CATALOG_RACKETS.filter((r) => (!tab || r.shape === tab) && (!style || r.playstyle === style));
+  const perBrand = [...new Set(all.map((r) => r.brand))].map((b, i) => {
+    const own = all.filter((r) => r.brand === b);
+    return [...own.slice(i % own.length), ...own.slice(0, i % own.length)];
+  });
+  const longest = Math.max(0, ...perBrand.map((o) => o.length));
+  const list = Array.from({ length: longest }, (_, rank) => perBrand.map((own) => own[rank]).filter(Boolean)).flat().slice(0, 12);
 
   // Kaarten en balken animeren bij binnenkomst, en opnieuw na het wisselen van filter.
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        gsap.from(".racket-card", { y: 30, opacity: 0, duration: 0.6, ease: "power3.out", stagger: 0.06, scrollTrigger: { trigger: track.current, start: "top 85%", once: true } });
+        gsap.from(".racket-card", { y: 48, opacity: 0, duration: 0.6, ease: "back.out(1.4)", stagger: 0.06, clearProps: "transform", scrollTrigger: { trigger: track.current, start: "top 85%", once: true } });
         gsap.from(".bar-fill", { scaleX: 0, duration: 1, ease: "power2.out", stagger: 0.03, scrollTrigger: { trigger: track.current, start: "top 75%", once: true } });
-      });
-      // Licht scroll-effect: de rij schuift tijdens het voorbijscrollen een stukje naar links, zonder de pagina vast te zetten.
-      mm.add("(min-width: 768px) and (prefers-reduced-motion: no-preference)", () => {
-        gsap.fromTo(".track-inner", { x: 90 }, { x: -90, ease: "none", scrollTrigger: { trigger: root.current, start: "top bottom", end: "bottom top", scrub: 0.6 } });
       });
       return () => mm.revert();
     },
@@ -134,17 +45,20 @@ export function Collection() {
   const drag = useRef({ active: false, moved: false, x: 0, left: 0, lastX: 0, lastT: 0, v: 0 });
   const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     if (e.pointerType !== "mouse" || e.button !== 0 || !track.current) return;
-    if ((e.target as HTMLElement).closest("button, a")) return;
     gsap.killTweensOf(track.current);
     drag.current = { active: true, moved: false, x: e.clientX, left: track.current.scrollLeft, lastX: e.clientX, lastT: performance.now(), v: 0 };
-    track.current.style.scrollSnapType = "none";
-    track.current.setPointerCapture(e.pointerId);
   };
   const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
     const d = drag.current;
     if (!d.active || !track.current) return;
     const dx = e.clientX - d.x;
-    if (Math.abs(dx) > 4) d.moved = true;
+    if (!d.moved && Math.abs(dx) > 4) {
+      // Pas vastpakken als er echt gesleept wordt, zodat een gewone klik de kaart opent
+      d.moved = true;
+      track.current.style.scrollSnapType = "none";
+      track.current.setPointerCapture(e.pointerId);
+    }
+    if (!d.moved) return;
     track.current.scrollLeft = d.left - dx;
     const now = performance.now();
     d.v = (e.clientX - d.lastX) / Math.max(1, now - d.lastT);
@@ -156,6 +70,7 @@ export function Collection() {
     const el = track.current;
     if (!d.active || !el) return;
     d.active = false;
+    if (!d.moved) return;
     el.releasePointerCapture(e.pointerId);
     const restoreSnap = () => {
       el.style.scrollSnapType = "";
@@ -176,25 +91,9 @@ export function Collection() {
   const scrollBy = (dir: 1 | -1) => {
     const el = track.current;
     if (!el) return;
-    const card = el.querySelector<HTMLElement>(".racket-card");
+    const card = el.querySelector<HTMLElement>(".snap-start");
     el.scrollBy({ left: dir * ((card?.offsetWidth ?? 320) + 16), behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
   };
-
-  const toggle = (id: string) =>
-    setCompare((c) => {
-      if (c.includes(id)) {
-        setFull(false);
-        return c.filter((x) => x !== id);
-      }
-      if (c.length >= 3) {
-        setFull(true);
-        return c;
-      }
-      return [...c, id];
-    });
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-  const picked = RACKETS.filter((r) => compare.includes(r.id));
 
   return (
     <section ref={root} id="collectie" className="relative bg-ink py-24">
@@ -206,14 +105,19 @@ export function Collection() {
               Power of <span className="accent">control</span>?
             </h2>
           </div>
-          <p className="max-w-md text-fg/70">Onze coaches scoren elk racket op power en control. Filter op niveau of speelstijl en zet er tot drie naast elkaar.</p>
+          <div className="max-w-md">
+            <p className="text-fg/70">{CATALOG_RACKETS.length} modellen van tien topmerken. Kies een vorm, klik op een racket voor alle specificaties en test je favoriet in het testcenter.</p>
+            <a href="/rackets/" className="mt-4 inline-flex items-center gap-2 font-ui text-[12px] font-semibold tracking-[0.12em] text-accent uppercase">
+              Bekijk het hele assortiment <ArrowIcon className="size-3" />
+            </a>
+          </div>
         </div>
 
         <div className="mt-10 flex flex-wrap items-center justify-between gap-4">
           <div role="group" aria-label="Filter rackets" className="flex flex-wrap gap-2">
-            {TABS.map((t) => (
+            {[{ id: "" as const, label: "Alle vormen" }, ...SHAPES].map((t) => (
               <button
-                key={t.id}
+                key={t.id || "alle"}
                 type="button"
                 aria-pressed={tab === t.id}
                 onClick={() => setTab(t.id)}
@@ -224,7 +128,7 @@ export function Collection() {
             ))}
           </div>
           <div role="group" className="flex flex-wrap gap-2" aria-label="Speelstijl">
-            {STYLES.map((s) => (
+            {PLAYSTYLES.map((s) => (
               <button
                 key={s.id}
                 type="button"
@@ -253,7 +157,24 @@ export function Collection() {
         >
           <div className="track-inner flex w-max gap-4 px-5 md:px-[max(20px,calc((100vw-1400px)/2+20px))]">
             {list.length ? (
-              list.map((r) => <RacketCard key={r.id} r={r} compare={compare.includes(r.id)} onCompare={() => toggle(r.id)} />)
+              <>
+                {list.map((r) => (
+                  <div key={r.id} className="w-[min(300px,74vw)] shrink-0 snap-start">
+                    <RacketCard r={r} onOpen={(racket, from) => !drag.current.moved && setOpen({ r: racket, from })} />
+                  </div>
+                ))}
+                <a
+                  href={`/rackets/${tab ? `?vorm=${tab}` : ""}`}
+                  className="group flex w-[min(300px,74vw)] shrink-0 snap-start flex-col justify-between rounded-[var(--radius-card)] bg-accent p-6 text-on-accent"
+                >
+                  <span className="text-[clamp(28px,2.6vw,40px)] leading-[1] font-semibold">
+                    Alle {all.length} rackets bekijken
+                  </span>
+                  <span className="flex items-center gap-2 font-ui text-[11px] font-semibold tracking-[0.12em] uppercase">
+                    Filter op merk, vorm en hardheid <ArrowIcon className="size-3 transition-transform group-hover:translate-x-1" />
+                  </span>
+                </a>
+              </>
             ) : (
               <p className="text-muted" role="status">
                 Geen rackets met deze combinatie. Kies een andere speelstijl of filter.
@@ -274,32 +195,7 @@ export function Collection() {
         )}
       </div>
 
-      {mounted && picked.length > 0 && createPortal(
-        <div className="fixed inset-x-0 bottom-0 z-40 px-[max(10px,env(safe-area-inset-left))] pb-[calc(10px+env(safe-area-inset-bottom))]">
-          <div className="mx-auto flex max-w-[900px] flex-wrap items-center gap-4 rounded-[var(--radius-card)] border border-fg/10 bg-bg/95 p-3 pl-5 shadow-2xl backdrop-blur">
-            <span className="font-ui text-[11px] font-semibold tracking-[0.14em] text-muted uppercase">Vergelijk ({picked.length}/3)</span>
-            <div className="flex flex-1 flex-wrap gap-4">
-              {picked.map((r) => (
-                <div key={r.id} className="min-w-[140px] flex-1">
-                  <div className="flex justify-between text-sm font-semibold">
-                    <span>{r.name}</span>
-                    <span className="tabular-nums text-muted">{euro(r.price)}</span>
-                  </div>
-                  <div className="mt-1 grid gap-1">
-                    <Bar label="Power" value={r.power} color={POWER} />
-                    <Bar label="Control" value={r.control} color={CONTROL} />
-                  </div>
-                </div>
-              ))}
-            </div>
-            {full && <span className="w-full text-sm text-accent-2" role="status">Je vergelijkt er al drie. Haal er eerst een weg.</span>}
-            <button type="button" onClick={() => { setCompare([]); setFull(false); }} className="rounded-full border border-panel-2 px-4 py-2 text-sm text-muted hover:text-fg">
-              Wissen
-            </button>
-          </div>
-        </div>,
-        document.body,
-      )}
+      <QuickView racket={open?.r ?? null} from={open?.from ?? null} onClose={() => setOpen(null)} />
     </section>
   );
 }

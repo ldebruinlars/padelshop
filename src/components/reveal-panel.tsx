@@ -15,14 +15,17 @@ export function RevealPanel({ children, className = "", id }: { children: React.
     () => {
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
+        // Schalen in plaats van clip-path: transform laat de grafische kaart het werk doen,
+        // clip-path moest het hele paneel elk scrollframe opnieuw tekenen.
         gsap.fromTo(
           root.current,
-          { clipPath: "inset(12% 18% 12% 18% round 120px)" },
+          { scale: 0.9, opacity: 0.4 },
           {
-            clipPath: "inset(0% 0% 0% 0% round 28px)",
+            scale: 1,
+            opacity: 1,
             ease: "none",
             // Eindigt al op 60%, zodat ook de footer onderaan de pagina helemaal opengaat.
-            scrollTrigger: { trigger: root.current, start: "top 100%", end: "top 60%", scrub: 1 },
+            scrollTrigger: { trigger: root.current, start: "top 100%", end: "top 60%", scrub: 0.5 },
           },
         );
       });
@@ -33,7 +36,7 @@ export function RevealPanel({ children, className = "", id }: { children: React.
 
   return (
     <div className="px-[max(10px,env(safe-area-inset-left))]">
-      <div ref={root} id={id} className={`overflow-hidden rounded-[var(--radius-panel)] ${className}`}>
+      <div ref={root} id={id} className={`overflow-hidden rounded-[var(--radius-panel)] will-change-transform ${className}`}>
         {children}
       </div>
     </div>

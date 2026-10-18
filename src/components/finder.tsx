@@ -1,17 +1,18 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { RACKETS, STYLES, type Style } from "@/lib/site";
+import { CATALOG_RACKETS, brandName, profile, type Level } from "@/lib/catalog";
+import { STYLES, euro, type Style } from "@/lib/site";
 import { ArrowIcon } from "./icons";
 
-type Answer = { label: string; score: Partial<Record<Style, number>>; maxPrice?: number };
+type Answer = { label: string; score: Partial<Record<Style, number>>; maxPrice?: number; level?: Level };
 const QUESTIONS: { q: string; answers: Answer[] }[] = [
   {
     q: "Hoe lang speel je al padel?",
     answers: [
-      { label: "Net begonnen", score: { licht: 3, control: 1 } },
-      { label: "1 tot 3 jaar", score: { allround: 2, control: 2 } },
-      { label: "Langer, ik speel competitie", score: { power: 2, allround: 1 } },
+      { label: "Net begonnen", score: { licht: 3, control: 1 }, level: "Beginner" },
+      { label: "1 tot 3 jaar", score: { allround: 2, control: 2 }, level: "Gemiddeld" },
+      { label: "Langer, ik speel competitie", score: { power: 2, allround: 1 }, level: "Gevorderd" },
     ],
   },
   {
@@ -54,18 +55,16 @@ export function Finder() {
   const style = STYLES.find((s) => s.id === best)!;
   const armFriendly = best === "licht" || best === "control";
 
-  // Alleen testbare rackets binnen budget (tenzij er dan niets overblijft); eerst de eigen stijl,
-  // daarna wat er qua karakter het dichtst bij ligt.
+  // Rackets binnen budget (tenzij er dan niets overblijft), gerangschikt op speelstijl, niveau en armvriendelijkheid.
   const maxPrice = answers.find((a) => a.maxPrice)?.maxPrice;
-  const testable = RACKETS.filter((r) => r.testable);
-  const inBudget = maxPrice ? testable.filter((r) => r.price <= maxPrice) : testable;
-  const picks = (inBudget.length ? inBudget : testable)
-    .sort((a, b) => {
-      const own = Number(b.style === best) - Number(a.style === best);
-      if (own) return own;
-      return armFriendly ? b.control - a.control : b.power - a.power;
-    })
-    .slice(0, 3);
+  const level = answers.find((a) => a.level)?.level;
+  const inBudget = maxPrice ? CATALOG_RACKETS.filter((r) => r.price != null && r.price <= maxPrice) : CATALOG_RACKETS;
+  const fit = (r: (typeof CATALOG_RACKETS)[number]) =>
+    (best === "licht" ? (r.feel === "zacht" ? 3 : 0) + (r.playstyle === "control" ? 1 : 0) : r.playstyle === best ? 3 : 0) +
+    (level && r.level === level ? 2 : 0) +
+    (armFriendly && r.feel === "hard" ? -2 : 0) +
+    (armFriendly ? profile(r).control : profile(r).power) / 10;
+  const picks = [...(inBudget.length ? inBudget : CATALOG_RACKETS)].sort((a, b) => fit(b) - fit(a)).slice(0, 3);
 
   const answer = (a: Answer) => setAnswers((list) => [...list, a]);
 
@@ -129,9 +128,11 @@ export function Finder() {
               <ul className="mt-6 grid gap-2 sm:grid-cols-3">
                 {picks.map((r) => (
                   <li key={r.id} className="rounded-2xl bg-panel p-4">
-                    <div className="font-semibold">{r.name}</div>
+                    <div className="font-ui text-[10px] font-semibold tracking-[0.14em] text-accent uppercase">{brandName(r.brand)}</div>
+                    <div className="mt-1 font-semibold">{r.model}</div>
                     <div className="text-sm text-muted">
-                      {r.shape} · € {r.price}
+                      {r.shape}
+                      {r.price != null && ` · ${euro(r.price)}`}
                     </div>
                   </li>
                 ))}

@@ -87,8 +87,10 @@ export function BallPath() {
           Van twijfel naar <span className="accent">je racket</span>.
         </h2>
 
-        <div className="mx-auto -mt-[clamp(0px,7vw,110px)] max-w-[860px] [perspective:1400px]" aria-hidden="true">
-          <svg viewBox={`-20 -60 ${W + 40} ${H + 80}`} className="w-full overflow-visible [transform:rotateX(48deg)] [transform-origin:50%_60%]">
+        <div className="mt-12 grid items-center gap-8 lg:grid-cols-[1.15fr_1fr]">
+        {/* Baan recht van bovenaf (geen 3D-kanteling): rustiger en goedkoper om te tekenen */}
+        <div aria-hidden="true">
+          <svg viewBox={`-20 -60 ${W + 40} ${H + 80}`} className="w-full overflow-visible">
             <rect x="0" y="0" width={W} height={H} rx="6" fill="#2c241f" fillOpacity="0.55" />
             <g fill="none" stroke="#f6efe6" strokeOpacity="0.55" strokeWidth="3" strokeLinecap="round">
               <rect className="court-line" x="0" y="0" width={W} height={H} rx="6" />
@@ -106,15 +108,16 @@ export function BallPath() {
           </svg>
         </div>
 
-        <ol className="relative -mt-[clamp(0px,6vw,80px)] grid gap-4 md:grid-cols-3">
+        <ol className="grid gap-3">
           {STEPS.map((s) => (
-            <li key={s.n} className="step group rounded-[var(--radius-card)] border border-fg/5 bg-panel p-7 transition-colors duration-500 [&.is-on]:border-accent/50">
-              <span className="font-serif text-4xl text-muted italic transition-colors duration-500 group-[.is-on]:text-accent">{s.n}</span>
-              <h3 className="mt-4 text-2xl font-semibold">{s.title}</h3>
-              <p className="mt-2 text-fg/70">{s.text}</p>
+            <li key={s.n} className="step group grid grid-cols-[auto_1fr] gap-x-5 rounded-[var(--radius-card)] border border-fg/5 bg-panel p-6 transition-colors duration-500 [&.is-on]:border-accent/50">
+              <span className="row-span-2 font-serif text-4xl text-muted italic transition-colors duration-500 group-[.is-on]:text-accent">{s.n}</span>
+              <h3 className="text-2xl font-semibold">{s.title}</h3>
+              <p className="mt-1 text-fg/70">{s.text}</p>
             </li>
           ))}
         </ol>
+        </div>
       </div>
     </section>
   );

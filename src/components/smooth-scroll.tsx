@@ -37,7 +37,7 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
   if (reduced) return <>{children}</>;
 
   return (
-    <ReactLenis root options={{ autoRaf: false, lerp: 0.1, anchors: true }}>
+    <ReactLenis root options={{ autoRaf: false, lerp: 0.18, anchors: true }}>
       <GsapBridge />
       {children}
     </ReactLenis>

@@ -1,8 +1,14 @@
 import type { MetadataRoute } from "next";
+import { BRAND_LIST } from "@/lib/catalog";
 import { SITE } from "@/lib/site";
 
 export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [{ url: SITE.url, changeFrequency: "weekly", priority: 1 }];
+  return [
+    { url: SITE.url, changeFrequency: "weekly", priority: 1 },
+    { url: `${SITE.url}/rackets/`, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${SITE.url}/merken/`, changeFrequency: "monthly", priority: 0.7 },
+    ...BRAND_LIST.map((b) => ({ url: `${SITE.url}/merken/${b.slug}/`, changeFrequency: "monthly" as const, priority: 0.6 })),
+  ];
 }

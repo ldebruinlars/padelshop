@@ -20,11 +20,11 @@ export default function Home() {
       <main>
         <HeroLetters />
         <UspStrip />
+        <BrandMarquee />
         <Collection />
         <Categories />
         <BallPath />
         <Testcenter />
-        <BrandMarquee />
         <Finder />
         <Exploded />
         <Reviews />

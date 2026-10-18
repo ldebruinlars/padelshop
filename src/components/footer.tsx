@@ -3,11 +3,11 @@ import { ArrowIcon, Logo } from "./icons";
 import { RevealPanel } from "./reveal-panel";
 
 const SERVICE = [
-  { label: "Racket-test boeken", href: "#testcenter" },
-  { label: "Thuistest", href: "#thuistest" },
-  { label: "Racketfinder", href: "#finder" },
-  { label: "Veelgestelde vragen", href: "#advies" },
-  { label: "Bezoek de winkel", href: "#bezoek" },
+  { label: "Racket-test boeken", href: "/#testcenter" },
+  { label: "Thuistest", href: "/#thuistest" },
+  { label: "Racketfinder", href: "/#finder" },
+  { label: "Veelgestelde vragen", href: "/#advies" },
+  { label: "Bezoek de winkel", href: "/#bezoek" },
 ];
 
 export function Footer() {
@@ -20,7 +20,7 @@ export function Footer() {
               Klaar om te <span className="accent">testen</span>?
             </h2>
             <p className="mt-3 max-w-md text-fg/70">Boek een sessie van 45 minuten en speel met de rackets die bij je passen.</p>
-            <a href="#testcenter" className="mt-6 inline-flex items-center gap-3 rounded-full bg-accent py-2 pr-2 pl-5 font-semibold text-on-accent">
+            <a href="/#testcenter" className="mt-6 inline-flex items-center gap-3 rounded-full bg-accent py-2 pr-2 pl-5 font-semibold text-on-accent">
               Boek je racket-test
               <span className="grid size-8 place-items-center rounded-full bg-bg">
                 <ArrowIcon className="size-3 text-accent" />
@@ -33,7 +33,7 @@ export function Footer() {
               <ul className="mt-4 grid gap-2">
                 {CATEGORIES.map((c) => (
                   <li key={c.id}>
-                    <a href={c.online ? "#collectie" : "#bezoek"} className="text-fg/85 hover:text-accent">
+                    <a href={c.online ? "/rackets/" : "/#bezoek"} className="text-fg/85 hover:text-accent">
                       {c.label}
                     </a>
                   </li>

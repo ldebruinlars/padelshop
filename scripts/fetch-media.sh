@@ -33,7 +33,7 @@ ffmpeg -loglevel error -y -i .media-src/hero-loop.mp4 -an -vf "scale=1280:-2" -c
 
 # Turntable: 72 frames gelijk verdeeld over de video
 DUR=$(ffprobe -v error -show_entries format=duration -of csv=p=0 .media-src/turntable.mp4)
-ffmpeg -loglevel error -y -i .media-src/turntable.mp4 -vf "fps=72/${DUR},scale=900:-2" -quality 78 "$OUT/turntable/f%03d.webp"
+ffmpeg -loglevel error -y -i .media-src/turntable.mp4 -vf "fps=72/${DUR},scale=900:-2" -c:v libwebp -quality 78 "$OUT/turntable/f%03d.webp"
 
 echo "Klaar: $(ls "$OUT"/*.webp | wc -l) foto's, $(ls "$OUT/turntable" | wc -l) frames"
 du -sh "$OUT"

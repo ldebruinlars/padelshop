@@ -92,7 +92,7 @@ export function Racket360() {
         <div className="relative mx-auto aspect-[4/5] w-[min(420px,70vw)] [perspective:1200px]">
           <div className="absolute inset-[10%] rounded-full bg-lime/10 blur-3xl" />
           {useFrames ? (
-            <canvas ref={canvas} className="relative size-full" />
+            <canvas ref={canvas} className="relative size-full [mask-image:radial-gradient(closest-side,#000_72%,transparent)]" />
           ) : (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={racket.image} alt={`${racket.name} padel racket`} className="spin relative size-full object-contain [backface-visibility:visible]" />

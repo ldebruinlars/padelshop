@@ -45,15 +45,15 @@ export function Testcenter() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={MEDIA.coach} alt="Coach geeft een testracket aan een speler bij Poort Padel" className="absolute inset-0 size-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/20 to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 grid gap-2 p-8 sm:grid-cols-3">
+          <div className="absolute inset-x-0 bottom-0 grid grid-cols-3 gap-2 p-4 sm:p-8">
             {[
               ["45 min", "op de baan"],
               ["3 tot 5", "rackets voor jouw stijl"],
               ["€ 29,95", "terug bij aankoop"],
             ].map(([a, b]) => (
-              <div key={a} className="rounded-2xl border border-white/10 bg-navy/70 p-4 backdrop-blur">
-                <div className="text-2xl font-semibold tracking-tight">{a}</div>
-                <div className="text-sm text-mist">{b}</div>
+              <div key={a} className="rounded-2xl border border-white/10 bg-navy/70 p-3 backdrop-blur sm:p-4">
+                <div className="text-lg font-semibold tracking-tight sm:text-2xl">{a}</div>
+                <div className="text-xs text-mist sm:text-sm">{b}</div>
               </div>
             ))}
           </div>

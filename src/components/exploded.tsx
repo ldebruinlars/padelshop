@@ -4,7 +4,6 @@ import { useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { MEDIA } from "@/lib/site";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -71,7 +70,9 @@ export function Exploded() {
             <div className="layer-core racket-head absolute inset-[10px]" style={{ background: `${holes}, linear-gradient(160deg,#f4f1e6,#d9d2bb)` }} />
             <div
               className="layer-face racket-head absolute inset-[6px] shadow-[0_30px_60px_rgba(0,0,0,0.5)]"
-              style={{ background: `${holes}, url(${MEDIA.carbonMacro}) center/cover, repeating-linear-gradient(45deg,#1b1f26 0 4px,#2b313b 4px 8px)` }}
+              style={{
+                background: `${holes}, linear-gradient(115deg,transparent 40%,rgba(204,255,0,0.18) 50%,transparent 60%), repeating-linear-gradient(45deg,#1b1f26 0 4px,#2b313b 4px 8px), repeating-linear-gradient(-45deg,transparent 0 4px,rgba(255,255,255,0.03) 4px 8px)`,
+              }}
             />
           </div>
         </div>

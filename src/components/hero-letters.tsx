@@ -13,6 +13,20 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
  * Header "video door de letters": de racketvideo speelt in de letters
  * (multiply-overlay in espresso), bij scrollen groeit de tekst tot de video het scherm vult.
  */
+/** De kop "Voel het verschil", één keer gedefinieerd voor zowel de maskerletters als de contour. */
+function Title({ as: Tag, className }: { as: "h1" | "div"; className: string }) {
+  return (
+    <Tag className={`hero-title px-4 text-center text-[clamp(52px,15vw,300px)] leading-[0.82] font-bold tracking-[-0.06em] text-balance uppercase ${className}`}>
+      <span className="block overflow-hidden">
+        <span className="hero-word inline-block">Voel</span>
+      </span>
+      <span className="block overflow-hidden">
+        <span className="hero-word inline-block">het verschil</span>
+      </span>
+    </Tag>
+  );
+}
+
 export function HeroLetters() {
   const root = useRef<HTMLElement>(null);
 
@@ -23,12 +37,13 @@ export function HeroLetters() {
         gsap.from(".hero-word", { yPercent: 60, duration: 0.7, ease: "expo.out", stagger: 0.06 });
         gsap.from(".hero-copy > *", { y: 24, opacity: 0, duration: 0.9, ease: "power3.out", stagger: 0.08, delay: 0.6 });
 
+        // Kort vastzetten: na ruim een halve schermhoogte scrollen staat de foto vrij en loopt de pagina door.
         const tl = gsap.timeline({
-          scrollTrigger: { trigger: root.current, start: "top top", end: "+=140%", scrub: 1, pin: true },
+          scrollTrigger: { trigger: root.current, start: "top top", end: "+=60%", scrub: 0.5, pin: true },
         });
-        tl.to(".hero-copy", { opacity: 0, y: -40, duration: 0.25 }, 0)
-          .to(".hero-title", { scale: 9, duration: 1, ease: "power2.in" }, 0)
-          .to(".hero-mask", { opacity: 0, duration: 0.35 }, 0.6)
+        tl.to(".hero-copy", { opacity: 0, y: -30, duration: 0.2 }, 0)
+          .to(".hero-title", { scale: 4.5, duration: 1, ease: "power2.in" }, 0)
+          .to([".hero-mask", ".hero-outline"], { opacity: 0, duration: 0.4 }, 0.5)
           .to(".hero-media", { scale: 1, duration: 1 }, 0);
       });
       return () => mm.revert();
@@ -45,32 +60,18 @@ export function HeroLetters() {
           <video className="size-full object-cover" src={MEDIA.heroVideo} autoPlay muted loop playsInline poster={MEDIA.hero} />
         ) : (
           // eslint-disable-next-line @next/next/no-img-element
-          <img className="size-full object-cover" src={MEDIA.hero} alt="Dubbelspel in een lichte padelhal met daglicht" fetchPriority="high" />
+          <img className="size-full object-cover" src={MEDIA.hero} alt="Rally op een blauwe baan bij Poort Padel" fetchPriority="high" />
         )}
       </div>
 
       {/* Espresso-laag: alleen de witte letters laten het beeld door */}
       <div className="hero-mask absolute inset-0 grid place-items-center bg-bg mix-blend-multiply">
-        <h1 className="hero-title px-4 text-center text-[clamp(52px,15vw,300px)] leading-[0.82] font-bold tracking-[-0.06em] text-fg uppercase">
-          <span className="block overflow-hidden">
-            <span className="hero-word inline-block">Voel</span>
-          </span>
-          <span className="block overflow-hidden">
-            <span className="hero-word inline-block">het verschil</span>
-          </span>
-        </h1>
+        <Title as="h1" className="text-fg" />
       </div>
 
-      {/* Dunne oranje contour boven de maskerlaag, zodat de kop ook leesbaar is waar het beeld donker is */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 grid place-items-center motion-reduce:hidden">
-        <div className="hero-title px-4 text-center text-[clamp(52px,15vw,300px)] leading-[0.82] font-bold tracking-[-0.06em] text-accent uppercase [-webkit-text-fill-color:transparent] [-webkit-text-stroke:1px_rgba(240,106,48,0.5)]">
-          <span className="block overflow-hidden">
-            <span className="hero-word inline-block">Voel</span>
-          </span>
-          <span className="block overflow-hidden">
-            <span className="hero-word inline-block">het verschil</span>
-          </span>
-        </div>
+      {/* Oranje contour boven de maskerlaag. Zelfde component, dus exact dezelfde maat en letterafstand als de letters eronder. */}
+      <div aria-hidden="true" className="hero-outline pointer-events-none absolute inset-0 grid place-items-center motion-reduce:hidden">
+        <Title as="div" className="[-webkit-text-fill-color:transparent] [-webkit-text-stroke:1.5px_rgba(240,106,48,0.7)]" />
       </div>
 
       <div className="hero-copy pointer-events-none absolute inset-x-0 bottom-0 z-10 mx-auto flex max-w-[1400px] flex-wrap items-end justify-between gap-6 px-[max(20px,env(safe-area-inset-left))] pb-10">

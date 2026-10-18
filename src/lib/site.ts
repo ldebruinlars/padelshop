@@ -19,7 +19,7 @@ export const SHOP = {
 
 // Alle beelden op één plek. De shopfoto's zijn Higgsfield-placeholders tot de echte productfoto's er zijn.
 export const MEDIA = {
-  hero: "/media/hero-hal.webp",
+  hero: "/media/hero-poort-padel.webp", // eigen foto: ACA-shoot bij Poort Padel (Google Drive)
   heroVideo: "" as string, // bijv. "/media/hero-hal.mp4" zodra er een video is
   coach: "/media/coach-testcenter.webp",
 };

@@ -54,7 +54,7 @@ function RacketCard({ r, compare, onCompare }: { r: Racket; compare: boolean; on
     <article className="racket-card flex w-[min(320px,78vw)] shrink-0 snap-start flex-col overflow-hidden rounded-[var(--radius-card)] border border-fg/5 bg-panel">
       <div ref={media} onPointerMove={tilt} onPointerLeave={untilt} className="relative aspect-[4/5] bg-paper [perspective:900px]">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img loading="lazy" decoding="async" src={r.image} alt={`${r.name} padel racket`} className="size-full object-cover will-change-transform" />
+        <img loading="lazy" decoding="async" draggable={false} src={r.image} alt={`${r.name} padel racket`} className="size-full object-cover will-change-transform [-webkit-user-drag:none]" />
         <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
           <span className="rounded-full px-3 py-1 font-ui text-[11px] font-semibold tracking-[0.14em] text-on-accent uppercase" style={{ background: style.color }}>
             {style.label}
@@ -121,10 +121,57 @@ export function Collection() {
         gsap.from(".racket-card", { y: 30, opacity: 0, duration: 0.6, ease: "power3.out", stagger: 0.06, scrollTrigger: { trigger: track.current, start: "top 85%", once: true } });
         gsap.from(".bar-fill", { scaleX: 0, duration: 1, ease: "power2.out", stagger: 0.03, scrollTrigger: { trigger: track.current, start: "top 75%", once: true } });
       });
+      // Licht scroll-effect: de rij schuift tijdens het voorbijscrollen een stukje naar links, zonder de pagina vast te zetten.
+      mm.add("(min-width: 768px) and (prefers-reduced-motion: no-preference)", () => {
+        gsap.fromTo(".track-inner", { x: 90 }, { x: -90, ease: "none", scrollTrigger: { trigger: root.current, start: "top bottom", end: "bottom top", scrub: 0.6 } });
+      });
       return () => mm.revert();
     },
     { scope: root, dependencies: [tab, style], revertOnUpdate: true },
   );
+
+  // Slepen met de muis, met uitlopen na loslaten. Touch en touchpad scrollen gewoon zelf.
+  const drag = useRef({ active: false, moved: false, x: 0, left: 0, lastX: 0, lastT: 0, v: 0 });
+  const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType !== "mouse" || e.button !== 0 || !track.current) return;
+    if ((e.target as HTMLElement).closest("button, a")) return;
+    gsap.killTweensOf(track.current);
+    drag.current = { active: true, moved: false, x: e.clientX, left: track.current.scrollLeft, lastX: e.clientX, lastT: performance.now(), v: 0 };
+    track.current.style.scrollSnapType = "none";
+    track.current.setPointerCapture(e.pointerId);
+  };
+  const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    const d = drag.current;
+    if (!d.active || !track.current) return;
+    const dx = e.clientX - d.x;
+    if (Math.abs(dx) > 4) d.moved = true;
+    track.current.scrollLeft = d.left - dx;
+    const now = performance.now();
+    d.v = (e.clientX - d.lastX) / Math.max(1, now - d.lastT);
+    d.lastX = e.clientX;
+    d.lastT = now;
+  };
+  const onPointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    const d = drag.current;
+    const el = track.current;
+    if (!d.active || !el) return;
+    d.active = false;
+    el.releasePointerCapture(e.pointerId);
+    const restoreSnap = () => {
+      el.style.scrollSnapType = "";
+    };
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || Math.abs(d.v) < 0.05) return restoreSnap();
+    const target = Math.max(0, Math.min(el.scrollWidth - el.clientWidth, el.scrollLeft - d.v * 450));
+    gsap.to(el, { scrollLeft: target, duration: 0.9, ease: "power3.out", onComplete: restoreSnap });
+  };
+  // Een klik direct na slepen niet doorlaten (anders opent een link per ongeluk)
+  const onClickCapture = (e: React.MouseEvent) => {
+    if (drag.current.moved) {
+      e.preventDefault();
+      e.stopPropagation();
+      drag.current.moved = false;
+    }
+  };
 
   const scrollBy = (dir: 1 | -1) => {
     const el = track.current;
@@ -194,15 +241,27 @@ export function Collection() {
       </div>
 
       <div className="relative mt-8">
-        <div ref={track} className="flex snap-x snap-mandatory scroll-px-5 gap-4 overflow-x-auto px-5 pb-4 [scrollbar-width:thin] md:px-[max(20px,calc((100vw-1400px)/2+20px))]">
-          {list.length ? (
-            list.map((r) => <RacketCard key={r.id} r={r} compare={compare.includes(r.id)} onCompare={() => toggle(r.id)} />)
-          ) : (
-            <p className="text-muted" role="status">
-              Geen rackets met deze combinatie. Kies een andere speelstijl of filter.
-            </p>
-          )}
+        <div
+          ref={track}
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={onPointerUp}
+          onPointerCancel={onPointerUp}
+          onClickCapture={onClickCapture}
+          onDragStart={(e) => e.preventDefault()}
+          className="snap-x snap-mandatory scroll-px-5 overflow-x-auto pb-4 [scrollbar-width:thin] select-none md:cursor-grab md:active:cursor-grabbing"
+        >
+          <div className="track-inner flex w-max gap-4 px-5 md:px-[max(20px,calc((100vw-1400px)/2+20px))]">
+            {list.length ? (
+              list.map((r) => <RacketCard key={r.id} r={r} compare={compare.includes(r.id)} onCompare={() => toggle(r.id)} />)
+            ) : (
+              <p className="text-muted" role="status">
+                Geen rackets met deze combinatie. Kies een andere speelstijl of filter.
+              </p>
+            )}
+          </div>
         </div>
+        <p className="mx-auto mt-2 max-w-[1400px] px-5 font-ui text-[11px] font-semibold tracking-[0.12em] text-muted uppercase max-md:hidden">Sleep of gebruik de pijlen om meer rackets te zien</p>
         {list.length > 1 && (
           <div className="mx-auto mt-4 flex max-w-[1400px] justify-end gap-2 px-5">
             <button type="button" onClick={() => scrollBy(-1)} aria-label="Vorige rackets" className="grid size-11 place-items-center rounded-full border border-panel-2 hover:border-fg/40">

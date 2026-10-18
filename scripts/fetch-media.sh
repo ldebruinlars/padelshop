@@ -12,8 +12,8 @@ get() { curl -fsSL --retry 3 -o ".media-src/$2" "$BASE/$1"; }
 # Testcenter (bestaand)
 get hf_20261018_154512_118eda62-18b0-4a7c-975f-bb9fbf498f14.png coach-testcenter.png
 
-# Hero: hal in natuurlijk daglicht
-get hf_20261018_184833_2d6379e1-f5c3-491e-97f2-cf911653d337.png hero-hal.png
+# Hero en og.jpg komen uit de eigen fotoshoot (Google Drive: ACA_PoortPadel_29mei-5.jpg) en staan al in de repo:
+# public/media/hero-poort-padel.webp (2400 px) en public/og.jpg (1200x630).
 
 # Rackets op zandkleurige achtergrond (placeholders)
 get hf_20261018_184812_ae9de76e-1ccc-44ce-89f9-370ee51127d1.png racket-volt-x.png
@@ -41,9 +41,6 @@ for f in .media-src/*.png; do
   esac
   ffmpeg -loglevel error -y -i "$f" -vf "scale=min($W\,iw):-2" -c:v libwebp -quality 80 "$DIR/$n.webp"
 done
-
-# Deelafbeelding (WhatsApp, social): 1200x630 uit de hero
-ffmpeg -loglevel error -y -i .media-src/hero-hal.png -vf "scale=1200:-2,crop=1200:630" -q:v 3 public/og.jpg
 
 echo "Klaar: $(ls "$OUT"/shop/*.webp | wc -l) shopfoto's"
 du -sh "$OUT"

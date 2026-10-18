@@ -34,11 +34,14 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-h1,
-h2,
-h3 {
-  letter-spacing: -0.03em;
-  text-wrap: balance;
+/* In de base-laag, zodat tracking-classes op koppen (zoals de hero) deze standaard kunnen overschrijven */
+@layer base {
+  h1,
+  h2,
+  h3 {
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
 }
 
 /* Het ene cursieve accentwoord per kop, zoals op allcourtacademy.com */

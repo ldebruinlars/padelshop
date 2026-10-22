@@ -48,3 +48,6 @@ next-env.d.ts
 .impeccable/mocks/
 .impeccable/questions/
 .impeccable/build/
+
+# Ruwe AI-renders (groot); de JPG-versies staan in de repo
+docs/winkel-impressie/*.png

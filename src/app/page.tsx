@@ -9,6 +9,7 @@ import { Footer } from "@/components/footer";
 import { Nav } from "@/components/nav";
 import { RacketWall } from "@/components/racket-wall";
 import { Reviews } from "@/components/reviews";
+import { TestEvent } from "@/components/test-event";
 import { Testcenter } from "@/components/testcenter";
 import { Visit } from "@/components/visit";
 
@@ -21,6 +22,7 @@ export default function Home() {
         <BrandMarquee />
         <Testcenter />
         <BallPath />
+        <TestEvent />
         <Finder />
         <Categories />
         <RacketAnatomy />

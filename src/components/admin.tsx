@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { PLAYTOMIC_URL, TIMES, hhmm, supabase } from "@/lib/booking";
+import { CoachesTab, MarginTab, OrdersTab, QrTab, SignupsTab } from "./admin-shop";
 import { ChevronIcon, Logo } from "./icons";
 
 type Booking = { id: string; slot_date: string; slot_time: string; coach: string; name: string; email: string; status: "nieuw" | "playtomic" | "geannuleerd"; created_at: string };
@@ -73,6 +74,7 @@ export function Admin() {
   const [todo, setTodo] = useState<Booking[]>([]);
   const [selected, setSelected] = useState<Booking | null>(null);
   const [error, setError] = useState("");
+  const [tab, setTab] = useState<"agenda" | "bestellingen" | "coaches" | "marge" | "qr" | "testdag">("agenda");
 
   useEffect(() => {
     if (!db) return setReady(true);
@@ -113,7 +115,12 @@ export function Admin() {
         <p className="mt-3 text-fg/75">De database is nog niet gekoppeld.</p>
       </main>
     );
-  if (!session) return <Login />;
+  if (!session)
+    return (
+      <main className="min-h-svh bg-ink px-4">
+        <Login />
+      </main>
+    );
 
   const bookingAt = (d: string, t: string) => bookings.find((b) => b.slot_date === d && hhmm(b.slot_time) === t);
   const blockAt = (d: string, t: string | null) => blocks.find((b) => b.slot_date === d && (t === null ? b.slot_time === null : b.slot_time && hhmm(b.slot_time) === t));
@@ -134,7 +141,7 @@ export function Admin() {
 
   return (
     <main className="min-h-svh bg-ink pb-24">
-      <header className="border-b border-panel-2 bg-bg">
+      <header className="border-b border-panel-2 bg-bg print:hidden">
         <div className="mx-auto flex h-16 max-w-[1400px] items-center justify-between gap-4 px-4 md:px-8">
           <a href="/" className="flex items-center gap-2 font-display text-lg font-bold">
             <Logo className="size-6" /> Racket Lab · Beheer
@@ -148,7 +155,36 @@ export function Admin() {
         </div>
       </header>
 
-      <div className="mx-auto grid max-w-[1400px] gap-8 px-4 pt-8 md:px-8">
+      <nav aria-label="Beheer" className="border-b border-panel-2 bg-bg print:hidden">
+        <div className="mx-auto flex max-w-[1400px] gap-6 overflow-x-auto px-4 text-sm md:px-8">
+          {(
+            [
+              ["agenda", "Agenda"],
+              ["bestellingen", "Bestellingen"],
+              ["coaches", "Coaches"],
+              ["marge", "Marge"],
+              ["qr", "QR-labels"],
+              ["testdag", "Testdag"],
+            ] as const
+          ).map(([id, label]) => (
+            <button key={id} type="button" onClick={() => setTab(id)} aria-current={tab === id ? "page" : undefined} className={`border-b-2 py-3 whitespace-nowrap ${tab === id ? "border-accent text-fg" : "border-transparent text-fg/70 hover:text-fg"}`}>
+              {label}
+            </button>
+          ))}
+        </div>
+      </nav>
+
+      {tab !== "agenda" && (
+        <div className="mx-auto max-w-[1400px] px-4 pt-8 md:px-8">
+          {tab === "bestellingen" && <OrdersTab />}
+          {tab === "coaches" && <CoachesTab />}
+          {tab === "marge" && <MarginTab />}
+          {tab === "qr" && <QrTab />}
+          {tab === "testdag" && <SignupsTab />}
+        </div>
+      )}
+
+      <div className={`mx-auto grid max-w-[1400px] gap-8 px-4 pt-8 md:px-8 ${tab === "agenda" ? "" : "hidden"}`}>
         {error && (
           <p className="rounded-[var(--radius-control)] bg-accent px-4 py-3 text-on-accent" role="alert">
             {error}

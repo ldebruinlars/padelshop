@@ -9,6 +9,7 @@ import HEADS from "@/lib/racket-heads.json";
 import { CATALOG_RACKETS, brandName, type CatalogRacket, type Shape } from "@/lib/catalog";
 import { LAYERS, RULES, SHAPE_GUIDE, SHAPE_SOURCES, type Layer } from "@/lib/racket-guide";
 import { ChevronIcon } from "./icons";
+import { MaterialScales } from "./material-scales";
 import { QuickView } from "./quick-view";
 
 gsap.registerPlugin(MorphSVGPlugin, ScrollTrigger, useGSAP);
@@ -346,6 +347,7 @@ export function RacketAnatomy() {
             </details>
           </div>
         </div>
+        <MaterialScales />
       </div>
 
       <QuickView racket={open?.r ?? null} from={open?.from ?? null} list={ofShape} onChange={(r) => setOpen((o) => (o ? { ...o, r } : o))} onClose={() => setOpen(null)} />

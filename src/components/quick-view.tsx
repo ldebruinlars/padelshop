@@ -228,7 +228,10 @@ export function QuickView({
               ))}
           </dl>
           <div className="qv-in flex flex-wrap gap-2">
-            <a href="/#testcenter" onClick={onClose} className="btn btn-primary">
+            <a href={`/rackets/${racket.id}/`} className="btn btn-primary">
+              Bekijk en reserveer
+            </a>
+            <a href="/#testcenter" onClick={onClose} className="btn btn-line">
               Test dit racket
             </a>
             <a

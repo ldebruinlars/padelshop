@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Archivo, Inter_Tight } from "next/font/google";
+import { CodeCatcher } from "@/components/code-catcher";
 import { SmoothScroll } from "@/components/smooth-scroll";
 import { SITE } from "@/lib/site";
 import "./globals.css";
@@ -26,6 +27,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="nl">
       <body className={`${interTight.variable} ${archivo.variable}`}>
+        <CodeCatcher />
         <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>

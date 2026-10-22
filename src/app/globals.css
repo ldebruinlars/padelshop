@@ -268,3 +268,12 @@ body {
     animation: none;
   }
 }
+
+/* Printen (QR-labels): witte achtergrond, geen donkere vlakken */
+@media print {
+  html,
+  body,
+  main {
+    background: #fff !important;
+  }
+}

@@ -3,6 +3,7 @@
 import { profile, brandName, styleColor, PLAYSTYLES, type CatalogRacket } from "@/lib/catalog";
 import { euro } from "@/lib/site";
 import { RacketArt } from "./racket-art";
+import { photoOf } from "@/lib/all-rackets";
 
 export function ProfileBar({ label, value, color, wide }: { label: string; value: number; color: string; wide?: boolean }) {
   return (
@@ -30,7 +31,7 @@ export function RacketCard({ r, onOpen }: { r: CatalogRacket; onOpen: (r: Catalo
       />
       <div className="racket-media relative aspect-square overflow-hidden bg-paper">
         <div className="absolute inset-x-6 top-11 bottom-2 transition-transform duration-500 ease-out group-hover:-translate-y-1.5 group-hover:-rotate-3">
-          <RacketArt shape={r.shape} color={color} label={`${r.model}, productfoto volgt`} />
+          <RacketArt shape={r.shape} color={color} photo={photoOf(r)} label={photoOf(r) ? r.model : `${r.model}, productfoto volgt`} />
         </div>
         <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
           {r.playstyle && (

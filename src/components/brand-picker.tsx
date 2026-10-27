@@ -1,7 +1,11 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
-import { BRAND_LIST, CATALOG_RACKETS } from "@/lib/catalog";
+import { BRAND_LIST } from "@/lib/catalog";
+import { ALL_RACKETS } from "@/lib/all-rackets";
+import { OWN_BRAND } from "@/lib/own-line";
+
+const BRANDS = [OWN_BRAND, ...BRAND_LIST];
 import { ChevronIcon } from "./icons";
 
 /**
@@ -12,7 +16,7 @@ export function BrandPicker({ value, onChange, counts }: { value: string; onChan
   const [open, setOpen] = useState(false);
   const root = useRef<HTMLDivElement>(null);
   const id = useId();
-  const current = BRAND_LIST.find((b) => b.slug === value);
+  const current = BRANDS.find((b) => b.slug === value);
 
   useEffect(() => {
     if (!open) return;
@@ -30,7 +34,7 @@ export function BrandPicker({ value, onChange, counts }: { value: string; onChan
     onChange(slug);
     setOpen(false);
   };
-  const count = (slug: string) => counts?.[slug] ?? CATALOG_RACKETS.filter((r) => r.brand === slug).length;
+  const count = (slug: string) => counts?.[slug] ?? ALL_RACKETS.filter((r) => r.brand === slug).length;
   const initials = (name: string) =>
     name
       .split(/\s+/)
@@ -58,10 +62,10 @@ export function BrandPicker({ value, onChange, counts }: { value: string; onChan
           className="mb-1 flex w-full items-center justify-between rounded-[var(--radius-control)] px-3 py-2 text-left text-sm hover:bg-panel aria-pressed:bg-panel aria-pressed:font-semibold"
         >
           Alle merken
-          <span className="text-muted tabular-nums">{BRAND_LIST.reduce((n, b) => n + count(b.slug), 0)}</span>
+          <span className="text-muted tabular-nums">{BRANDS.reduce((n, b) => n + count(b.slug), 0)}</span>
         </button>
         <ul className="grid grid-cols-2 gap-1">
-          {BRAND_LIST.map((b) => (
+          {BRANDS.map((b) => (
             <li key={b.slug}>
               <button
                 type="button"

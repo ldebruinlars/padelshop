@@ -4,7 +4,7 @@ import { RevealPanel } from "./reveal-panel";
 
 const SERVICE = [
   { label: "Racket-test boeken", href: "/#testcenter" },
-  { label: "Thuistest", href: "/#thuistest" },
+  { label: "Testdag en toernooi", href: "/#testdag" },
   { label: "Racketfinder", href: "/#finder" },
   { label: "Veelgestelde vragen", href: "/#advies" },
   { label: "Bezoek de winkel", href: "/#bezoek" },

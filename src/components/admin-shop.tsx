@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import QRCode from "qrcode";
 import { CATALOG_RACKETS, brandName } from "@/lib/catalog";
-import { supabase } from "@/lib/booking";
+import { supabase } from "@/lib/supabase-client";
 import { EXTRAS } from "@/lib/extras";
 import { SITE, euro } from "@/lib/site";
 

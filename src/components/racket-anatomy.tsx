@@ -6,10 +6,12 @@ import { MorphSVGPlugin } from "gsap/MorphSVGPlugin";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import HEADS from "@/lib/racket-heads.json";
-import { CATALOG_RACKETS, brandName, type CatalogRacket, type Shape } from "@/lib/catalog";
+import { brandName, type CatalogRacket, type Shape } from "@/lib/catalog";
+import { ALL_RACKETS } from "@/lib/all-rackets";
 import { LAYERS, RULES, SHAPE_GUIDE, SHAPE_SOURCES, type Layer } from "@/lib/racket-guide";
 import { ChevronIcon } from "./icons";
-import { MaterialScales } from "./material-scales";
+import { BuildSteps } from "./build-steps";
+import { LayerLab } from "./layer-lab";
 import { QuickView } from "./quick-view";
 
 gsap.registerPlugin(MorphSVGPlugin, ScrollTrigger, useGSAP);
@@ -99,7 +101,7 @@ export function RacketAnatomy() {
   const [mode, setMode] = useState<"vorm" | "opbouw">("vorm");
   const [shape, setShape] = useState<Shape>("druppel");
   const [initialHead] = useState(() => HEADS.druppel);
-  const ofShape = useMemo(() => CATALOG_RACKETS.filter((r) => r.shape === shape), [shape]);
+  const ofShape = useMemo(() => ALL_RACKETS.filter((r) => r.shape === shape), [shape]);
   const [pickedId, setPickedId] = useState<string | null>(null);
   const racket = ofShape.find((r) => r.id === pickedId) ?? ofShape[0];
   const [activeLayer, setActiveLayer] = useState<Layer["id"]>("core");
@@ -149,7 +151,7 @@ export function RacketAnatomy() {
 
   // Vanuit de snelle weergave ("Bekijk de opbouw") of een link /?opbouw=<id>: open de opbouw van dat racket
   const showBuild = contextSafe((id: string) => {
-    const r = CATALOG_RACKETS.find((x) => x.id === id);
+    const r = ALL_RACKETS.find((x) => x.id === id);
     if (!r?.shape) return;
     changeShape(r.shape);
     setPickedId(r.id);
@@ -287,7 +289,7 @@ export function RacketAnatomy() {
                   ))}
                 </ul>
                 <a href={`/rackets/?vorm=${shape}`} className="link mt-3 inline-block text-sm">
-                  Alle {ofShape.length} {guide.label.toLowerCase()}e rackets
+                  Alle {ofShape.length} {({ rond: "ronde", druppel: "druppelvormige", diamant: "diamantvormige" } as const)[shape]} rackets
                 </a>
               </div>
             ) : (
@@ -347,7 +349,8 @@ export function RacketAnatomy() {
             </details>
           </div>
         </div>
-        <MaterialScales />
+        <LayerLab />
+        <BuildSteps />
       </div>
 
       <QuickView racket={open?.r ?? null} from={open?.from ?? null} list={ofShape} onChange={(r) => setOpen((o) => (o ? { ...o, r } : o))} onClose={() => setOpen(null)} />

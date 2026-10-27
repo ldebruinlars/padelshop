@@ -36,7 +36,7 @@ export default async function RacketPage({ params }: { params: Promise<{ id: str
   const own = OWN_RACKETS.find((x) => x.id === id) as OwnRacket | undefined;
   const brand = own ? OWN_BRAND : BRAND_LIST.find((b) => b.slug === r.brand);
   const shape = SHAPE_GUIDE.find((s) => s.id === r.shape);
-  const similar = own ? OWN_RACKETS.filter((x) => x.id !== r.id) : CATALOG_RACKETS.filter((x) => x.id !== r.id && x.shape === r.shape && x.playstyle === r.playstyle).slice(0, 4);
+  const similar = own ? OWN_RACKETS.filter((x) => x.id !== r.id && x.shape === r.shape).slice(0, 6) : CATALOG_RACKETS.filter((x) => x.id !== r.id && x.shape === r.shape && x.playstyle === r.playstyle).slice(0, 4);
   const specs: [string, string | null][] = [
     ["Vorm", r.shape],
     ["Gewicht", r.weight],
@@ -236,7 +236,7 @@ export default async function RacketPage({ params }: { params: Promise<{ id: str
           <section aria-labelledby="vergelijkbaar" className="border-t border-panel-2 bg-bg">
             <div className="mx-auto max-w-[1400px] px-4 py-12 md:px-8">
               <h2 id="vergelijkbaar" className="text-2xl font-bold">
-                {own ? "De rest van de eigen lijn" : "Vergelijkbare rackets"}
+                {own ? `Meer ${({ rond: "ronde", druppel: "druppelvormige", diamant: "diamantvormige" } as Record<string, string>)[r.shape ?? "rond"]} rackets uit de eigen lijn` : "Vergelijkbare rackets"}
               </h2>
               <ul className="mt-5 grid grid-cols-2 gap-3 md:grid-cols-4">
                 {similar.map((x) => (

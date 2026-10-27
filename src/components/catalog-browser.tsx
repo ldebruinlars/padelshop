@@ -7,6 +7,8 @@ import { useGSAP } from "@gsap/react";
 import { BRAND_LIST, CATALOG_RACKETS, FEELS, LEVELS, PLAYSTYLES, SHAPES, profile, type CatalogRacket } from "@/lib/catalog";
 import { QuickView } from "./quick-view";
 import { RacketCard } from "./racket-card";
+import { ALL_RACKETS } from "@/lib/all-rackets";
+import { OWN_BRAND } from "@/lib/own-line";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -65,7 +67,7 @@ export function CatalogBrowser({ brand }: { brand?: string }) {
     });
 
   const list = useMemo(() => {
-    const out = CATALOG_RACKETS.filter(
+    const out = ALL_RACKETS.filter(
       (r) =>
         (!brand || r.brand === brand) &&
         (!f.merk || r.brand === f.merk) &&
@@ -111,7 +113,7 @@ export function CatalogBrowser({ brand }: { brand?: string }) {
     setOpen(null);
   }, [open]);
 
-  const brandsInUse = BRAND_LIST.filter((b) => CATALOG_RACKETS.some((r) => r.brand === b.slug));
+  const brandsInUse = [OWN_BRAND, ...BRAND_LIST].filter((b) => ALL_RACKETS.some((r) => r.brand === b.slug));
   const active = Object.entries(f).filter(([k, v]) => v && k !== "sort").length;
 
   return (

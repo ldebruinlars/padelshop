@@ -24,7 +24,7 @@ const GUIDES = [
 
 const FAQ = [
   { q: "Wat kost een racket-test?", a: `Een sessie van 45 minuten met een coach kost ${euro(SHOP.testPrice)}. Koop je daarna een racket, dan gaat dat bedrag van de prijs af.` },
-  { q: "Hoe werkt de thuistest?", a: `We sturen tot drie testrackets naar je toe. Je speelt er ${SHOP.homeTestDays} dagen mee op je eigen club en stuurt terug wat je niet houdt.` },
+  { q: "Kan ik ook zonder coach testen?", a: `Ja. Kies bij het boeken voor de balmachine: die speelt de ballen aan en jij wisselt zelf van racket, in je eigen tempo. Ook dan krijg je de ${euro(SHOP.testPrice)} terug als je een racket koopt.` },
   { q: "Kan ik een racket terugsturen?", a: `Ja, je hebt ${SHOP.returnDays} dagen bedenktijd. Twijfel je vooraf, boek dan een test: dan weet je het zeker voordat je koopt.` },
   { q: "Wat kost bezorgen?", a: `Vanaf ${euro(SHOP.freeShippingFrom)} bezorgen we gratis. Je kunt je bestelling ook ophalen bij Poort Padel.` },
   { q: "Welke garantie krijg ik?", a: `Op rackets zit ${SHOP.warranty}. Kom langs of stuur ons een bericht als er iets mis is, dan regelen we het met het merk.` },

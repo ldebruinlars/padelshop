@@ -2,13 +2,15 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { CATALOG_RACKETS, brandName, encode, ratings, styleColor, type CatalogRacket, type Level } from "@/lib/catalog";
+import { OWN_RACKETS } from "@/lib/own-line";
+import { photoOf } from "@/lib/all-rackets";
 import { euro } from "@/lib/site";
 import { QuickView } from "./quick-view";
 import { RacketArt } from "./racket-art";
 
 /**
- * Racketfinder naar het voorbeeld van echte finders (o.a. Express Padel, Central Sports, Tennis Warehouse, Padelful):
- * elk antwoord zet een doel en een gewicht per eigenschap. Vorm (s), balans (b), hardheid (h), slagvlak (f) en
+ * Racketfinder naar het voorbeeld van echte finders (o.a. Central Sports, Express Padel, Decathlon, PadelGear, Tennis
+ * Warehouse, Padelful): elk antwoord zet een doel en een gewicht per eigenschap. Vorm (s), balans (b), hardheid (h), slagvlak (f) en
  * gewicht (w) staan op 0-1 (zie encode in catalog.ts). Armklachten en budget filteren hard.
  */
 type Key = "s" | "b" | "h" | "f" | "w";
@@ -20,6 +22,7 @@ type Answer = {
   maxPrice?: number;
   arm?: "soms" | "nu";
   comfort?: number; // extra gewicht voor comfort
+  junior?: boolean;
 };
 type Question = { id: string; q: string; help: string; answers: Answer[] };
 
@@ -32,6 +35,17 @@ const QUESTIONS: Question[] = [
       { label: "Net begonnen", hint: "korter dan een jaar", level: "Beginner", target: { s: [0.1, 2], h: [0.25, 1.5], f: [0.2, 1.5], b: [0.2, 1] } },
       { label: "Regelmatig, gemiddeld niveau", hint: "1 tot 3 jaar", level: "Gemiddeld", target: { s: [0.5, 1], h: [0.5, 1], f: [0.5, 0.8] } },
       { label: "Gevorderd of competitie", hint: "toernooien, competitie", level: "Gevorderd", target: { h: [0.75, 0.8], f: [0.7, 1] } },
+      { label: "Het is voor een kind", hint: "8 tot 13 jaar", level: "Beginner", junior: true, target: { s: [0, 2], h: [0, 2], f: [0, 1.5], w: [0, 2] } },
+    ],
+  },
+  {
+    id: "kant",
+    q: "Aan welke kant van de baan speel je?",
+    help: "Links staat vaak de afmaker met de smash, rechts de speler die opbouwt en verdedigt.",
+    answers: [
+      { label: "Links", hint: "afmaken, smashen", target: { s: [0.85, 0.7], b: [0.8, 0.5] } },
+      { label: "Rechts", hint: "opbouwen, plaatsen", target: { s: [0.3, 0.7], b: [0.3, 0.5] } },
+      { label: "Wisselt / geen vaste kant" },
     ],
   },
   {
@@ -65,13 +79,13 @@ const QUESTIONS: Question[] = [
     ],
   },
   {
-    id: "gewicht",
-    q: "Wat wil je qua gewicht?",
-    help: "Lichter is wendbaarder, zwaarder is stabieler en geeft meer kracht.",
+    id: "bouw",
+    q: "Hoe zou je je bouw en kracht omschrijven?",
+    help: "Het racketgewicht hangt vooral af van je bouw: een te zwaar racket wordt laat in de wedstrijd traag en belast je arm.",
     answers: [
-      { label: "Licht en snel aan het net", hint: "± 345-360 g", target: { w: [0.15, 1.5] } },
-      { label: "Geen voorkeur", target: { w: [0.5, 0.3] } },
-      { label: "Zwaarder en stabieler", hint: "± 370 g of meer", target: { w: [0.9, 1.5] } },
+      { label: "Licht gebouwd of weinig kracht", hint: "± 340-355 g", target: { w: [0.1, 1.5] } },
+      { label: "Gemiddeld", hint: "± 355-365 g", target: { w: [0.45, 1] } },
+      { label: "Sterk, ik sla graag hard", hint: "± 365-380 g", target: { w: [0.85, 1.5] } },
     ],
   },
   {
@@ -111,7 +125,17 @@ const QUESTIONS: Question[] = [
 
 type Pick = { r: CatalogRacket; fit: number; over: boolean; why: string[] };
 
-function recommend(answers: Answer[]): { picks: Pick[]; armFiltered: boolean } {
+/** Hoe ver een racket van de doelen af zit (0 = perfect). */
+function missFor(r: CatalogRacket, goal: Partial<Record<Key, { t: number; w: number }>>, comfortWeight: number, level?: Level) {
+  const e = encode(r);
+  let miss = 0;
+  for (const [k, g] of Object.entries(goal) as [Key, { t: number; w: number }][]) miss += g.w * Math.abs(g.t - e[k]);
+  miss += comfortWeight * Math.max(0, (8 - ratings(r).find((x) => x.id === "comfort")!.value) / 5);
+  if (level && r.level !== level) miss += 1.5 * 0.6;
+  return miss;
+}
+
+function recommend(answers: Answer[]): { picks: Pick[]; armFiltered: boolean; junior: boolean; own: CatalogRacket | null } {
   const maxPrice = answers.find((a) => a.maxPrice)?.maxPrice;
   const level = answers.find((a) => a.level)?.level;
   const armNow = answers.some((a) => a.arm === "nu");
@@ -129,10 +153,13 @@ function recommend(answers: Answer[]): { picks: Pick[]; armFiltered: boolean } {
     if (goal.b) goal.b.t = Math.min(goal.b.t, 0.4);
   }
 
-  let pool = CATALOG_RACKETS;
+  const junior = answers.some((a) => a.junior);
+  // Kinderen: alleen rackets onder de 330 gram (juniormodellen)
+  let pool = junior ? CATALOG_RACKETS.filter((r) => encode(r).grams < 330) : CATALOG_RACKETS;
+  // Armvriendelijk volgens de gidsen: zachte kern, geen stijf carbon, lage of midden balans, geen diamant, niet zwaar
   const armSafe = (r: CatalogRacket) => {
     const e = encode(r);
-    return e.h <= 0.5 && e.f <= 0.6 && e.b <= 0.5 && e.s < 1;
+    return e.h <= 0.5 && e.f <= 0.6 && e.b <= 0.5 && e.s < 1 && e.grams <= 366;
   };
   let armFiltered = false;
   if (armNow) {
@@ -148,15 +175,12 @@ function recommend(answers: Answer[]): { picks: Pick[]; armFiltered: boolean } {
   }
 
   const totalW = Object.values(goal).reduce((n, g) => n + (g?.w ?? 0), 0) + comfortWeight + (level ? 1.5 : 0);
-  const wish = answers.find((a) => QUESTIONS[7].answers.includes(a))?.label;
+  const wish = answers.find((a) => QUESTIONS.find((q) => q.id === "wens")!.answers.includes(a))?.label;
   const scored = pool.map((r) => {
     const e = encode(r);
-    let miss = 0;
-    for (const [k, g] of Object.entries(goal) as [Key, { t: number; w: number }][]) miss += g.w * Math.abs(g.t - e[k]);
+    const miss = missFor(r, goal, comfortWeight, level);
     const rt = ratings(r);
     const val = (id: string) => rt.find((x) => x.id === id)!.value;
-    miss += comfortWeight * Math.max(0, (8 - val("comfort")) / 5);
-    if (level && r.level !== level) miss += 1.5 * 0.6;
     const fit = Math.round(100 - (100 * miss) / Math.max(1, totalW));
     // Mogelijke redenen; prioriteit 0 = altijd tonen als het van toepassing is
     const why: { key: string; text: string; prio: number }[] = [];
@@ -186,7 +210,10 @@ function recommend(answers: Answer[]): { picks: Pick[]; armFiltered: boolean } {
       .slice(0, 3)
       .map((x) => x.text),
   }));
-  return { picks, armFiltered };
+  // Beste match uit de eigen lijn (concept), los van de drie die we klaarleggen
+  const ownPool = OWN_RACKETS.filter((r) => (junior ? encode(r).grams < 330 : encode(r).grams >= 330) && (!armNow || armSafe(r)));
+  const own = ownPool.sort((a, b) => missFor(a, goal, comfortWeight, level) - missFor(b, goal, comfortWeight, level))[0] ?? null;
+  return { picks, armFiltered, junior, own };
 }
 
 /** Racketfinder: acht vragen, daarna drie echte rackets met een match-percentage en waarom ze passen. */
@@ -213,7 +240,7 @@ export function Finder() {
         <div>
           <h2 className="text-[clamp(30px,3.2vw,44px)] leading-[1] font-bold">Welk racket past bij jou?</h2>
           <p className="mt-4 max-w-md text-fg/75">
-            Acht korte vragen, zoals een verkoper in de winkel ze stelt. Daarna krijg je drie rackets uit ons assortiment met de reden waarom ze passen. Die kun je meteen testen.
+            Negen korte vragen, zoals een verkoper in de winkel ze stelt. Daarna krijg je drie rackets uit ons assortiment met de reden waarom ze passen. Die kun je meteen testen.
           </p>
           {!done && (
             <ol className="mt-8 hidden gap-1 text-sm lg:grid" aria-label="Voortgang">
@@ -268,9 +295,14 @@ export function Finder() {
           ) : (
             <>
               <h3 ref={heading} tabIndex={-1} className="text-3xl font-bold outline-none">
-                Deze drie leggen we voor je klaar
+                {result?.picks.length ? `${result.picks.length === 1 ? "Dit racket leggen" : `Deze ${result.picks.length === 2 ? "twee" : "drie"} leggen`} we voor je klaar` : "Ons advies"}
               </h3>
-              {result?.armFiltered && <p className="mt-2 text-sm text-muted">Vanwege je armklachten tonen we alleen rackets met een zachte of medium kern, lage of midden balans en geen diamantvorm.</p>}
+              {result?.armFiltered && <p className="mt-2 text-sm text-muted">Vanwege je armklachten tonen we alleen rackets met een zachte of medium kern, lage of midden balans, tot zo&apos;n 365 gram en geen diamantvorm.</p>}
+              {result?.junior && (
+                <p className="mt-2 text-sm text-muted">
+                  {result.picks.length ? "Juniorrackets uit ons assortiment." : "In het merkassortiment hebben we nu geen juniorracket."} Kom langs met je kind: dan kijken we samen naar lengte, gewicht en gripmaat.
+                </p>
+              )}
               <ul className="mt-6 grid border-t border-panel-2">
                 {result?.picks.map(({ r, fit, over, why }) => (
                   <li key={r.id} className="border-b border-panel-2">
@@ -308,6 +340,18 @@ export function Finder() {
                 ))}
               </ul>
               <p className="mt-3 text-xs text-muted">Match berekend uit je antwoorden en de specificaties. Het echte gevoel test je op de baan.</p>
+              {result?.own && (
+                <a href={`/rackets/${result.own.id}/`} className="mt-5 flex items-center gap-4 rounded-[var(--radius-card)] border border-panel-2 p-3 transition-colors hover:border-fg/40">
+                  <span className="block h-[84px] w-[56px] shrink-0 rounded-[var(--radius-control)] bg-paper p-1">
+                    <RacketArt shape={result.own.shape} color={styleColor(result.own.playstyle)} photo={photoOf(result.own)} label="" />
+                  </span>
+                  <span>
+                    <span className="label text-accent">Uit onze eigen lijn · concept</span>
+                    <span className="mt-1 block font-bold">{result.own.model}</span>
+                    <span className="block text-sm text-muted">Past ook bij je antwoorden. Bekijk hem in 3D en zet je op de lijst.</span>
+                  </span>
+                </a>
+              )}
               <div className="mt-6 flex flex-wrap gap-2">
                 <a href="#testcenter" className="btn btn-primary">
                   Test deze drie

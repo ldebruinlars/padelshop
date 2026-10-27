@@ -8,6 +8,7 @@ import { euro } from "@/lib/site";
 import { ChevronIcon, CloseIcon } from "./icons";
 import { ProfileBar } from "./racket-card";
 import { RacketArt } from "./racket-art";
+import { photoOf } from "@/lib/all-rackets";
 
 const useIsoLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
 const reduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -175,9 +176,9 @@ export function QuickView({
         </div>
         <div className="relative touch-pan-y p-6 pb-10 select-none md:p-14" onPointerDown={onSwipeStart} onPointerUp={onSwipeEnd}>
           <div ref={art} className="mx-auto aspect-[2/3] h-[30svh] will-change-transform md:h-auto">
-            <RacketArt shape={racket.shape} color={color} label={`Tekening van de ${racket.model}, productfoto volgt`} eager />
+            <RacketArt shape={racket.shape} color={color} photo={photoOf(racket, "groot")} label={photoOf(racket) ? racket.model : `Tekening van de ${racket.model}, productfoto volgt`} eager />
           </div>
-          <p className="qv-in absolute bottom-3 left-4 label text-on-accent/70">Illustratie · productfoto volgt</p>
+          <p className="qv-in absolute bottom-3 left-4 label text-on-accent/70">{photoOf(racket) ? "Concept · ook in 3D" : "Illustratie · productfoto volgt"}</p>
           {canNav && (
             <div className="qv-in absolute right-3 bottom-2 flex items-center gap-1 text-on-accent">
               <button type="button" onClick={() => go(-1)} className="grid size-9 place-items-center rounded-[var(--radius-control)] hover:bg-on-accent/10" aria-label="Vorig racket">
@@ -202,11 +203,13 @@ export function QuickView({
               <CloseIcon className="size-3.5" />
             </button>
           </div>
-          {racket.price != null && (
+          {racket.price != null ? (
             <p className="qv-in flex flex-wrap items-baseline gap-x-2">
               <span className="font-display text-3xl font-bold whitespace-nowrap tabular-nums">{euro(racket.price)}</span>
               {racket.priceNote && <span className="text-sm text-muted">{racket.priceNote}</span>}
             </p>
+          ) : (
+            racket.priceNote && <p className="qv-in text-sm font-semibold text-accent">{racket.priceNote}</p>
           )}
           {racket.description && <p className="qv-in text-fg/80">{racket.description}</p>}
           <div className="qv-in grid gap-x-8 gap-y-2.5 sm:grid-cols-2">
@@ -229,7 +232,7 @@ export function QuickView({
           </dl>
           <div className="qv-in flex flex-wrap gap-2">
             <a href={`/rackets/${racket.id}/`} className="btn btn-primary">
-              Bekijk en reserveer
+              {photoOf(racket) ? "Bekijk in 3D" : "Bekijk en reserveer"}
             </a>
             <a href="/#testcenter" onClick={onClose} className="btn btn-line">
               Test dit racket

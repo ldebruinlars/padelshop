@@ -4,10 +4,10 @@ import { createElement, useEffect, useRef, useState } from "react";
 
 /**
  * 3D-weergave van een racket (GLB) met Google model-viewer: slepen om te draaien, knijpen om te zoomen,
- * op telefoons "Bekijk in je kamer" (AR). De viewer (three.js) laadt pas als het blok in beeld komt of
- * als iemand op "Draai in 3D" klikt, zodat de pagina zelf licht blijft.
+ * op telefoons "Bekijk in je kamer" (AR). De viewer (three.js, zo'n 1,5 MB met model) laadt pas bij een klik op
+ * "Draai in 3D", of bij autoStart zodra het blok in beeld komt, zodat scrollen over de pagina licht blijft.
  */
-export function Model3D({ src, poster, alt, autoStart = false, className = "" }: { src: string; poster: string; alt: string; autoStart?: boolean; className?: string }) {
+export function Model3D({ src, poster, alt, autoStart = false, onStart, className = "" }: { src: string; poster: string; alt: string; autoStart?: boolean; onStart?: () => void; className?: string }) {
   const box = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(false);
   const [ready, setReady] = useState(false);
@@ -57,7 +57,17 @@ export function Model3D({ src, poster, alt, autoStart = false, className = "" }:
           style: { width: "100%", height: "100%", background: "transparent", "--poster-color": "transparent" },
         })
       ) : (
-        <button type="button" onClick={() => setActive(true)} className="group relative block size-full" aria-label={`${alt} in 3D draaien`}>
+        <button
+          type="button"
+          onClick={() => {
+            setActive(true);
+            onStart?.();
+          }}
+          // Alvast beginnen met laden als iemand de knop aanwijst
+          onPointerEnter={() => import("@google/model-viewer")}
+          className="group relative block size-full"
+          aria-label={`${alt} in 3D draaien`}
+        >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={poster} alt="" className="size-full object-contain" />
           <span className="btn btn-sand btn-sm absolute bottom-3 left-1/2 -translate-x-1/2 shadow-[0_8px_20px_-8px_rgb(20_17_15/0.6)]">{active ? "3D laden…" : "Draai in 3D"}</span>

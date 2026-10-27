@@ -16,7 +16,7 @@ const SERVICE = 347.5;
 // Drie plekken op de baan: kiezen achterin, testen aan het net, kopen aan de overkant.
 const STATIONS = [
   { x: 120, y: 360, title: "Kies", text: "Doe de racketfinder of filter op merk, vorm en hardheid. Je komt uit op drie rackets die bij je spel passen." },
-  { x: 430, y: 150, title: "Test", text: "Speel 45 minuten op een baan bij Poort Padel. Een coach kijkt mee en wisselt de rackets met je af." },
+  { x: 430, y: 150, title: "Test", text: "Speel 45 minuten op een baan bij Poort Padel, met een coach die meekijkt of met de balmachine. Je wisselt tussen 3 tot 5 rackets." },
   { x: 860, y: 300, title: "Koop", text: `Neem je favoriet direct mee of laat hem bezorgen. De ${euro(SHOP.testPrice)} testkosten gaan van de prijs af.` },
 ];
 const ARC = [170, 210]; // hoogte van de boog per slag, in eenheden
@@ -78,19 +78,25 @@ export function BallPath() {
         gsap.to(lines, { strokeDashoffset: 0, duration: 0.9, ease: "expo.out", stagger: 0.05, scrollTrigger: { trigger: el, start: "top 80%", once: true } });
         render(0);
         let landed = 0;
-        ScrollTrigger.create({
-          trigger: el.querySelector(".court"),
-          start: "top 70%",
-          end: "bottom 35%",
-          scrub: 0.5,
-          onUpdate: (st) => {
-            render(st.progress);
-            // Een ring bij elke landing
-            const now = Math.floor(st.progress * 2 + 0.02);
-            if (now > landed && rings[now]) gsap.fromTo(rings[now], { attr: { r: 8 }, opacity: 0.9 }, { attr: { r: 46 }, opacity: 0, duration: 0.7, ease: "expo.out" });
-            landed = now;
-          },
+        // De bal is al bij Koop voordat het scrollen stopt, zodat je hem ziet landen
+        const onUpdate = (st: ScrollTrigger) => {
+          const p = Math.min(1, st.progress / 0.85);
+          render(p);
+          // Een ring bij elke landing
+          const now = Math.floor(p * 2 + 0.02);
+          if (now > landed && rings[now]) gsap.fromTo(rings[now], { attr: { r: 8 }, opacity: 0.9 }, { attr: { r: 46 }, opacity: 0, duration: 0.7, ease: "expo.out" });
+          landed = now;
+        };
+        const wide = gsap.matchMedia();
+        // Grote schermen: de baan staat stil in beeld terwijl de bal van Kies naar Koop speelt
+        wide.add("(min-width: 1024px) and (min-height: 640px)", () => {
+          ScrollTrigger.create({ trigger: el, start: "center center", end: "+=110%", pin: true, scrub: 0.4, onUpdate });
         });
+        // Telefoons en lage schermen: de bal is klaar terwijl de hele baan nog in beeld is
+        wide.add("(max-width: 1023px), (max-height: 639px)", () => {
+          ScrollTrigger.create({ trigger: el.querySelector(".court"), start: "top 85%", end: "bottom 60%", scrub: 0.4, onUpdate });
+        });
+        return () => wide.revert();
       });
       // Zonder animatie: bal aan het eind, alle stappen aan
       mm.add("(prefers-reduced-motion: reduce)", () => render(1));
@@ -100,7 +106,7 @@ export function BallPath() {
   );
 
   return (
-    <section ref={root} aria-labelledby="zo-werkt-titel" className="relative overflow-hidden bg-bg py-24">
+    <section ref={root} aria-labelledby="zo-werkt-titel" className="relative overflow-hidden bg-bg py-16 lg:py-14">
       <div className="mx-auto max-w-[1400px] px-4 md:px-8">
         <div className="flex flex-wrap items-end justify-between gap-4 border-b border-panel-2 pb-6">
           <h2 id="zo-werkt-titel" className="text-[clamp(30px,3.2vw,44px)] leading-[1] font-bold">

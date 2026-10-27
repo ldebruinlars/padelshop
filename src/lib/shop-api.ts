@@ -1,11 +1,11 @@
 // Bestellen, coachcodes en testdag-aanmeldingen via de eigen Racket Lab-database (zie supabase/migrations).
-import { supabase } from "./booking";
+import { db as getDb } from "./booking";
 
 export type Source = "web" | "wand" | "balie" | "testdag";
 export const SOURCES: Source[] = ["web", "wand", "balie", "testdag"];
 
 export async function checkCoachCode(code: string): Promise<{ code: string; coach_name: string; discount_pct: number } | null> {
-  const db = supabase();
+  const db = await getDb();
   if (!db || !code.trim()) return null;
   const { data, error } = await db.rpc("check_coach_code", { p_code: code });
   if (error) return null;
@@ -24,7 +24,7 @@ export async function requestOrder(input: {
   source: Source;
   wantsLesson: boolean;
 }) {
-  const db = supabase();
+  const db = await getDb();
   if (!db) throw new Error("niet_gekoppeld");
   const { data, error } = await db.rpc("request_order", {
     p_racket_id: input.racketId,
@@ -43,7 +43,7 @@ export async function requestOrder(input: {
 }
 
 export async function signupTestEvent(input: { name: string; email: string; level: string; tournament: boolean }) {
-  const db = supabase();
+  const db = await getDb();
   if (!db) throw new Error("niet_gekoppeld");
   const { error } = await db.rpc("signup_test_event", { p_name: input.name, p_email: input.email, p_level: input.level, p_tournament: input.tournament });
   if (error) throw new Error(error.message);

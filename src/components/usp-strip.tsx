@@ -23,7 +23,7 @@ const ITEMS: { icon: keyof typeof ICONS; title: string; text: string }[] = [
   { icon: "truck", title: `Gratis vanaf ${euro(SHOP.freeShippingFrom)}`, text: `${SHOP.returnDays} dagen bedenktijd` },
   SHOP.payLater
     ? { icon: "card", title: "Achteraf betalen", text: `In 3 termijnen met ${SHOP.payLater}` }
-    : { icon: "home", title: "Thuistest", text: `${SHOP.homeTestDays} dagen op je eigen club` },
+    : { icon: "home", title: "Balmachine", text: "Test ook zonder coach" },
 ];
 
 /** USP-strook direct onder de hero: vier beloftes, iconen tekenen zich eenmalig bij binnenkomst. */

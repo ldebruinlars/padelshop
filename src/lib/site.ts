@@ -14,7 +14,6 @@ export const SHOP = {
   payLater: "Klarna", // laat leeg ("") als je geen achteraf betalen aanbiedt
   warranty: "2 jaar fabrieksgarantie",
   testPrice: 29.95,
-  homeTestDays: 14,
 };
 
 // Alle beelden op één plek. De shopfoto's zijn Higgsfield-placeholders tot de echte productfoto's er zijn.

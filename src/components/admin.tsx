@@ -2,7 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
-import { PLAYTOMIC_URL, TIMES, hhmm, supabase } from "@/lib/booking";
+import { PLAYTOMIC_URL, TIMES, hhmm } from "@/lib/booking";
+import { supabase } from "@/lib/supabase-client";
 import { CoachesTab, MarginTab, OrdersTab, QrTab, SignupsTab } from "./admin-shop";
 import { ChevronIcon, Logo } from "./icons";
 

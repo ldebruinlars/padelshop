@@ -10,14 +10,16 @@ import { BRAND_LIST, CATALOG_RACKETS, PLAYSTYLES, brandName, ratings, styleColor
 import { LAYERS, SHAPE_GUIDE } from "@/lib/racket-guide";
 import { euro } from "@/lib/site";
 import { BULLPADEL_SOURCE, techFor } from "@/lib/tech";
+import { Model3D } from "@/components/model-3d";
+import { OWN_BRAND, OWN_RACKETS, type OwnRacket } from "@/lib/own-line";
 
 export function generateStaticParams() {
-  return CATALOG_RACKETS.map((r) => ({ id: r.id }));
+  return [...CATALOG_RACKETS, ...OWN_RACKETS].map((r) => ({ id: r.id }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
-  const r = CATALOG_RACKETS.find((x) => x.id === id);
+  const r = [...CATALOG_RACKETS, ...OWN_RACKETS].find((x) => x.id === id);
   if (!r) return {};
   const title = `${brandName(r.brand)} ${r.model} | Racket Lab`;
   return { title, description: r.description ?? undefined, alternates: { canonical: `/rackets/${r.id}/` } };
@@ -29,11 +31,12 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
  */
 export default async function RacketPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const r = CATALOG_RACKETS.find((x) => x.id === id);
+  const r = [...CATALOG_RACKETS, ...OWN_RACKETS].find((x) => x.id === id);
   if (!r) notFound();
-  const brand = BRAND_LIST.find((b) => b.slug === r.brand);
+  const own = OWN_RACKETS.find((x) => x.id === id) as OwnRacket | undefined;
+  const brand = own ? OWN_BRAND : BRAND_LIST.find((b) => b.slug === r.brand);
   const shape = SHAPE_GUIDE.find((s) => s.id === r.shape);
-  const similar = CATALOG_RACKETS.filter((x) => x.id !== r.id && x.shape === r.shape && x.playstyle === r.playstyle).slice(0, 4);
+  const similar = own ? OWN_RACKETS.filter((x) => x.id !== r.id) : CATALOG_RACKETS.filter((x) => x.id !== r.id && x.shape === r.shape && x.playstyle === r.playstyle).slice(0, 4);
   const specs: [string, string | null][] = [
     ["Vorm", r.shape],
     ["Gewicht", r.weight],
@@ -68,12 +71,34 @@ export default async function RacketPage({ params }: { params: Promise<{ id: str
 
         <div className="mx-auto grid max-w-[1400px] gap-10 px-4 pt-6 pb-16 md:px-8 lg:grid-cols-[1fr_1.05fr]">
           {/* Beeld */}
-          <div className="relative rounded-[var(--radius-panel)] bg-paper p-8 lg:sticky lg:top-28 lg:self-start">
-            <div className="mx-auto aspect-[2/3] max-h-[62svh]">
-              <RacketArt shape={r.shape} color={styleColor(r.playstyle)} label={`Tekening van de ${r.model}, productfoto volgt`} eager />
+          {own ? (
+            <div className="grid gap-3 lg:sticky lg:top-28 lg:self-start">
+              <div className="relative rounded-[var(--radius-panel)] bg-paper">
+                {own.model3d ? (
+                  <Model3D src={own.model3d} poster={own.images.cutout} alt={`${r.model} in 3D`} autoStart className="mx-auto aspect-[3/4] max-h-[66svh]" />
+                ) : (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={own.images.cutout} alt={r.model} className="mx-auto aspect-[3/4] max-h-[66svh] object-contain p-6" />
+                )}
+                <p className="label pointer-events-none absolute top-3 left-4 text-on-accent/70">Concept · sleep om te draaien</p>
+              </div>
+              <ul className="grid grid-cols-3 gap-3">
+                {([["Voorkant", own.images.front], ["Schuin", own.images.angle], ["Achterkant", own.images.back]] as const).map(([label, src]) => (
+                  <li key={label} className="overflow-hidden rounded-[var(--radius-card)] bg-[#e6e3de]">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={src} alt={`${r.model}, ${label.toLowerCase()}`} loading="lazy" className="aspect-[2/3] w-full object-cover" />
+                  </li>
+                ))}
+              </ul>
             </div>
-            <p className="label absolute bottom-3 left-4 text-on-accent/70">Illustratie · productfoto volgt</p>
-          </div>
+          ) : (
+            <div className="relative rounded-[var(--radius-panel)] bg-paper p-8 lg:sticky lg:top-28 lg:self-start">
+              <div className="mx-auto aspect-[2/3] max-h-[62svh]">
+                <RacketArt shape={r.shape} color={styleColor(r.playstyle)} label={`Tekening van de ${r.model}, productfoto volgt`} eager />
+              </div>
+              <p className="label absolute bottom-3 left-4 text-on-accent/70">Illustratie · productfoto volgt</p>
+            </div>
+          )}
 
           {/* Info en bestellen */}
           <div className="grid content-start gap-8">
@@ -89,7 +114,12 @@ export default async function RacketPage({ params }: { params: Promise<{ id: str
               {r.description && <p className="mt-4 max-w-[62ch] text-lg text-fg/80">{r.description}</p>}
             </header>
 
-            <OrderPanel racket={{ id: r.id, label: `${brandName(r.brand)} ${r.model}`, price: r.price }} />
+            {own && (
+              <p className="rounded-[var(--radius-control)] bg-panel px-4 py-3 text-sm text-fg/80">
+                <strong className="font-semibold">Eigen ontwerp, in ontwikkeling.</strong> De specificaties hieronder zijn onze ontwerpdoelen. Zet je op de lijst, dan hoor je als eerste wanneer je hem kunt testen.
+              </p>
+            )}
+            <OrderPanel racket={{ id: r.id, label: `${brandName(r.brand)} ${r.model}`, price: r.price }} interest={Boolean(own)} />
 
             <section aria-labelledby="eigenschappen">
               <h2 id="eigenschappen" className="text-2xl font-bold">
@@ -206,14 +236,19 @@ export default async function RacketPage({ params }: { params: Promise<{ id: str
           <section aria-labelledby="vergelijkbaar" className="border-t border-panel-2 bg-bg">
             <div className="mx-auto max-w-[1400px] px-4 py-12 md:px-8">
               <h2 id="vergelijkbaar" className="text-2xl font-bold">
-                Vergelijkbare rackets
+                {own ? "De rest van de eigen lijn" : "Vergelijkbare rackets"}
               </h2>
               <ul className="mt-5 grid grid-cols-2 gap-3 md:grid-cols-4">
                 {similar.map((x) => (
                   <li key={x.id}>
                     <a href={`/rackets/${x.id}/`} className="group block rounded-[var(--radius-card)] border border-panel-2 p-3 transition-colors hover:border-fg/40">
                       <span className="block h-36 rounded-[var(--radius-control)] bg-paper p-3">
-                        <RacketArt shape={x.shape} color={styleColor(x.playstyle)} label="" />
+                        {"images" in x ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img src={(x as OwnRacket).images.cutout} alt="" loading="lazy" className="size-full object-contain" />
+                        ) : (
+                          <RacketArt shape={x.shape} color={styleColor(x.playstyle)} label="" />
+                        )}
                       </span>
                       <span className="label mt-3 block text-accent">{brandName(x.brand)}</span>
                       <span className="mt-1 block font-semibold">{x.model}</span>

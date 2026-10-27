@@ -7,6 +7,7 @@ import { RacketAnatomy } from "@/components/racket-anatomy";
 import { Finder } from "@/components/finder";
 import { Footer } from "@/components/footer";
 import { Nav } from "@/components/nav";
+import { OwnLine } from "@/components/own-line";
 import { RacketWall } from "@/components/racket-wall";
 import { Reviews } from "@/components/reviews";
 import { TestEvent } from "@/components/test-event";
@@ -20,6 +21,7 @@ export default function Home() {
       <main>
         <RacketWall />
         <BrandMarquee />
+        <OwnLine />
         <Testcenter />
         <BallPath />
         <TestEvent />

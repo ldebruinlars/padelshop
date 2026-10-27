@@ -51,3 +51,4 @@ next-env.d.ts
 
 # Ruwe AI-renders (groot); de JPG-versies staan in de repo
 docs/winkel-impressie/*.png
+docs/eigen-lijn/*.png

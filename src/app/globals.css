@@ -147,7 +147,8 @@ body {
   .chip:hover {
     border-color: color-mix(in oklab, var(--color-fg) 45%, transparent);
   }
-  .chip[aria-pressed="true"] {
+  .chip[aria-pressed="true"],
+  .chip[aria-selected="true"] {
     border-color: var(--color-fg);
     background: var(--color-fg);
     color: var(--color-on-accent);

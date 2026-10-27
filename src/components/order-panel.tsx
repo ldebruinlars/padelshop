@@ -10,7 +10,7 @@ import { rememberedCode } from "./code-catcher";
  * Reserveren of bestellen vanaf de racketpagina (ook via de QR-code aan de wand of de iPad op de balie).
  * ?bron=wand|balie|testdag en ?code=COACHCODE worden meegenomen, zodat elke verkoop te herleiden is.
  */
-export function OrderPanel({ racket }: { racket: { id: string; label: string; price: number | null } }) {
+export function OrderPanel({ racket, interest = false }: { racket: { id: string; label: string; price: number | null }; interest?: boolean }) {
   const [source, setSource] = useState<Source>("web");
   const [code, setCode] = useState("");
   const [coach, setCoach] = useState<{ coach_name: string; discount_pct: number } | null>(null);
@@ -48,9 +48,11 @@ export function OrderPanel({ racket }: { racket: { id: string; label: string; pr
   if (state === "done")
     return (
       <div ref={done} tabIndex={-1} role="status" className="rounded-[var(--radius-card)] bg-accent p-6 text-on-accent outline-none">
-        <p className="text-2xl font-bold">Hij ligt voor je klaar</p>
+        <p className="text-2xl font-bold">{interest ? "Je staat op de lijst" : "Hij ligt voor je klaar"}</p>
         <p className="mt-2">
-          We hebben je aanvraag voor de {racket.label} ontvangen en mailen je zodra je hem kunt ophalen bij Poort Padel. Betalen doe je bij het ophalen.
+          {interest
+            ? `Zodra de ${racket.label} te testen is, hoor je het als eerste.`
+            : `We hebben je aanvraag voor de ${racket.label} ontvangen en mailen je zodra je hem kunt ophalen bij Poort Padel. Betalen doe je bij het ophalen.`}
         </p>
       </div>
     );
@@ -66,7 +68,7 @@ export function OrderPanel({ racket }: { racket: { id: string; label: string; pr
         try {
           await requestOrder({
             racketId: racket.id,
-            racketLabel: racket.label,
+            racketLabel: interest ? `${racket.label} (interesse)` : racket.label,
             listPrice: racket.price,
             accessories: extras,
             name: String(data.get("naam") ?? ""),
@@ -74,7 +76,7 @@ export function OrderPanel({ racket }: { racket: { id: string; label: string; pr
             phone: String(data.get("telefoon") ?? ""),
             coachCode: codeState === "ok" ? code : "",
             source,
-            wantsLesson: lesson,
+            wantsLesson: interest ? false : lesson,
           });
           setState("done");
         } catch {
@@ -84,12 +86,14 @@ export function OrderPanel({ racket }: { racket: { id: string; label: string; pr
     >
       <div>
         <h2 id="bestel-titel" className="text-2xl font-bold">
-          Reserveer dit racket
+          {interest ? "Interesse in dit racket?" : "Reserveer dit racket"}
         </h2>
-        <p className="mt-1 text-sm text-muted">We leggen hem voor je klaar in de winkel bij Poort Padel. Je betaalt bij het ophalen; online afrekenen volgt.</p>
+        <p className="mt-1 text-sm text-muted">
+          {interest ? "Laat je gegevens achter; je hoort als eerste wanneer hij te testen en te bestellen is." : "We leggen hem voor je klaar in de winkel bij Poort Padel. Je betaalt bij het ophalen; online afrekenen volgt."}
+        </p>
       </div>
 
-      <fieldset>
+      <fieldset hidden={interest}>
         <legend className="label mb-2 text-muted">Erbij nemen?</legend>
         <div className="grid gap-1.5 sm:grid-cols-2">
           {EXTRAS.map((x) => {
@@ -115,7 +119,7 @@ export function OrderPanel({ racket }: { racket: { id: string; label: string; pr
         </div>
       </fieldset>
 
-      <label className="flex cursor-pointer items-start gap-3 rounded-[var(--radius-control)] bg-panel p-3">
+      <label className={`flex cursor-pointer items-start gap-3 rounded-[var(--radius-control)] bg-panel p-3 ${interest ? "hidden" : ""}`}>
         <input type="checkbox" className="mt-1 size-4 accent-[var(--color-accent)]" checked={lesson} onChange={(e) => setLesson(e.target.checked)} />
         <span>
           <span className="font-semibold">Ja, ik wil het lesvoordeel</span>
@@ -169,7 +173,7 @@ export function OrderPanel({ racket }: { racket: { id: string; label: string; pr
 
       <div className="flex flex-wrap items-center gap-3">
         <button type="submit" className="btn btn-primary" disabled={state === "sending"}>
-          {state === "sending" ? "Versturen…" : racket.price != null ? `Reserveer voor ${euro(racket.price)}` : "Reserveer"}
+          {state === "sending" ? "Versturen…" : interest ? "Zet me op de lijst" : racket.price != null ? `Reserveer voor ${euro(racket.price)}` : "Reserveer"}
         </button>
         <a href="/#testcenter" className="btn btn-line">
           Eerst testen

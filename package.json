@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@google/model-viewer": "^3.5.0",
     "@gsap/react": "^2.1.2",
     "@supabase/supabase-js": "^2.118.0",
     "gsap": "^3.13.0",

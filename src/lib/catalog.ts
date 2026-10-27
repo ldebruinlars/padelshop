@@ -1,6 +1,7 @@
 // Assortiment: echte merken en modellen met specificaties van de merk- en winkelsites (bronnen per racket).
 // Prijzen zijn adviesprijzen of gangbare winkelprijzen op het moment van onderzoek; controleer ze voor verkoop.
 import { CATALOG } from "./catalog-data";
+import { OWN_BRAND } from "./own-line";
 
 export type Shape = "rond" | "druppel" | "diamant";
 export type Feel = "zacht" | "medium" | "hard";
@@ -48,7 +49,7 @@ export const PLAYSTYLES: { id: Playstyle; label: string; color: string }[] = [
 ];
 export const LEVELS: Level[] = ["Beginner", "Gemiddeld", "Gevorderd"];
 
-export const brandName = (slug: string) => BRAND_LIST.find((b) => b.slug === slug)?.name ?? slug;
+export const brandName = (slug: string) => (slug === OWN_BRAND.slug ? OWN_BRAND.name : BRAND_LIST.find((b) => b.slug === slug)?.name ?? slug);
 export const styleColor = (p: Playstyle | null) => PLAYSTYLES.find((s) => s.id === p)?.color ?? "#e8d3a8";
 
 /**

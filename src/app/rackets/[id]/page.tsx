@@ -8,7 +8,8 @@ import { Radar } from "@/components/radar";
 import { RacketArt } from "@/components/racket-art";
 import { BRAND_LIST, CATALOG_RACKETS, PLAYSTYLES, brandName, ratings, styleColor } from "@/lib/catalog";
 import { LAYERS, SHAPE_GUIDE } from "@/lib/racket-guide";
-import { euro } from "@/lib/site";
+import { SITE, euro } from "@/lib/site";
+import { DELIVERY, isTestRacket } from "@/lib/test-range";
 import { BULLPADEL_SOURCE, techFor } from "@/lib/tech";
 import { ProductGallery } from "@/components/product-gallery";
 import { OWN_BRAND, OWN_RACKETS, type OwnRacket } from "@/lib/own-line";
@@ -52,8 +53,21 @@ export default async function RacketPage({ params }: { params: Promise<{ id: str
   const tech = r.brand === "bullpadel" ? techFor([r.core, r.face, r.frame, r.description].join(" ")) : [];
   const layerSpec: Record<string, string | null> = { face: r.face, core: [r.core, r.feel].filter(Boolean).join(" · ") || null, frame: r.frame };
 
+  const productLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: `${brandName(r.brand)} ${r.model}`,
+    brand: { "@type": "Brand", name: brandName(r.brand) },
+    description: r.description ?? undefined,
+    url: `${SITE.url}/rackets/${r.id}/`,
+    ...(r.price != null
+      ? { offers: { "@type": "Offer", price: r.price.toFixed(2), priceCurrency: "EUR", availability: "https://schema.org/InStock", seller: { "@type": "Organization", name: SITE.name } } }
+      : {}),
+  };
+
   return (
     <>
+      {!own && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productLd) }} />}
       <Nav />
       <main className="pt-[calc(96px+env(safe-area-inset-top))]">
         <div className="mx-auto max-w-[1400px] px-4 pt-6 md:px-8">
@@ -90,9 +104,11 @@ export default async function RacketPage({ params }: { params: Promise<{ id: str
               {r.price != null && (
                 <p className="mt-4 flex flex-wrap items-baseline gap-x-3">
                   <span className="font-display text-4xl font-bold tabular-nums">{euro(r.price)}</span>
-                  {r.priceNote && <span className="text-sm text-muted">{r.priceNote}</span>}
+                  <span className="text-sm text-muted">adviesprijs</span>
+                  {isTestRacket(r.id) && <span className="rounded-[var(--radius-control)] bg-accent px-2.5 py-0.5 label text-on-accent">Testracket, ligt op de baan</span>}
                 </p>
               )}
+              {r.price != null && <p className="mt-2 text-sm text-fg/75">{DELIVERY}</p>}
               {r.description && <p className="mt-4 max-w-[62ch] text-lg text-fg/80">{r.description}</p>}
             </header>
 

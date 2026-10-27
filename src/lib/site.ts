@@ -13,7 +13,6 @@ export const SHOP = {
   returnDays: 30,
   payLater: "Klarna", // laat leeg ("") als je geen achteraf betalen aanbiedt
   warranty: "2 jaar fabrieksgarantie",
-  testPrice: 29.95,
 };
 
 // Alle beelden op één plek. De shopfoto's zijn Higgsfield-placeholders tot de echte productfoto's er zijn.
@@ -81,9 +80,15 @@ export const CATEGORIES = [
 
 export const BRANDS = ["Bullpadel", "Nox", "Adidas", "Head", "Babolat", "Siux", "StarVie", "Wilson"];
 
-// Echte reviews (bijv. uit Google). De sectie verschijnt pas als hier minstens één review staat;
-// verzin geen reviews.
-export const REVIEWS: { name: string; text: string; stars: 1 | 2 | 3 | 4 | 5; source: string }[] = [];
+// Reviews van testers, overgenomen uit Google (naam, niveau, racket gekocht, één zin). Plek voor 6.
+// Zolang hier niets staat, toont de site drie VOORBEELDEN, duidelijk gemarkeerd. Verzin geen echte reviews.
+export type Review = { name: string; level: string; racket: string; text: string; stars: 1 | 2 | 3 | 4 | 5 };
+export const REVIEWS: Review[] = [];
+export const EXAMPLE_REVIEWS: Review[] = [
+  { name: "Voorbeeldnaam", level: "Gemiddeld", racket: "Bullpadel Vertex 05", text: "Hier komt één zin uit een echte Google-review.", stars: 5 },
+  { name: "Voorbeeldnaam", level: "Beginner", racket: "Bullpadel Indiga CTR", text: "Hier komt één zin uit een echte Google-review.", stars: 5 },
+  { name: "Voorbeeldnaam", level: "Gevorderd", racket: "Babolat Technical Viper 3.0", text: "Hier komt één zin uit een echte Google-review.", stars: 5 },
+];
 export const RATING: { score: number; count: number; source: string } | null = null;
 
 export const euro = (n: number) => `€ ${n.toFixed(n % 1 ? 2 : 0).replace(".", ",")}`;

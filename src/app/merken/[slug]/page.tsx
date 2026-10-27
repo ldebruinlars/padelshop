@@ -69,7 +69,7 @@ export default async function BrandPage({ params }: { params: Promise<{ slug: st
         </header>
         <CatalogBrowser brand={slug} />
         <p className="mx-auto -mt-16 max-w-[1400px] px-4 pb-20 text-xs text-muted md:px-8">
-          Specificaties en prijzen komen van de merk- en winkelsites (bron per racket in de snelle weergave). Prijzen kunnen afwijken; vraag in de winkel naar de actuele prijs.
+          Specificaties komen van de merk- en winkelsites (bron per racket in de snelle weergave). Alle rackets verkopen we voor de adviesprijs.
         </p>
       </main>
       <Footer />

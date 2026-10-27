@@ -1,13 +1,14 @@
+import { CONFIG } from "@/lib/config";
 import { CATEGORIES, SITE } from "@/lib/site";
 import { Logo } from "./icons";
 import { RevealPanel } from "./reveal-panel";
 
 const SERVICE = [
   { label: "Racket-test boeken", href: "/#testcenter" },
-  { label: "Testdag en toernooi", href: "/#testdag" },
+  { label: "Racket Test Avond", href: "/#testdag" },
   { label: "Racketfinder", href: "/#finder" },
   { label: "Veelgestelde vragen", href: "/#advies" },
-  { label: "Bezoek de winkel", href: "/#bezoek" },
+  { label: "Contact en route", href: "/#bezoek" },
 ];
 
 export function Footer() {
@@ -28,7 +29,7 @@ export function Footer() {
               <ul className="mt-4 grid gap-2">
                 {CATEGORIES.map((c) => (
                   <li key={c.id}>
-                    <a href={c.online ? "/rackets/" : "/#bezoek"} className="text-fg/85 hover:text-accent">
+                    <a href={c.online ? "/rackets/" : CONFIG.hasShop ? "/#bezoek" : "/rackets/"} className="text-fg/85 hover:text-accent">
                       {c.label}
                     </a>
                   </li>

@@ -2,14 +2,19 @@
 
 import { useState } from "react";
 import { LEVELS } from "@/lib/catalog";
+import { CONFIG } from "@/lib/config";
 import { signupTestEvent } from "@/lib/shop-api";
 
-// Het programma van een testmiddag. Tijden zijn een voorbeeld; de datum en het precieze schema komen per mail.
+const nextDate = CONFIG.nextTestEvening
+  ? new Intl.DateTimeFormat("nl-NL", { weekday: "long", day: "numeric", month: "long" }).format(new Date(`${CONFIG.nextTestEvening}T12:00:00`))
+  : "";
+
+// Het programma van een Racket Test Avond: één zaterdagavond per maand, 19:00-21:30, op twee banen.
 const PROGRAM = [
-  { time: "13:00", title: "Testuur per niveau", text: "De hele wand ligt op de baan, ook de Racket Lab eigen lijn. Beginners en gevorderden testen apart, met een coach die rackets aanreikt." },
-  { time: "14:00", title: "Americano met je testracket", text: "Rondes van 20 minuten met steeds een andere partner. Je scoort punten voor jezelf, dus je hoeft geen team mee te nemen." },
-  { time: "15:30", title: "Finale", text: "De vier spelers met de meeste punten spelen de finale, op niveau ingedeeld zoals bij een Mexicano." },
-  { time: "16:00", title: "Prijsuitreiking en loting", text: "De winnaar wint een racket. Daarna loten we onder alle deelnemers nog een racket." },
+  { time: "19:00", title: "Testuur per niveau", text: "De testrange ligt op twee banen. Beginners en gevorderden testen apart, met een coach die rackets aanreikt." },
+  { time: "20:00", title: "Americano met je testracket", text: "Rondes met steeds een andere partner. Je scoort punten voor jezelf, dus je hoeft geen team mee te nemen." },
+  { time: "21:00", title: "Finale", text: "De spelers met de meeste punten spelen de finale, op niveau ingedeeld zoals bij een Mexicano." },
+  { time: "21:15", title: "Prijsuitreiking en loting", text: "De winnaar wint een racket. Daarna loten we onder alle deelnemers nog een racket." },
 ];
 
 const FORMATS = [
@@ -26,7 +31,7 @@ const LADDER = [
   ["Racket beoordeeld na het testen", 1],
 ] as const;
 
-/** Maandelijkse testdag met toernooi, loting en een seizoensklassement. Bezoekers melden zich aan en krijgen de datum per mail. */
+/** Maandelijkse Racket Test Avond met toernooi, loting en een seizoensklassement. Bezoekers melden zich aan en krijgen de datum per mail. */
 export function TestEvent() {
   const [state, setState] = useState<"idle" | "sending" | "done" | "error">("idle");
   const [format, setFormat] = useState<(typeof FORMATS)[number]["id"]>("americano");
@@ -36,10 +41,10 @@ export function TestEvent() {
         <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr]">
           <div>
             <h2 id="testdag-titel" className="text-[clamp(30px,3.2vw,44px)] leading-[1] font-bold">
-              Testdag en toernooi, elke maand
+              Racket Test Avond, elke maand
             </h2>
             <p className="mt-4 max-w-[56ch] text-fg/75">
-              Eén zaterdagmiddag per maand ligt de hele wand op de baan bij Poort Padel. Je test zoveel rackets als je wilt, speelt een toernooi met je favoriet en maakt twee keer kans op een racket.
+              Eén zaterdagavond per maand, van 19:00 tot 21:30, ligt de testrange op twee banen bij Poort Padel. Je test zoveel rackets als je wilt, speelt een toernooi met je favoriet en maakt twee keer kans op een racket.
             </p>
 
             <h3 className="mt-10 label text-muted">Het programma</h3>
@@ -60,7 +65,7 @@ export function TestEvent() {
             {state === "done" ? (
               <div role="status">
                 <p className="text-2xl font-bold">Je staat op de lijst</p>
-                <p className="mt-2 text-fg/75">Zodra de datum van de eerste testdag vaststaat, krijg je een mail om je plek te bevestigen.</p>
+                <p className="mt-2 text-fg/75">Je krijgt een mail om je plek voor de volgende Racket Test Avond te bevestigen.</p>
               </div>
             ) : (
               <form
@@ -77,8 +82,8 @@ export function TestEvent() {
                   }
                 }}
               >
-                <p className="text-xl font-bold">Meld je aan voor de eerste testdag</p>
-                <p className="-mt-2 text-sm text-muted">De datum volgt; aanmelden is gratis en je zit nergens aan vast. Je hoeft geen partner mee te nemen.</p>
+                <p className="text-xl font-bold">Meld je aan voor de volgende Racket Test Avond</p>
+                <p className="-mt-2 text-sm text-muted">{nextDate ? <>Zaterdag {nextDate}, 19:00-21:30. </> : <>We mailen je de datum van de volgende avond. </>}Aanmelden is gratis en je zit nergens aan vast. Je hoeft geen partner mee te nemen.</p>
                 <label className="grid gap-2">
                   <span className="label text-muted">Naam</span>
                   <input name="naam" required autoComplete="name" className="field" />
@@ -124,7 +129,7 @@ export function TestEvent() {
                 <strong className="font-semibold text-fg">Loting:</strong> iedereen die meedoet krijgt een lot. Beoordeel je na het testen een racket, dan krijg je er een tweede lot bij.
               </li>
               <li>
-                <strong className="font-semibold text-fg">Meteen mee:</strong> testen kost op de testdag niets, en koop je op de dag zelf, dan neem je je racket meteen mee naar huis.
+                <strong className="font-semibold text-fg">Meteen mee:</strong> testen kost op de testavond niets, en koop je op de avond zelf, dan neem je je racket meteen mee naar huis.
               </li>
             </ul>
           </div>
@@ -147,9 +152,9 @@ export function TestEvent() {
           {/* Seizoensklassement */}
           <div>
             <h3 className="text-xl font-bold">Het seizoensklassement</h3>
-            <p className="mt-2 text-fg/75">Elke testdag levert punten op. Na het seizoen wint de nummer één van het klassement een racket naar keuze van de wand.</p>
+            <p className="mt-2 text-fg/75">Elke testavond levert punten op. Na het seizoen wint de nummer één van het klassement een racket naar keuze van de wand.</p>
             <table className="mt-4 w-full text-sm">
-              <caption className="sr-only">Punten per testdag</caption>
+              <caption className="sr-only">Punten per testavond</caption>
               <tbody>
                 {LADDER.map(([k, v]) => (
                   <tr key={k} className="border-b border-panel-2">
@@ -161,7 +166,7 @@ export function TestEvent() {
                 ))}
               </tbody>
             </table>
-            <p className="mt-2 text-xs text-muted">Het klassement start bij de eerste testdag.</p>
+            <p className="mt-2 text-xs text-muted">Het klassement start bij de eerste Racket Test Avond.</p>
           </div>
         </div>
       </div>

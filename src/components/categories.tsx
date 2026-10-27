@@ -4,6 +4,7 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { CONFIG } from "@/lib/config";
 import { CATEGORIES } from "@/lib/site";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -37,13 +38,17 @@ export function Categories() {
           <h2 className="text-[clamp(30px,3.2vw,44px)] leading-[1] font-bold">
             Meer dan rackets
           </h2>
-          <p className="max-w-[60ch] text-fg/70">Rackets vergelijk je hier en test je bij ons op de baan. Schoenen, tassen, ballen en kleding vind je in de winkel bij Poort Padel.</p>
+          <p className="max-w-[60ch] text-fg/70">
+            {CONFIG.hasShop
+              ? "Rackets vergelijk je hier en test je bij ons op de baan. Schoenen, tassen, ballen en kleding vind je in de winkel bij Poort Padel."
+              : "Rackets vergelijk je hier en test je bij ons op de baan. Overgrips, bumpers, ballen en polsbandjes zijn bij ons online te bestellen en liggen op de baan."}
+          </p>
         </div>
 
         <ul className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-3">
           {CATEGORIES.map((c) => (
             <li key={c.id} className="cat-tile">
-              <a href={c.online ? "#collectie" : "#bezoek"} className="group relative block aspect-[4/5] overflow-hidden rounded-[var(--radius-card)] bg-paper sm:aspect-[4/3]">
+              <a href={c.online ? "#collectie" : CONFIG.hasShop ? "#bezoek" : "/rackets/"} className="group relative block aspect-[4/5] overflow-hidden rounded-[var(--radius-card)] bg-paper sm:aspect-[4/3]">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   loading="lazy"
@@ -56,8 +61,8 @@ export function Categories() {
                   <div>
                     <p className="text-lg font-semibold leading-tight sm:text-2xl">{c.label}</p>
                     <p className="mt-1 text-xs text-fg/85 sm:text-sm">
-                      <span className="max-sm:hidden">{c.online ? c.text : `${c.text} · in de winkel`}</span>
-                      <span className="sm:hidden">{c.online ? "Bekijk alle" : "In de winkel"}</span>
+                      <span className="max-sm:hidden">{c.online ? c.text : CONFIG.hasShop ? `${c.text} · in de winkel` : `${c.text} · bestel bij je racket`}</span>
+                      <span className="sm:hidden">{c.online ? "Bekijk alle" : CONFIG.hasShop ? "In de winkel" : "Bij je racket"}</span>
                     </p>
                   </div>
                 </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { EXTRAS, LESSON_PERK } from "@/lib/extras";
+import { EXTRAS, LESSON_FROM, LESSON_PERK, ON_COURT_PERK, UPSELLS, type Extra } from "@/lib/extras";
 import { euro } from "@/lib/site";
 import { SOURCES, checkCoachCode, requestOrder, type Source } from "@/lib/shop-api";
 import { rememberedCode } from "./code-catcher";
@@ -10,6 +10,8 @@ import { rememberedCode } from "./code-catcher";
  * Reserveren of bestellen vanaf de racketpagina (ook via de QR-code aan de wand of de iPad op de balie).
  * ?bron=wand|balie|testdag en ?code=COACHCODE worden meegenomen, zodat elke verkoop te herleiden is.
  */
+const priceOf = (x: Extra) => (x.price != null ? euro(x.price) : (x.priceText ?? "prijs volgt"));
+
 export function OrderPanel({ racket, interest = false }: { racket: { id: string; label: string; price: number | null }; interest?: boolean }) {
   const [source, setSource] = useState<Source>("web");
   const [code, setCode] = useState("");
@@ -17,6 +19,7 @@ export function OrderPanel({ racket, interest = false }: { racket: { id: string;
   const [codeState, setCodeState] = useState<"idle" | "ok" | "unknown">("idle");
   const [extras, setExtras] = useState<string[]>([]);
   const [lesson, setLesson] = useState(true);
+  const lessonOk = racket.price != null && racket.price >= LESSON_FROM;
   const [state, setState] = useState<"idle" | "sending" | "done" | "error">("idle");
   const done = useRef<HTMLDivElement>(null);
 
@@ -35,6 +38,8 @@ export function OrderPanel({ racket, interest = false }: { racket: { id: string;
     if (state === "done") done.current?.focus();
   }, [state]);
 
+  const toggle = (id: string) => setExtras((l) => (l.includes(id) ? l.filter((i) => i !== id) : [...l, id]));
+
   const verify = async (c: string) => {
     if (!c.trim()) {
       setCoach(null);
@@ -52,7 +57,7 @@ export function OrderPanel({ racket, interest = false }: { racket: { id: string;
         <p className="mt-2">
           {interest
             ? `Zodra de ${racket.label} te testen is, hoor je het als eerste.`
-            : `We hebben je aanvraag voor de ${racket.label} ontvangen en mailen je zodra je hem kunt ophalen bij Poort Padel. Betalen doe je bij het ophalen.`}
+            : `We hebben je aanvraag voor de ${racket.label} ontvangen. We nemen contact op om hem mee te geven na je test of te leveren, binnen een week.`}
         </p>
       </div>
     );
@@ -76,7 +81,7 @@ export function OrderPanel({ racket, interest = false }: { racket: { id: string;
             phone: String(data.get("telefoon") ?? ""),
             coachCode: codeState === "ok" ? code : "",
             source,
-            wantsLesson: interest ? false : lesson,
+            wantsLesson: interest || !lessonOk ? false : lesson,
           });
           setState("done");
         } catch {
@@ -89,40 +94,58 @@ export function OrderPanel({ racket, interest = false }: { racket: { id: string;
           {interest ? "Interesse in dit racket?" : "Reserveer dit racket"}
         </h2>
         <p className="mt-1 text-sm text-muted">
-          {interest ? "Laat je gegevens achter; je hoort als eerste wanneer hij te testen en te bestellen is." : "We leggen hem voor je klaar in de winkel bij Poort Padel. Je betaalt bij het ophalen; online afrekenen volgt."}
+          {interest ? "Laat je gegevens achter; je hoort als eerste wanneer hij te testen en te bestellen is." : "Alle rackets voor de adviesprijs, met 30 dagen omruilgarantie."}
         </p>
       </div>
 
       <fieldset hidden={interest}>
         <legend className="label mb-2 text-muted">Erbij nemen?</legend>
-        <div className="grid gap-1.5 sm:grid-cols-2">
-          {EXTRAS.map((x) => {
+        <div className="grid gap-2 sm:grid-cols-3">
+          {UPSELLS.map((x) => {
             const on = extras.includes(x.id);
             return (
-              <label key={x.id} className={`flex cursor-pointer gap-3 rounded-[var(--radius-control)] border p-3 transition-colors ${on ? "border-accent bg-panel" : "border-panel-2 hover:border-fg/30"}`}>
-                <input
-                  type="checkbox"
-                  className="mt-1 size-4 accent-[var(--color-accent)]"
-                  checked={on}
-                  onChange={() => setExtras((l) => (on ? l.filter((i) => i !== x.id) : [...l, x.id]))}
-                />
-                <span>
-                  <span className="flex items-baseline justify-between gap-2 font-semibold">
-                    {x.name}
-                    <span className="shrink-0 text-xs font-normal text-muted">{x.price != null ? euro(x.price) : "prijs in de winkel"}</span>
+              <label key={x.id} className={`flex cursor-pointer flex-col overflow-hidden rounded-[var(--radius-control)] border transition-colors ${on ? "border-accent bg-panel" : "border-panel-2 hover:border-fg/30"}`}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                {x.image && <img src={x.image} alt="" loading="lazy" decoding="async" className="aspect-[4/3] w-full object-cover" />}
+                <span className="grid flex-1 content-start gap-1 p-3">
+                  <span className="flex items-start justify-between gap-2">
+                    <span className="font-semibold leading-snug">{x.name}</span>
+                    <input type="checkbox" className="mt-1 size-4 shrink-0 accent-[var(--color-accent)]" checked={on} onChange={() => toggle(x.id)} />
                   </span>
-                  <span className="mt-0.5 block text-xs text-muted">{x.why}</span>
+                  <span className="text-xs text-muted">{x.why}</span>
+                  <span className="mt-1 text-sm font-semibold tabular-nums">{priceOf(x)}</span>
                 </span>
               </label>
             );
           })}
         </div>
+        <p className="mt-2 text-sm text-fg/75">{ON_COURT_PERK}</p>
+        <details className="mt-3">
+          <summary className="cursor-pointer text-sm font-semibold">Meer extra&apos;s</summary>
+          <div className="mt-2 grid gap-1.5 sm:grid-cols-2">
+            {EXTRAS.map((x) => {
+              const on = extras.includes(x.id);
+              return (
+                <label key={x.id} className={`flex cursor-pointer gap-3 rounded-[var(--radius-control)] border p-3 transition-colors ${on ? "border-accent bg-panel" : "border-panel-2 hover:border-fg/30"}`}>
+                  <input type="checkbox" className="mt-1 size-4 accent-[var(--color-accent)]" checked={on} onChange={() => toggle(x.id)} />
+                  <span>
+                    <span className="flex items-baseline justify-between gap-2 font-semibold">
+                      {x.name}
+                      <span className="shrink-0 text-xs font-normal text-muted">{priceOf(x)}</span>
+                    </span>
+                    <span className="mt-0.5 block text-xs text-muted">{x.why}</span>
+                  </span>
+                </label>
+              );
+            })}
+          </div>
+        </details>
       </fieldset>
 
-      <label className={`flex cursor-pointer items-start gap-3 rounded-[var(--radius-control)] bg-panel p-3 ${interest ? "hidden" : ""}`}>
+      <label className={`flex cursor-pointer items-start gap-3 rounded-[var(--radius-control)] bg-panel p-3 ${interest || !lessonOk ? "hidden" : ""}`}>
         <input type="checkbox" className="mt-1 size-4 accent-[var(--color-accent)]" checked={lesson} onChange={(e) => setLesson(e.target.checked)} />
         <span>
-          <span className="font-semibold">Ja, ik wil het lesvoordeel</span>
+          <span className="font-semibold">Ja, ik wil de inspeel-les</span>
           <span className="mt-0.5 block text-sm text-muted">{LESSON_PERK}. We nemen contact op om een moment te plannen.</span>
         </span>
       </label>
@@ -157,7 +180,6 @@ export function OrderPanel({ racket, interest = false }: { racket: { id: string;
             {codeState === "ok" && coach && (
               <span className="text-accent">
                 Code van {coach.coach_name}
-                {coach.discount_pct > 0 ? `: ${coach.discount_pct}% korting bij het ophalen` : ""}
               </span>
             )}
             {codeState === "unknown" && <span className="text-muted">Deze code kennen we niet. Je kunt gewoon zonder code reserveren.</span>}

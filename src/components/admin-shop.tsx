@@ -342,10 +342,10 @@ export function SignupsTab() {
     <section aria-labelledby="testdag-beheer">
       <div className="flex flex-wrap items-baseline justify-between gap-3">
         <h2 id="testdag-beheer" className="text-2xl font-bold">
-          Aanmeldingen testdag <span className="text-muted tabular-nums">({rows.length})</span>
+          Aanmeldingen Racket Test Avond <span className="text-muted tabular-nums">({rows.length})</span>
         </h2>
         {rows.length > 0 && (
-          <a className="link text-sm" href={`mailto:?bcc=${rows.map((r) => r.email).join(",")}&subject=${encodeURIComponent("Racket Lab testdag")}`}>
+          <a className="link text-sm" href={`mailto:?bcc=${rows.map((r) => r.email).join(",")}&subject=${encodeURIComponent("Racket Lab Test Avond")}`}>
             Mail iedereen
           </a>
         )}
@@ -358,6 +358,51 @@ export function SignupsTab() {
             <span className="text-muted">
               {r.level}
               {r.wants_tournament && " · toernooi"}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+type WaitRow = { id: string; created_at: string; name: string; phone: string; daypart: string | null; persons: number; preference: string | null; wish_slot: string | null; status: "nieuw" | "gebeld" | "geplaatst" | "vervallen" };
+
+/** Wachtlijst: iedereen die geen passend slot vond. Bel of app ze zodra er een plek vrijkomt. */
+export function WaitlistTab() {
+  const { rows, error, load } = useTable<WaitRow>("waitlist", "created_at");
+  const setStatus = async (r: WaitRow, status: WaitRow["status"]) => {
+    await supabase()!.from("waitlist").update({ status }).eq("id", r.id);
+    load();
+  };
+  const open = rows.filter((r) => r.status === "nieuw" || r.status === "gebeld");
+  return (
+    <section aria-labelledby="wachtlijst-beheer">
+      <h2 id="wachtlijst-beheer" className="text-2xl font-bold">
+        Wachtlijst <span className="text-muted tabular-nums">({open.length} open)</span>
+      </h2>
+      {error && <p className="mt-2 text-sm text-accent">{error}</p>}
+      <ul className="mt-3 grid border-t border-panel-2 text-sm">
+        {rows.map((r) => (
+          <li key={r.id} className={`grid gap-2 border-b border-panel-2 py-3 sm:grid-cols-[1.2fr_1.6fr_auto] ${r.status === "geplaatst" || r.status === "vervallen" ? "opacity-50" : ""}`}>
+            <span>
+              <span className="font-semibold">{r.name}</span>
+              <a className="link block" href={`tel:${r.phone}`}>
+                {r.phone}
+              </a>
+            </span>
+            <span className="text-muted">
+              {r.persons} {r.persons === 1 ? "persoon" : "personen"}
+              {r.daypart && ` · ${r.daypart}`}
+              {r.wish_slot && ` · wilde ${r.wish_slot}`}
+              {r.preference && <span className="block text-fg/80">{r.preference}</span>}
+            </span>
+            <span className="flex flex-wrap gap-1.5">
+              {(["gebeld", "geplaatst", "vervallen"] as const).map((st) => (
+                <button key={st} type="button" className="chip" aria-pressed={r.status === st} onClick={() => setStatus(r, st)}>
+                  {st}
+                </button>
+              ))}
             </span>
           </li>
         ))}

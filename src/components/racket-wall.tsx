@@ -4,7 +4,7 @@ import { useMemo, useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { SHAPES, brandName, styleColor, type CatalogRacket, type Shape } from "@/lib/catalog";
-import { SHOP, euro } from "@/lib/site";
+import { euro } from "@/lib/site";
 import { photoOf } from "@/lib/all-rackets";
 import { OWN_BRAND, OWN_RACKETS } from "@/lib/own-line";
 import { useDragScroll } from "./drag-scroll";
@@ -182,7 +182,7 @@ export function RacketWall() {
       <div className="border-b border-panel-2 bg-bg">
         <div className="mx-auto flex max-w-[1400px] flex-wrap items-center justify-between gap-4 px-4 py-5 md:px-8">
           <p className="max-w-[60ch] text-fg/85">
-            <strong className="font-semibold text-fg">Twijfel je?</strong> Speel 45 minuten met 3 tot 5 rackets op de baan. {euro(SHOP.testPrice)}, terug bij aankoop.
+            <strong className="font-semibold text-fg">Twijfel je?</strong> Test 3 rackets op de baan met een coach die je spel kent. 30 minuten, €30.
           </p>
           <div className="flex flex-wrap gap-2">
             <a href="#testcenter" className="btn btn-primary">

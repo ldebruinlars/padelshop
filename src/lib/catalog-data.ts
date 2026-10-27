@@ -79,7 +79,7 @@ export const CATALOG: { brands: Brand[]; rackets: CatalogRacket[] } = {
       "level": "Gevorderd",
       "playstyle": "power",
       "price": 339.95,
-      "priceNote": "reguliere winkelprijs Padel Nuestro (actieprijs €199,95)",
+      "priceNote": "reguliere winkelprijs Padel Nuestro",
       "description": "Harde diamantvormige racket met hoge balans en 12K-carbon slagvlak, gespeeld door Juan Tello en bedoeld voor aanvallende spelers die veel smashen.",
       "sources": [
         "https://www.padelnuestro.com/int/bullpadel-vertex-05"
@@ -99,7 +99,7 @@ export const CATALOG: { brands: Brand[]; rackets: CatalogRacket[] } = {
       "level": "Gevorderd",
       "playstyle": "allround",
       "price": 319.95,
-      "priceNote": "reguliere winkelprijs Padel Nuestro (actieprijs €174,95)",
+      "priceNote": "reguliere winkelprijs Padel Nuestro",
       "description": "Hybride racket (tussen rond en druppel) van Fede Chingotto met middenbalans en 3K-carbon, gericht op een gecontroleerd, tactisch spel met gedoseerde kracht.",
       "sources": [
         "https://www.padelnuestro.com/de/bullpadel-neuron-02"
@@ -202,7 +202,7 @@ export const CATALOG: { brands: Brand[]; rackets: CatalogRacket[] } = {
       "level": "Gevorderd",
       "playstyle": "power",
       "price": 389.95,
-      "priceNote": "reguliere winkelprijs Padel Nuestro (actieprijs €239,95)",
+      "priceNote": "reguliere winkelprijs Padel Nuestro",
       "description": "Aanvallende diamantvormige racket van Ale Galán met hoge, instelbare balans en een zachter rubber dan de HRD+-versie, wat de bal makkelijker laat wegspringen.",
       "sources": [
         "https://www.padelnuestro.com/int/adidas-metalbone-2026"
@@ -222,7 +222,7 @@ export const CATALOG: { brands: Brand[]; rackets: CatalogRacket[] } = {
       "level": "Gevorderd",
       "playstyle": "allround",
       "price": 179.95,
-      "priceNote": "reguliere winkelprijs Padel Nuestro (actieprijs €124,95)",
+      "priceNote": "reguliere winkelprijs Padel Nuestro",
       "description": "Lichte ronde allround-racket met een centrale sweet spot, open gaten in het binnenwerk en een glasvezel slagvlak, voor spelers die controle met wat kracht willen combineren.",
       "sources": [
         "https://www.padelnuestro.com/pala-adidas-crossit-team-light-2026-ar2ca6u26"
@@ -242,7 +242,7 @@ export const CATALOG: { brands: Brand[]; rackets: CatalogRacket[] } = {
       "level": "Beginner",
       "playstyle": "control",
       "price": 119.95,
-      "priceNote": "reguliere winkelprijs Padel Nuestro (actieprijs €95,95)",
+      "priceNote": "reguliere winkelprijs Padel Nuestro",
       "description": "Ronde controleracket met glasvezel slagvlak en zacht EVA-binnenwerk voor comfort en minder trillingen, bedoeld voor beginnende tot gemiddelde spelers.",
       "sources": [
         "https://www.padelnuestro.com/int/adidas-rx-series-2026"
@@ -262,7 +262,7 @@ export const CATALOG: { brands: Brand[]; rackets: CatalogRacket[] } = {
       "level": "Gevorderd",
       "playstyle": "power",
       "price": 349.95,
-      "priceNote": "reguliere winkelprijs Padel Nuestro (actieprijs €219,95)",
+      "priceNote": "reguliere winkelprijs Padel Nuestro",
       "description": "Krachtige competitieracket van Arturo Coello met diamantvorm, hoge balans en een ruw Extreme Spin-oppervlak voor smashes, vibora's en aanvallende bandeja's.",
       "sources": [
         "https://www.padelnuestro.com/int/head-coello-pro-2026"
@@ -282,7 +282,7 @@ export const CATALOG: { brands: Brand[]; rackets: CatalogRacket[] } = {
       "level": "Gevorderd",
       "playstyle": "allround",
       "price": 239.95,
-      "priceNote": "reguliere winkelprijs Padel Nuestro (actieprijs €144,95)",
+      "priceNote": "reguliere winkelprijs Padel Nuestro",
       "description": "Lichte druppelvormige racket van Ari Sánchez met hybride carbon-glasvezel slagvlak, gemaakt om controle en kracht te combineren in een snel spel.",
       "sources": [
         "https://www.padelnuestro.com/int/head-speed-motion-2025",
@@ -323,7 +323,7 @@ export const CATALOG: { brands: Brand[]; rackets: CatalogRacket[] } = {
       "level": "Gevorderd",
       "playstyle": "power",
       "price": 369.95,
-      "priceNote": "reguliere winkelprijs Padel Nuestro (actieprijs €234,95)",
+      "priceNote": "reguliere winkelprijs Padel Nuestro",
       "description": "Diamantvormige racket met hoge balans, 3K-carbon en een Carbon Power Layer, gemaakt voor gevorderde spelers die vanaf het net aanvallen.",
       "sources": [
         "https://www.padelnuestro.com/int/babolat-technical-viper-3-0",
@@ -344,7 +344,7 @@ export const CATALOG: { brands: Brand[]; rackets: CatalogRacket[] } = {
       "level": "Gevorderd",
       "playstyle": "control",
       "price": 319.95,
-      "priceNote": "reguliere winkelprijs Padel Nuestro (actieprijs €204,95)",
+      "priceNote": "reguliere winkelprijs Padel Nuestro",
       "description": "Ronde, iets kopzware racket van Babolat voor counterende spelers die nauwkeurige controle willen met extra kracht uit het 3K-carbon.",
       "sources": [
         "https://www.babolat.com/gb/counter-viper-2.6/150177.html",
@@ -406,7 +406,7 @@ export const CATALOG: { brands: Brand[]; rackets: CatalogRacket[] } = {
       "level": "Gevorderd",
       "playstyle": "allround",
       "price": 349.95,
-      "priceNote": "normale winkelprijs padelnuestro (actieprijs €164,95)",
+      "priceNote": "normale winkelprijs padelnuestro",
       "description": "Druppelvormig racket van Franco Stupaczuk met middenbalans, 12K-carbon slagvlak en zanderige matte afwerking voor een mix van kracht en controle.",
       "sources": [
         "https://www.padelnuestro.com/uk/siux-electra-pro-shadow-red-2026"
@@ -507,7 +507,7 @@ export const CATALOG: { brands: Brand[]; rackets: CatalogRacket[] } = {
       "level": "Gevorderd",
       "playstyle": "power",
       "price": 279.95,
-      "priceNote": "normale winkelprijs padelnuestro (actieprijs €154,95)",
+      "priceNote": "normale winkelprijs padelnuestro",
       "description": "Diamantvormig racket met hoge balans en een 3K-carbon constructie met Power Foam-kern, voor aanvallende spelers die kracht en spin zoeken.",
       "sources": [
         "https://www.padelnuestro.com/int/wilson-defy-v1-2025",
@@ -528,7 +528,7 @@ export const CATALOG: { brands: Brand[]; rackets: CatalogRacket[] } = {
       "level": "Gemiddeld",
       "playstyle": "control",
       "price": 269.95,
-      "priceNote": "normale winkelprijs padelnuestro (actieprijs €169,95)",
+      "priceNote": "normale winkelprijs padelnuestro",
       "description": "Rond controleracket met lage balans en een foamkern met dubbele dichtheid, bedoeld voor verdedigende spelers op gemiddeld tot gevorderd niveau.",
       "sources": [
         "https://nz.wilson.com/products/endure-v1-padel-racket-blue-black",
@@ -549,7 +549,7 @@ export const CATALOG: { brands: Brand[]; rackets: CatalogRacket[] } = {
       "level": "Gemiddeld",
       "playstyle": "allround",
       "price": 189.95,
-      "priceNote": "normale winkelprijs padelnuestro (actieprijs €159,95)",
+      "priceNote": "normale winkelprijs padelnuestro",
       "description": "Druppelvormig allround racket met middenbalans en een slagvlak van carbon en glasvezel, met een ruwe toplaag voor spin.",
       "sources": [
         "https://www.padelnuestro.com/int/wilson-blade-v4-padel-157133-p"
@@ -569,7 +569,7 @@ export const CATALOG: { brands: Brand[]; rackets: CatalogRacket[] } = {
       "level": "Gevorderd",
       "playstyle": "power",
       "price": 319.95,
-      "priceNote": "normale winkelprijs padelnuestro (actieprijs €189,95)",
+      "priceNote": "normale winkelprijs padelnuestro",
       "description": "Krachtig druppelvormig racket met 18K-carbon slagvlak, middelharde EVA-kern en carbon frame, gemaakt voor smashes en aanvallend spel.",
       "sources": [
         "https://www.padelnuestro.com/int/black-crown-special-max"
@@ -589,7 +589,7 @@ export const CATALOG: { brands: Brand[]; rackets: CatalogRacket[] } = {
       "level": "Gemiddeld",
       "playstyle": "allround",
       "price": 229.95,
-      "priceNote": "normale winkelprijs padelnuestro (actieprijs €134,95)",
+      "priceNote": "normale winkelprijs padelnuestro",
       "description": "Rond, gebalanceerd racket (50% kracht, 50% controle) met 3K-carbon slagvlak, Black EVA-kern en ruwe afwerking.",
       "sources": [
         "https://www.padelnuestro.com/int/black-crown-piton-14"
@@ -609,7 +609,7 @@ export const CATALOG: { brands: Brand[]; rackets: CatalogRacket[] } = {
       "level": "Gemiddeld",
       "playstyle": "control",
       "price": 209.95,
-      "priceNote": "normale winkelprijs padelnuestro (actieprijs €169,95)",
+      "priceNote": "normale winkelprijs padelnuestro",
       "description": "Rond comfortracket met een supersoft witte EVA-kern, carbon slagvlak en antivibratiesysteem, gericht op controle en armcomfort.",
       "sources": [
         "https://www.padelnuestro.com/int/black-crown-hurricane-comfort-4-0"
@@ -629,7 +629,7 @@ export const CATALOG: { brands: Brand[]; rackets: CatalogRacket[] } = {
       "level": "Gevorderd",
       "playstyle": "power",
       "price": 359.95,
-      "priceNote": "normale winkelprijs padelnuestro (actieprijs €198,95)",
+      "priceNote": "normale winkelprijs padelnuestro",
       "description": "Powerracket uit de collectie van Jon Sanz met 24K-carbon slagvlak, harde EVA-kern en antivibratiesysteem, bedoeld voor aanvallers aan het net.",
       "sources": [
         "https://www.padelnuestro.com/int/drop-shot-axion-attack-2-0",
@@ -671,10 +671,224 @@ export const CATALOG: { brands: Brand[]; rackets: CatalogRacket[] } = {
       "level": "Gemiddeld",
       "playstyle": "control",
       "price": 229.95,
-      "priceNote": "normale winkelprijs padelnuestro (actieprijs €139,95)",
+      "priceNote": "normale winkelprijs padelnuestro",
       "description": "Rond controleracket in oversize-formaat met lage balans, carbon slagvlak en een EVA-kern die trillingen dempt, voor geduldig verdedigend spel.",
       "sources": [
         "https://www.padelnuestro.com/int/drop-shot-canyon-pro-confort-2-0"
+      ]
+    },
+    {
+      "id": "bullpadel-hack-04-2026",
+      "brand": "bullpadel",
+      "model": "Hack 04 (2026)",
+      "shape": "diamant",
+      "weight": "365-375 g",
+      "balance": "hoog",
+      "core": "MultiEva",
+      "face": "Tricarbon 18K",
+      "frame": null,
+      "feel": "hard",
+      "level": "Gevorderd",
+      "playstyle": "power",
+      "price": 319.99,
+      "priceNote": "adviesprijs bullpadel.com",
+      "description": "Voor sterke aanvallers die van vlammen bij het net houden. Hij voelt stug en levert veel power, maar vergeeft weinig, dus niet geschikt voor beginners.",
+      "sources": [
+        "https://www.bullpadel.com/es/5674-pala-bullpadel-hack-04-26.html",
+        "https://www.padelnuestro.com/int/bullpadel-hack-04-26",
+        "https://padelgids.nl/padelgear/padel-rackets/bullpadel-hack-04-2026/"
+      ]
+    },
+    {
+      "id": "bullpadel-vertex-05-comfort-2026",
+      "brand": "bullpadel",
+      "model": "Vertex 05 Comfort (2026)",
+      "shape": "diamant",
+      "weight": "360-370 g",
+      "balance": "hoog",
+      "core": "MultiEva",
+      "face": "Fibrix (glasvezel + carbon)",
+      "frame": "Carbon buis",
+      "feel": "zacht",
+      "level": "Gevorderd",
+      "playstyle": "power",
+      "price": 249.99,
+      "priceNote": "adviesprijs bullpadel.com",
+      "description": "De zachtere broer van de Vertex 05. Je krijgt makkelijk power met een ruime sweet spot en minder trillingen, fijn als je aanvallend speelt maar je arm wilt sparen.",
+      "sources": [
+        "https://www.bullpadel.com/gb/proline/5680-racket-bullpadel-vertex-05-cmf.html",
+        "https://padelgids.nl/padelgear/padel-rackets/bullpadel-vertex-05-comfort-2026/",
+        "https://www.padelful.com/en/rackets/bullpadel-vertex-05-comfort-2026"
+      ]
+    },
+    {
+      "id": "bullpadel-vertex-05-w-2026",
+      "brand": "bullpadel",
+      "model": "Vertex 05 W (2026)",
+      "shape": "diamant",
+      "weight": "350-360 g",
+      "balance": "hoog",
+      "core": "MultiEva",
+      "face": "Fibrix (glasvezel + carbon)",
+      "frame": "Carbon",
+      "feel": "medium",
+      "level": "Gevorderd",
+      "playstyle": "power",
+      "price": 279.99,
+      "priceNote": "adviesprijs bullpadel.com",
+      "description": "Het damesracket van Delfi Brea, voor gevorderde speelsters die graag afmaken. Lichter dan de herenversie, met een kopzware balans voor veel power bij je smash.",
+      "sources": [
+        "https://www.bullpadel.com/es/5681-pala-bullpadel-vertex-05-w-26.html",
+        "https://padelmarket.com/en-eu/products/bullpadel-vertex-w-05-2026-delfi-brea-racket?country=ES"
+      ]
+    },
+    {
+      "id": "bullpadel-elite-w-02-2027",
+      "brand": "bullpadel",
+      "model": "Elite W 02 (2027)",
+      "shape": "druppel",
+      "weight": "350-360 g",
+      "balance": "midden",
+      "core": "MultiEva",
+      "face": "Fibrix (glasvezel + carbon)",
+      "frame": "Carbon",
+      "feel": "medium",
+      "level": "Gevorderd",
+      "playstyle": "allround",
+      "price": 294.99,
+      "priceNote": "adviesprijs bullpadel.com",
+      "description": "Het racket van Gemma Triay, voor gevorderde speelsters die verdedigen en aanvallen. De hybride vorm en middenbalans geven een mooie mix van controle en power.",
+      "sources": [
+        "https://www.bullpadel.com/es/6843-pala-bullpadel-elite-02-27.html",
+        "https://padelmarket.com/products/bullpadel-elite-w-02-2027-gemma-triay-pala"
+      ]
+    },
+    {
+      "id": "head-gravity-pro-2024",
+      "brand": "head",
+      "model": "Gravity Pro (2024)",
+      "shape": "rond",
+      "weight": "365 g (±10 g)",
+      "balance": "midden",
+      "core": "Control Foam",
+      "face": "Hybrid Woven (carbon + glasvezel)",
+      "frame": "Carbon buis",
+      "feel": "medium",
+      "level": "Gevorderd",
+      "playstyle": "control",
+      "price": 239.95,
+      "priceNote": "reguliere winkelprijs via Padelgids",
+      "description": "Een rond controleracket voor gevorderde verdedigers die punten opbouwen vanaf achteren. Comfortabel, met een grote sweet spot, dus je plaatst de bal makkelijk.",
+      "sources": [
+        "https://www.head.com/en/product/gravity-pro-2024-224004",
+        "https://www.padelnuestro.com/uk/head-gravity-pro-2024-113828-p",
+        "https://padelgids.nl/padelgear/padel-rackets/head-gravity-pro-padel-racket/"
+      ]
+    },
+    {
+      "id": "head-coello-motion-2026",
+      "brand": "head",
+      "model": "Coello Motion (2026)",
+      "shape": "diamant",
+      "weight": "360 g",
+      "balance": "hoog",
+      "core": "Power Foam",
+      "face": "Carbon Hybrid",
+      "frame": "Carbon",
+      "feel": "medium",
+      "level": "Gevorderd",
+      "playstyle": "power",
+      "price": 350,
+      "priceNote": "reguliere winkelprijs Padelmarket",
+      "description": "De lichtere versie van de Coello Pro, voor aanvallers die power willen maar ook wendbaarheid. Sterk bij het net en boven je hoofd, maar hij straft missers buiten de sweet spot af.",
+      "sources": [
+        "https://www.head.com/en/product/coello-motion-2026-225046",
+        "https://padelmarket.com/en-eu/collections/padel-rackets-sales/products/head-coello-motion-2026-racket",
+        "https://www.padelful.com/en/rackets/head-coello-motion-2026"
+      ]
+    },
+    {
+      "id": "nox-at10-pro-cup-soft-2026",
+      "brand": "nox",
+      "model": "AT10 Pro Cup Soft (2026)",
+      "shape": "druppel",
+      "weight": "360-375 g",
+      "balance": null,
+      "core": "HR3 Soft EVA",
+      "face": "Gealuminiseerd glasvezel",
+      "frame": "Carbon",
+      "feel": "zacht",
+      "level": "Gevorderd",
+      "playstyle": "allround",
+      "price": 199.99,
+      "priceNote": "adviesprijs noxsport.com",
+      "description": "Gebaseerd op het racket van Agustín Tapia, maar met een zachtere kern. Fijn als je comfort en controle zoekt en toch genoeg power wilt.",
+      "sources": [
+        "https://noxsport.com/products/pala-at10-pro-cup-soft-2026-by-agustin-tapia",
+        "https://padelgids.nl/padelgear/padel-rackets/nox-at10-pro-cup-soft-2026/"
+      ]
+    },
+    {
+      "id": "nox-equation-hard-advanced-2026",
+      "brand": "nox",
+      "model": "Equation Hard Advanced (2026)",
+      "shape": "rond",
+      "weight": "355-365 g",
+      "balance": "midden",
+      "core": "HR3 Hard EVA",
+      "face": "Glasvezel 3K",
+      "frame": "Carbon",
+      "feel": "hard",
+      "level": "Gemiddeld",
+      "playstyle": "control",
+      "price": 124.99,
+      "priceNote": "adviesprijs noxsport.com",
+      "description": "Een rond racket voor de gemiddelde speler die op precisie speelt. Stabiel en goed te controleren, alleen krijg je je power niet gratis.",
+      "sources": [
+        "https://noxsport.com/en/products/pala-equation-hard-advanced",
+        "https://padelmarket.com/es-eu/products/nox-equation-hard-advanced-2026-pala"
+      ]
+    },
+    {
+      "id": "babolat-counter-veron-2026",
+      "brand": "babolat",
+      "model": "Counter Veron 2.6 (2026)",
+      "shape": "rond",
+      "weight": "365 g (±10 g)",
+      "balance": "midden",
+      "core": "Black EVA",
+      "face": "CarbonFlex (carbon + glasvezel)",
+      "frame": "Carbon",
+      "feel": "medium",
+      "level": "Gemiddeld",
+      "playstyle": "control",
+      "price": 240,
+      "priceNote": "adviesprijs babolat.com",
+      "description": "Voor slimme counterspelers die liever punten opbouwen dan elke bal hard slaan. Medium gevoel, een ruime sweet spot en veel controle.",
+      "sources": [
+        "https://www.babolat.com/us/counter-veron-2.6/150181.html",
+        "https://www.tenniswarehouse-europe.com/descpageRCBABPD-BPRCOUVER26-EN.html"
+      ]
+    },
+    {
+      "id": "babolat-air-vertuo-2026",
+      "brand": "babolat",
+      "model": "Air Vertuo 2.6 (2026)",
+      "shape": "druppel",
+      "weight": "345 g (±10 g)",
+      "balance": "midden",
+      "core": "Black EVA",
+      "face": "Glasvezel (Soft Fiber)",
+      "frame": "Carbon",
+      "feel": "zacht",
+      "level": "Gemiddeld",
+      "playstyle": "allround",
+      "price": 180,
+      "priceNote": "adviesprijs babolat.com",
+      "description": "Licht en vergevingsgezind, voor recreanten en gemiddelde spelers. Wendbaar en comfortabel, met makkelijke power zonder dat je arm het voelt.",
+      "sources": [
+        "https://www.babolat.com/us/air-vertuo-2.6/150184.html",
+        "https://www.tenniswarehouse-europe.com/descpageRCBABPD-BPAIRVERT26-EN.html"
       ]
     }
   ]

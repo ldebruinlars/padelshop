@@ -1,5 +1,6 @@
 "use client";
 
+import { isTestRacket } from "@/lib/test-range";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -12,8 +13,8 @@ import { OWN_BRAND } from "@/lib/own-line";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-type Filters = { merk: string; vorm: string; hardheid: string; stijl: string; niveau: string; sort: string };
-const EMPTY: Filters = { merk: "", vorm: "", hardheid: "", stijl: "", niveau: "", sort: "" };
+type Filters = { test: string; merk: string; vorm: string; hardheid: string; stijl: string; niveau: string; sort: string };
+const EMPTY: Filters = { test: "", merk: "", vorm: "", hardheid: "", stijl: "", niveau: "", sort: "" };
 
 const SORTS = [
   { id: "", label: "Aanbevolen" },
@@ -70,6 +71,7 @@ export function CatalogBrowser({ brand }: { brand?: string }) {
     const out = ALL_RACKETS.filter(
       (r) =>
         (!brand || r.brand === brand) &&
+        (!f.test || isTestRacket(r.id)) &&
         (!f.merk || r.brand === f.merk) &&
         (!f.vorm || r.shape === f.vorm) &&
         (!f.hardheid || r.feel === f.hardheid) &&
@@ -120,6 +122,7 @@ export function CatalogBrowser({ brand }: { brand?: string }) {
     <div className="mx-auto grid max-w-[1400px] gap-8 px-4 pb-24 md:px-8 lg:grid-cols-[280px_1fr]">
       {/* Filters blijven naast de rackets staan; zijn ze hoger dan het scherm, dan scrollen ze zelf mee (eigen balk) */}
       <aside data-lenis-prevent className="grid content-start gap-6 lg:sticky lg:top-28 lg:max-h-[calc(100svh-8rem)] lg:self-start lg:overflow-y-auto lg:overscroll-contain lg:pr-3 lg:[scrollbar-width:thin]" aria-label="Filters">
+        <Chips label="Op de baan" value={f.test} options={[{ id: "ja", label: "Testrackets" }]} onChange={set("test")} />
         {!brand && <Chips label="Merk" value={f.merk} options={brandsInUse.map((b) => ({ id: b.slug, label: b.name }))} onChange={set("merk")} />}
         <Chips label="Vorm" value={f.vorm} options={SHAPES} onChange={set("vorm")} />
         <Chips label="Hardheid" value={f.hardheid} options={FEELS} onChange={set("hardheid")} />

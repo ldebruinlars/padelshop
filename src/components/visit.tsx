@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { CONFIG, whatsappUrl } from "@/lib/config";
 import { MEDIA, SITE } from "@/lib/site";
 
-/** Bezoek de winkel bij Poort Padel, plus aanmelden voor de nieuwsbrief (Netlify Forms). */
+/** Langskomen bij Poort Padel, WhatsApp, en aanmelden voor de nieuwsbrief (Netlify Forms). */
 export function Visit() {
   const [state, setState] = useState<"idle" | "sending" | "done" | "error">("idle");
 
@@ -18,10 +19,21 @@ export function Visit() {
             <h2 className="text-[clamp(26px,2.6vw,36px)] leading-[1.05] font-bold">
               Kom langs bij Poort Padel
             </h2>
-            <p className="mt-3 max-w-md text-fg/85">{SITE.location}. Rackets, schoenen, tassen en ballen om vast te pakken, en een baan om meteen te testen.</p>
-            <a href={SITE.routeUrl} target="_blank" rel="noopener noreferrer" className="mt-5 btn btn-sand">
-              Plan je route
-            </a>
+            <p className="mt-3 max-w-md text-fg/85">
+              {SITE.location}. {CONFIG.hasShop ? "Rackets, schoenen, tassen en ballen om vast te pakken, en een baan om meteen te testen." : "De testrange ligt op de baan, klaar om meteen te testen."}
+            </p>
+            <div className="mt-5 flex flex-wrap gap-2">
+              {whatsappUrl() ? (
+                <a href={whatsappUrl("Hoi Racket Lab, ik heb een vraag over een racket-test.")} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
+                  App ons op WhatsApp
+                </a>
+              ) : (
+                <span className="btn btn-line pointer-events-none opacity-70">WhatsApp-nummer volgt</span>
+              )}
+              <a href={SITE.routeUrl} target="_blank" rel="noopener noreferrer" className="btn btn-sand">
+                Plan je route
+              </a>
+            </div>
           </div>
         </div>
 
@@ -29,7 +41,7 @@ export function Visit() {
           <h2 className="text-[clamp(26px,2.6vw,36px)] leading-[1.05] font-bold">
             Nieuwe rackets als eerste testen
           </h2>
-          <p className="mt-3 max-w-md text-fg/70">Nieuwe modellen in het testcenter, outletdeals en tips van de coaches. Afmelden kan altijd.</p>
+          <p className="mt-3 max-w-md text-fg/70">Nieuwe modellen in het testcenter, tips van de coaches en de datum van de volgende Racket Test Avond. Afmelden kan altijd.</p>
           {state === "done" ? (
             <p className="mt-6 rounded-[var(--radius-card)] bg-accent px-5 py-4 font-semibold text-on-accent" role="status">
               Gelukt. Je staat op de lijst.

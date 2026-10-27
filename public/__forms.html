@@ -6,11 +6,27 @@
   <input type="hidden" name="form-name" value="racket-test" />
   <input name="bot-field" />
   <input name="naam" type="text" />
+  <input name="telefoon" type="tel" />
   <input name="email" type="email" />
   <input name="dag" type="text" />
   <input name="tijd" type="text" />
-  <select name="coach"><option value="any">any</option></select>
-  <input type="hidden" name="subject" value="Nieuwe racket-test aangevraagd (%{submissionId})" />
+  <input name="vorm" type="text" />
+  <input name="bedrag" type="text" />
+  <input name="coach" type="text" />
+  <input name="rackets" type="text" />
+  <input name="huidig" type="text" />
+  <input type="hidden" name="subject" value="Nieuwe Racket Fit geboekt (%{submissionId})" />
+</form>
+<form name="wachtlijst" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="wachtlijst" />
+  <input name="bot-field" />
+  <input name="naam" type="text" />
+  <input name="telefoon" type="tel" />
+  <input name="dagdeel" type="text" />
+  <input name="personen" type="text" />
+  <input name="voorkeur" type="text" />
+  <input name="slot" type="text" />
+  <input type="hidden" name="subject" value="Nieuw op de wachtlijst (%{submissionId})" />
 </form>
 <form name="nieuwsbrief" data-netlify="true" netlify-honeypot="bot-field" hidden>
   <input type="hidden" name="form-name" value="nieuwsbrief" />

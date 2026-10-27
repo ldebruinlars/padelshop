@@ -4,10 +4,28 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { PLAYTOMIC_URL, TIMES, hhmm } from "@/lib/booking";
 import { supabase } from "@/lib/supabase-client";
-import { CoachesTab, MarginTab, OrdersTab, QrTab, SignupsTab } from "./admin-shop";
+import { CoachesTab, MarginTab, OrdersTab, QrTab, SignupsTab, WaitlistTab } from "./admin-shop";
 import { ChevronIcon, Logo } from "./icons";
 
-type Booking = { id: string; slot_date: string; slot_time: string; coach: string; name: string; email: string; status: "nieuw" | "playtomic" | "geannuleerd"; created_at: string };
+type Booking = {
+  id: string;
+  slot_date: string;
+  slot_time: string;
+  coach: string;
+  name: string;
+  email: string;
+  phone: string | null;
+  status: "nieuw" | "playtomic" | "geannuleerd";
+  created_at: string;
+  kind: "duo" | "match" | "machine";
+  persons: number;
+  slot_count: number;
+  student: boolean;
+  amount: number | null;
+  payment: "open" | "betaald" | "mislukt";
+  intake: { rackets?: string[]; current?: string; answers?: Record<string, string> } | null;
+};
+const KIND_LABEL = { duo: "Met coach", match: "Koppel mij", machine: "Balmachine-uur" } as const;
 type Block = { id: string; slot_date: string; slot_time: string | null; reason: string | null };
 
 const ymd = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
@@ -75,7 +93,7 @@ export function Admin() {
   const [todo, setTodo] = useState<Booking[]>([]);
   const [selected, setSelected] = useState<Booking | null>(null);
   const [error, setError] = useState("");
-  const [tab, setTab] = useState<"agenda" | "bestellingen" | "coaches" | "marge" | "qr" | "testdag">("agenda");
+  const [tab, setTab] = useState<"agenda" | "wachtlijst" | "bestellingen" | "coaches" | "marge" | "qr" | "testdag">("agenda");
 
   useEffect(() => {
     if (!db) return setReady(true);
@@ -123,7 +141,14 @@ export function Admin() {
       </main>
     );
 
-  const bookingAt = (d: string, t: string) => bookings.find((b) => b.slot_date === d && hhmm(b.slot_time) === t);
+  // Een boeking van twee slots bezet ook het tweede slot
+  const covers = (b: Booking, t: string) => {
+    const [h, m] = hhmm(b.slot_time).split(":").map(Number);
+    const [th, tm] = t.split(":").map(Number);
+    const at = th * 60 + tm - (h * 60 + m);
+    return at >= 0 && at < 30 * (b.slot_count ?? 1);
+  };
+  const bookingAt = (d: string, t: string) => bookings.find((b) => b.slot_date === d && covers(b, t));
   const blockAt = (d: string, t: string | null) => blocks.find((b) => b.slot_date === d && (t === null ? b.slot_time === null : b.slot_time && hhmm(b.slot_time) === t));
   const dayBlocked = (d: string) => Boolean(blockAt(d, null));
 
@@ -161,11 +186,12 @@ export function Admin() {
           {(
             [
               ["agenda", "Agenda"],
+              ["wachtlijst", "Wachtlijst"],
               ["bestellingen", "Bestellingen"],
               ["coaches", "Coaches"],
               ["marge", "Marge"],
               ["qr", "QR-labels"],
-              ["testdag", "Testdag"],
+              ["testdag", "Test Avond"],
             ] as const
           ).map(([id, label]) => (
             <button key={id} type="button" onClick={() => setTab(id)} aria-current={tab === id ? "page" : undefined} className={`border-b-2 py-3 whitespace-nowrap ${tab === id ? "border-accent text-fg" : "border-transparent text-fg/70 hover:text-fg"}`}>
@@ -177,6 +203,7 @@ export function Admin() {
 
       {tab !== "agenda" && (
         <div className="mx-auto max-w-[1400px] px-4 pt-8 md:px-8">
+          {tab === "wachtlijst" && <WaitlistTab />}
           {tab === "bestellingen" && <OrdersTab />}
           {tab === "coaches" && <CoachesTab />}
           {tab === "marge" && <MarginTab />}
@@ -211,7 +238,7 @@ export function Admin() {
                   <span>
                     <span className="font-semibold capitalize">{longFmt.format(fromKey(b.slot_date))}</span> om <span className="font-semibold tabular-nums">{hhmm(b.slot_time)}</span>
                     <span className="block text-sm text-muted">
-                      {b.name} · {b.email} · {b.coach}
+                      {b.name} · {b.phone ?? b.email} · {KIND_LABEL[b.kind] ?? "Met coach"} · {b.persons} p. · {b.payment === "betaald" ? "betaald" : "nog niet betaald"}
                     </span>
                   </span>
                   <span className="flex gap-2">
@@ -286,7 +313,7 @@ export function Admin() {
                               className={`w-full rounded-[var(--radius-control)] px-2 py-1.5 text-left ${b.status === "nieuw" ? "bg-accent text-on-accent" : "bg-paper text-on-accent"}`}
                             >
                               <span className="block truncate font-semibold">{b.name}</span>
-                              <span className="block truncate text-xs opacity-80">{b.status === "nieuw" ? "Nog in Playtomic" : "Geboekt"}</span>
+                              <span className="block truncate text-xs opacity-80">{b.payment === "betaald" ? "Betaald" : "Niet betaald"} · {b.status === "nieuw" ? "Playtomic" : "Geboekt"}</span>
                             </button>
                           ) : (
                             <button
@@ -316,12 +343,17 @@ export function Admin() {
         <div className="fixed inset-0 z-50 grid place-items-center bg-ink/80 p-4" role="dialog" aria-modal="true" aria-label="Boeking" onClick={() => setSelected(null)}>
           <div className="w-full max-w-md rounded-[var(--radius-panel)] border border-panel-2 bg-bg p-6" onClick={(e) => e.stopPropagation()}>
             <h3 className="text-2xl font-bold capitalize">{longFmt.format(fromKey(selected.slot_date))}</h3>
-            <p className="text-muted tabular-nums">{hhmm(selected.slot_time)} · 45 minuten</p>
+            <p className="text-muted tabular-nums">{hhmm(selected.slot_time)} · {30 * (selected.slot_count ?? 1)} minuten</p>
             <dl className="mt-4 grid gap-2 text-sm">
               {[
                 ["Naam", selected.name],
+                ["Telefoon", selected.phone ?? "-"],
                 ["E-mail", selected.email],
+                ["Vorm", `${KIND_LABEL[selected.kind] ?? "Met coach"}, ${selected.persons} ${selected.persons === 1 ? "persoon" : "personen"}${selected.student ? ", leerling" : ""}`],
+                ["Bedrag", selected.amount != null ? `€${Number(selected.amount).toFixed(2).replace(".", ",")} · ${selected.payment}` : "-"],
                 ["Coach", selected.coach],
+                ["Rackets", selected.intake?.rackets?.join(", ") || "-"],
+                ["Speelt nu", selected.intake?.current || "-"],
                 ["Status", selected.status === "nieuw" ? "Nog boeken in Playtomic" : "Geboekt in Playtomic"],
               ].map(([k, v]) => (
                 <div key={k} className="grid grid-cols-[90px_1fr] border-b border-panel-2 pb-2">

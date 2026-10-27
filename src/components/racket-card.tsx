@@ -4,6 +4,7 @@ import { profile, brandName, styleColor, PLAYSTYLES, type CatalogRacket } from "
 import { euro } from "@/lib/site";
 import { RacketArt } from "./racket-art";
 import { photoOf } from "@/lib/all-rackets";
+import { isTestRacket } from "@/lib/test-range";
 
 export function ProfileBar({ label, value, color, wide }: { label: string; value: number; color: string; wide?: boolean }) {
   return (
@@ -40,13 +41,14 @@ export function RacketCard({ r, onOpen }: { r: CatalogRacket; onOpen: (r: Catalo
             </span>
           )}
           {r.shape && <span className="rounded-[var(--radius-control)] bg-bg px-3 py-1 label text-fg">{r.shape}</span>}
+          {isTestRacket(r.id) && <span className="rounded-[var(--radius-control)] bg-accent px-3 py-1 label text-on-accent">Testracket</span>}
         </div>
       </div>
       <div className="grid flex-1 content-start gap-2.5 p-3 sm:p-4">
         <p className="label text-accent">{brandName(r.brand)}</p>
         <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-3">
           <h3 className="text-base leading-snug font-semibold sm:text-lg">{r.model}</h3>
-          {r.price != null && <span className="shrink-0 font-semibold tabular-nums sm:text-lg">{euro(r.price)}</span>}
+          {r.price != null && <span className="shrink-0 font-semibold tabular-nums sm:text-lg" title="Adviesprijs">{euro(r.price)}</span>}
         </div>
         <p className="text-[13px] text-muted sm:text-sm">{[r.weight, r.balance && `balans ${r.balance}`, r.feel, r.level].filter(Boolean).join(" · ")}</p>
         <ProfileBar label="Kracht" value={p.power} color="#ff4a4a" />

@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import gsap from "gsap";
 import { brandName, ratings, styleColor, PLAYSTYLES, type CatalogRacket } from "@/lib/catalog";
 import { euro } from "@/lib/site";
+import { DELIVERY, isTestRacket } from "@/lib/test-range";
 import { ChevronIcon, CloseIcon } from "./icons";
 import { ProfileBar } from "./racket-card";
 import { RacketArt } from "./racket-art";
@@ -218,11 +219,13 @@ export function QuickView({
           {racket.price != null ? (
             <p className="qv-in flex flex-wrap items-baseline gap-x-2">
               <span className="font-display text-3xl font-bold whitespace-nowrap tabular-nums">{euro(racket.price)}</span>
-              {racket.priceNote && <span className="text-sm text-muted">{racket.priceNote}</span>}
+              <span className="text-sm text-muted">adviesprijs</span>
+              {isTestRacket(racket.id) && <span className="rounded-[var(--radius-control)] bg-accent px-2.5 py-0.5 label text-on-accent">Testracket</span>}
             </p>
           ) : (
             racket.priceNote && <p className="qv-in text-sm font-semibold text-accent">{racket.priceNote}</p>
           )}
+          {racket.price != null && <p className="qv-in -mt-3 text-sm text-fg/70">{DELIVERY}</p>}
           {racket.description && <p className="qv-in text-fg/80">{racket.description}</p>}
           <div className="qv-in grid gap-x-8 gap-y-2.5 sm:grid-cols-2">
             {ratings(racket).map((x) => (

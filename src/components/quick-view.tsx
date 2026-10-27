@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useLayoutEffect, useRef } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import gsap from "gsap";
 import { brandName, ratings, styleColor, PLAYSTYLES, type CatalogRacket } from "@/lib/catalog";
@@ -8,7 +8,8 @@ import { euro } from "@/lib/site";
 import { ChevronIcon, CloseIcon } from "./icons";
 import { ProfileBar } from "./racket-card";
 import { RacketArt } from "./racket-art";
-import { photoOf } from "@/lib/all-rackets";
+import { ownRacket, photoOf } from "@/lib/all-rackets";
+import { Model3D } from "./model-3d";
 
 const useIsoLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
 const reduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -43,6 +44,8 @@ export function QuickView({
   const backdrop = useRef<HTMLDivElement>(null);
   const bg = useRef<HTMLDivElement>(null);
   const art = useRef<HTMLDivElement>(null);
+  // Eigen ontwerpen kun je hier meteen in 3D draaien; bij een ander racket begint hij weer als foto
+  const [in3d, setIn3d] = useState<string | null>(null);
   const body = useRef<HTMLDivElement>(null);
   const closeBtn = useRef<HTMLButtonElement>(null);
   const openedId = useRef<string | null>(null); // het racket waarmee geopend werd (dat gaat terug naar de haak)
@@ -174,10 +177,19 @@ export function QuickView({
         <div ref={bg} className="absolute inset-0 overflow-hidden rounded-[var(--radius-panel)] border border-fg/10 bg-bg">
           <div className="h-[calc(30svh+64px)] bg-paper md:absolute md:inset-y-0 md:left-0 md:h-auto md:w-[calc(0.9/2*100%)]" />
         </div>
-        <div className="relative touch-pan-y p-6 pb-10 select-none md:p-14" onPointerDown={onSwipeStart} onPointerUp={onSwipeEnd}>
+        <div className="relative touch-pan-y p-6 pb-10 select-none md:p-14" onPointerDown={in3d === racket.id ? undefined : onSwipeStart} onPointerUp={in3d === racket.id ? undefined : onSwipeEnd}>
           <div ref={art} className="mx-auto aspect-[2/3] h-[30svh] will-change-transform md:h-auto">
-            <RacketArt shape={racket.shape} color={color} photo={photoOf(racket, "groot")} label={photoOf(racket) ? racket.model : `Tekening van de ${racket.model}, productfoto volgt`} eager />
+            {in3d === racket.id && ownRacket(racket.id)?.model3d ? (
+              <Model3D key={racket.id} src={ownRacket(racket.id)!.model3d!} poster={photoOf(racket, "groot")!} alt={`${racket.model} in 3D`} autoStart className="size-full" />
+            ) : (
+              <RacketArt shape={racket.shape} color={color} photo={photoOf(racket, "groot")} label={photoOf(racket) ? racket.model : `Tekening van de ${racket.model}, productfoto volgt`} eager />
+            )}
           </div>
+          {ownRacket(racket.id)?.model3d && in3d !== racket.id && (
+            <button type="button" onClick={() => setIn3d(racket.id)} className="qv-in btn btn-sand btn-sm absolute top-4 right-4 shadow-[0_8px_20px_-8px_rgb(20_17_15/0.6)]">
+              Draai in 3D
+            </button>
+          )}
           <p className="qv-in absolute bottom-3 left-4 label text-on-accent/70">{photoOf(racket) ? "Concept · ook in 3D" : "Illustratie · productfoto volgt"}</p>
           {canNav && (
             <div className="qv-in absolute right-3 bottom-2 flex items-center gap-1 text-on-accent">

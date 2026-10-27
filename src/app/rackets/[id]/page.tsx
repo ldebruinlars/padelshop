@@ -10,7 +10,7 @@ import { BRAND_LIST, CATALOG_RACKETS, PLAYSTYLES, brandName, ratings, styleColor
 import { LAYERS, SHAPE_GUIDE } from "@/lib/racket-guide";
 import { euro } from "@/lib/site";
 import { BULLPADEL_SOURCE, techFor } from "@/lib/tech";
-import { Model3D } from "@/components/model-3d";
+import { ProductGallery } from "@/components/product-gallery";
 import { OWN_BRAND, OWN_RACKETS, type OwnRacket } from "@/lib/own-line";
 
 export function generateStaticParams() {
@@ -72,25 +72,7 @@ export default async function RacketPage({ params }: { params: Promise<{ id: str
         <div className="mx-auto grid max-w-[1400px] gap-10 px-4 pt-6 pb-16 md:px-8 lg:grid-cols-[1fr_1.05fr]">
           {/* Beeld */}
           {own ? (
-            <div className="grid gap-3 lg:sticky lg:top-28 lg:self-start">
-              <div className="relative rounded-[var(--radius-panel)] bg-paper">
-                {own.model3d ? (
-                  <Model3D src={own.model3d} poster={own.images.cutout} alt={`${r.model} in 3D`} autoStart className="mx-auto aspect-[3/4] max-h-[66svh]" />
-                ) : (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={own.images.cutout} alt={r.model} className="mx-auto aspect-[3/4] max-h-[66svh] object-contain p-6" />
-                )}
-                <p className="label pointer-events-none absolute top-3 left-4 text-on-accent/70">Concept · sleep om te draaien</p>
-              </div>
-              <ul className="grid grid-cols-3 gap-3">
-                {([["Voorkant", own.images.front], ["Schuin", own.images.angle], ["Achterkant", own.images.back]] as const).map(([label, src]) => (
-                  <li key={label} className="overflow-hidden rounded-[var(--radius-card)] bg-[#e6e3de]">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={src} alt={`${r.model}, ${label.toLowerCase()}`} loading="lazy" className="aspect-[2/3] w-full object-cover" />
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <ProductGallery r={own} />
           ) : (
             <div className="relative rounded-[var(--radius-panel)] bg-paper p-8 lg:sticky lg:top-28 lg:self-start">
               <div className="mx-auto aspect-[2/3] max-h-[62svh]">

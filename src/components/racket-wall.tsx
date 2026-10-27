@@ -3,27 +3,23 @@
 import { useMemo, useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { CATALOG_RACKETS, SHAPES, brandName, styleColor, type CatalogRacket, type Shape } from "@/lib/catalog";
+import { SHAPES, brandName, styleColor, type CatalogRacket, type Shape } from "@/lib/catalog";
 import { SHOP, euro } from "@/lib/site";
-import { ALL_RACKETS, photoOf } from "@/lib/all-rackets";
+import { photoOf } from "@/lib/all-rackets";
 import { OWN_BRAND, OWN_RACKETS } from "@/lib/own-line";
 import { useDragScroll } from "./drag-scroll";
-import { BrandPicker } from "./brand-picker";
 import { ChevronIcon } from "./icons";
 import { QuickView } from "./quick-view";
 import { RacketArt } from "./racket-art";
 
 gsap.registerPlugin(useGSAP);
 
-/** Alle rackets om en om per merk, met per merk een andere speelstijl voorop, zodat de wand gevarieerd hangt. */
-function wallOrder(shape: Shape | "", brand: string) {
-  const all = CATALOG_RACKETS.filter((r) => (!shape || r.shape === shape) && (!brand || r.brand === brand));
-  const perBrand = [...new Set(all.map((r) => r.brand))].map((b, i) => {
-    const own = all.filter((r) => r.brand === b);
-    return [...own.slice(i % own.length), ...own.slice(0, i % own.length)];
-  });
-  const longest = Math.max(0, ...perBrand.map((o) => o.length));
-  return Array.from({ length: longest }, (_, rank) => perBrand.map((own) => own[rank]).filter(Boolean)).flat();
+/** De eigen ontwerpen om en om per vorm (rond, druppel, diamant), zodat de wand gevarieerd hangt. */
+function wallOrder(shape: Shape | "") {
+  const all = OWN_RACKETS.filter((r) => !shape || r.shape === shape);
+  const perShape = SHAPES.map((s) => all.filter((r) => r.shape === s.id));
+  const longest = Math.max(0, ...perShape.map((o) => o.length));
+  return Array.from({ length: longest }, (_, rank) => perShape.map((own) => own[rank]).filter(Boolean)).flat();
 }
 
 const reducedMotion = () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -65,7 +61,7 @@ function Peg({ r, onOpen, eager }: { r: CatalogRacket; onOpen: (r: CatalogRacket
   );
 }
 
-function Row({ items, label, title, eager, onOpen }: { items: CatalogRacket[]; label: string; title?: string; eager: boolean; onOpen: (r: CatalogRacket, from: HTMLElement) => void }) {
+function Row({ items, label, eager, onOpen }: { items: CatalogRacket[]; label: string; eager: boolean; onOpen: (r: CatalogRacket, from: HTMLElement) => void }) {
   const { ref, handlers } = useDragScroll<HTMLUListElement>();
   const by = (dir: 1 | -1) => {
     const el = ref.current;
@@ -73,12 +69,6 @@ function Row({ items, label, title, eager, onOpen }: { items: CatalogRacket[]; l
   };
   return (
     <div className="relative">
-      {title && (
-        <p className="mx-4 mb-1 flex items-center gap-2 text-sm font-semibold text-on-accent md:mx-8">
-          <span className="rounded-[3px] bg-[#14110f] px-2 py-0.5 text-[11px] tracking-wide text-[#f6efe6] uppercase">Eigen lijn</span>
-          {title}
-        </p>
-      )}
       {/* Prijsrail onder de rij */}
       <span className="absolute inset-x-0 bottom-[30px] h-[30px] border-t-2 border-[#8d8072] bg-[#2a221d] shadow-[0_8px_12px_-6px_rgb(20_17_15/0.5)]" aria-hidden="true" />
       <ul
@@ -118,19 +108,10 @@ export function RacketWall() {
   const root = useRef<HTMLElement>(null);
   const [shape, setShape] = useState<Shape | "">("");
   const [open, setOpen] = useState<{ r: CatalogRacket; from: HTMLElement } | null>(null);
-  const [brand, setBrand] = useState("");
-  // De eigen lijn hangt als eigen plank bovenaan; daaronder de merken in twee rijen
-  const ownRow = useMemo(() => (!brand || brand === OWN_BRAND.slug ? OWN_RACKETS.filter((r) => !shape || r.shape === shape) : []), [shape, brand]);
-  const brandList = useMemo(() => (brand === OWN_BRAND.slug ? [] : wallOrder(shape, brand)), [shape, brand]);
-  const list = useMemo(() => [...ownRow, ...brandList], [ownRow, brandList]);
-  // Aantal per merk binnen de gekozen vorm, voor de merkenlijst
-  const brandCounts = useMemo(() => Object.fromEntries([...new Set(ALL_RACKETS.map((r) => r.brand))].map((b) => [b, ALL_RACKETS.filter((r) => r.brand === b && (!shape || r.shape === shape)).length])), [shape]);
-  const half = Math.ceil(brandList.length / 2);
-  const rows = [
-    { items: ownRow, title: `${OWN_BRAND.name}, ${ownRow.length} ontwerpen in 3D` },
-    { items: brandList.slice(0, half) },
-    { items: brandList.slice(half) },
-  ].filter((row) => row.items.length);
+  // Alleen de eigen ontwerpen hangen aan de wand (met foto en 3D), in twee rijen
+  const list = useMemo(() => wallOrder(shape), [shape]);
+  const half = Math.ceil(list.length / 2);
+  const rows = [list.slice(0, half), list.slice(half)].filter((row) => row.length);
 
   useGSAP(
     () => {
@@ -147,7 +128,7 @@ export function RacketWall() {
       });
       return () => mm.revert();
     },
-    { scope: root, dependencies: [shape, brand], revertOnUpdate: true },
+    { scope: root, dependencies: [shape], revertOnUpdate: true },
   );
 
   return (
@@ -160,9 +141,15 @@ export function RacketWall() {
                 De racketwand
               </h1>
               <p className="mt-3 max-w-[48ch] text-[#4a3f37] [text-wrap:pretty] md:text-lg">
-                {CATALOG_RACKETS.length} rackets van tien merken en {OWN_RACKETS.length} van onze eigen lijn. Swipe langs de wand en klik op een racket om in te zoomen op de specs.
+                {OWN_RACKETS.length} rackets van {OWN_BRAND.name}, allemaal in 3D. Swipe langs de wand en klik op een racket om in te zoomen op de specs.
               </p>
-              <p className="mt-2 text-sm text-[#5b4f45]">Merkrackets als tekening per vorm tot de productfoto&apos;s er zijn.</p>
+              <p className="mt-2 text-sm text-[#5b4f45]">
+                Eigen ontwerpen in ontwikkeling. De merken (Bullpadel, Nox en meer) vind je bij{" "}
+                <a href="/merken/" className="underline underline-offset-2 hover:text-on-accent">
+                  Merken
+                </a>
+                .
+              </p>
             </div>
             <div className="flex flex-wrap items-center gap-2">
               <div className="flex flex-wrap items-center gap-2" role="group" aria-label="Filter de wand op vorm">
@@ -172,8 +159,6 @@ export function RacketWall() {
                   </button>
                 ))}
               </div>
-              <span className="mx-1 h-6 w-px bg-on-accent/20 max-sm:hidden" aria-hidden="true" />
-              <BrandPicker value={brand} onChange={setBrand} counts={brandCounts} />
             </div>
           </div>
         </div>
@@ -181,14 +166,14 @@ export function RacketWall() {
         <div className="mx-auto max-w-[1600px]">
           {list.length === 0 && (
             <p className="mx-4 mb-8 rounded-[var(--radius-card)] bg-bg/90 p-6 text-fg md:mx-8">
-              Geen {shape} rackets van {brandName(brand)} aan de wand.{" "}
+              Geen {shape} rackets aan de wand.{" "}
               <button type="button" className="link text-accent" onClick={() => setShape("")}>
                 Toon alle vormen
               </button>
             </p>
           )}
           {rows.map((row, i) => (
-            <Row key={`${shape}-${brand}-${i}`} items={row.items} title={row.title} eager={i < 2} label={row.title ?? `Rackets, rij ${i + 1}`} onOpen={(racket, from) => setOpen({ r: racket, from })} />
+            <Row key={`${shape}-${i}`} items={row} eager={i === 0} label={`Rackets, rij ${i + 1}`} onOpen={(racket, from) => setOpen({ r: racket, from })} />
           ))}
         </div>
       </div>
@@ -203,8 +188,8 @@ export function RacketWall() {
             <a href="#testcenter" className="btn btn-primary">
               Boek een racket-test
             </a>
-            <a href={`/rackets/?${new URLSearchParams(Object.entries({ vorm: shape, merk: brand }).filter(([, v]) => v))}`} className="btn btn-line">
-              Filter alle {list.length} rackets
+            <a href={`/rackets/?${new URLSearchParams(Object.entries({ vorm: shape }).filter(([, v]) => v))}`} className="btn btn-line">
+              Alle rackets, ook van de merken
             </a>
           </div>
         </div>

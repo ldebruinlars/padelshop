@@ -52,7 +52,7 @@ function Bar({ label, value }: { label: string; value: number }) {
 }
 
 /** Doorsnede van het racket: de bal duikt de kern in en komt terug. Hoe zachter het rubber, hoe dieper en hoe langer de bal blijft. */
-function CoreLab() {
+export function CoreLab() {
   const [rubber, setRubber] = useState("MultiEva");
   const [fast, setFast] = useState(false);
   const [run, setRun] = useState(0);
@@ -155,7 +155,7 @@ function CoreLab() {
 }
 
 /** Het slagvlak: de weving van dichtbij, en hoe het vlak buigt en natrilt bij de klap. Stijver = minder buiging, meer trilling. */
-function FaceLab() {
+export function FaceLab() {
   const [fibre, setFibre] = useState("XtendCarbon 12K");
   const [run, setRun] = useState(0);
   const [svg, seen] = useSeen<SVGSVGElement>();
@@ -242,40 +242,29 @@ function FaceLab() {
   );
 }
 
-/** Kern en slagvlak als kleine proefopstelling, plus de technieken uit de Bullpadel-catalogus per onderdeel. */
+/** Alle technieken uit de Bullpadel-catalogus per onderdeel, als naslag onder de racketverkenner. */
 export function LayerLab() {
   const groups = [...new Set(TECH.map((t) => t.group))];
   return (
-    <div className="mt-14 border-t border-panel-2 pt-10">
-      <h3 className="text-2xl font-bold">Slagvlak en kern: wat je voelt bij de klap</h3>
-      <p className="mt-2 max-w-[66ch] text-fg/75">
-        Bij een racket zonder snaren doen slagvlak en kern al het werk. De kern bepaalt hoe diep de bal wegzakt en hoe snel hij terugkomt; het slagvlak hoe stijf het racket is en hoeveel trilling je arm krijgt. Materialen op een rij van hard naar comfort, zoals Bullpadel ze indeelt.
-      </p>
-      <div className="mt-6 grid gap-6 lg:grid-cols-2">
-        <CoreLab />
-        <FaceLab />
+    <details className="mt-8 rounded-[var(--radius-card)] border border-panel-2 px-5 py-4">
+      <summary className="cursor-pointer list-none font-semibold [&::-webkit-details-marker]:hidden">Alle technieken uitgelegd ({TECH.length})</summary>
+      <div className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {groups.map((g) => (
+          <div key={g}>
+            <p className="label text-muted">{g}</p>
+            <ul className="mt-2 grid gap-2">
+              {TECH.filter((t) => t.group === g).map((t) => (
+                <li key={t.name} className="text-sm">
+                  <strong className="font-semibold">{t.name}:</strong> <span className="text-fg/75">{t.text}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
-
-      <details className="mt-8 rounded-[var(--radius-card)] border border-panel-2 px-5 py-4">
-        <summary className="cursor-pointer list-none font-semibold [&::-webkit-details-marker]:hidden">Technieken uitgelegd ({TECH.length})</summary>
-        <div className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {groups.map((g) => (
-            <div key={g}>
-              <p className="label text-muted">{g}</p>
-              <ul className="mt-2 grid gap-2">
-                {TECH.filter((t) => t.group === g).map((t) => (
-                  <li key={t.name} className="text-sm">
-                    <strong className="font-semibold">{t.name}:</strong> <span className="text-fg/75">{t.text}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-        <a href={BULLPADEL_SOURCE.url} target="_blank" rel="noopener noreferrer" className="link mt-4 inline-block text-xs text-muted">
-          {BULLPADEL_SOURCE.label}. Demping en spin zijn claims van het merk.
-        </a>
-      </details>
-    </div>
+      <a href={BULLPADEL_SOURCE.url} target="_blank" rel="noopener noreferrer" className="link mt-4 inline-block text-xs text-muted">
+        {BULLPADEL_SOURCE.label}. Demping en spin zijn claims van het merk.
+      </a>
+    </details>
   );
 }

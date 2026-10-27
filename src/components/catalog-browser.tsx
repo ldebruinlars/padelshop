@@ -118,7 +118,8 @@ export function CatalogBrowser({ brand }: { brand?: string }) {
 
   return (
     <div className="mx-auto grid max-w-[1400px] gap-8 px-4 pb-24 md:px-8 lg:grid-cols-[280px_1fr]">
-      <aside className="grid content-start gap-6 lg:sticky lg:top-28 lg:self-start" aria-label="Filters">
+      {/* Filters blijven naast de rackets staan; zijn ze hoger dan het scherm, dan scrollen ze zelf mee (eigen balk) */}
+      <aside data-lenis-prevent className="grid content-start gap-6 lg:sticky lg:top-28 lg:max-h-[calc(100svh-8rem)] lg:self-start lg:overflow-y-auto lg:overscroll-contain lg:pr-3 lg:[scrollbar-width:thin]" aria-label="Filters">
         {!brand && <Chips label="Merk" value={f.merk} options={brandsInUse.map((b) => ({ id: b.slug, label: b.name }))} onChange={set("merk")} />}
         <Chips label="Vorm" value={f.vorm} options={SHAPES} onChange={set("vorm")} />
         <Chips label="Hardheid" value={f.hardheid} options={FEELS} onChange={set("hardheid")} />

@@ -12,6 +12,7 @@ import { LAYERS, RULES, SHAPE_GUIDE, SHAPE_SOURCES, type Layer } from "@/lib/rac
 import { ChevronIcon } from "./icons";
 import { BuildSteps } from "./build-steps";
 import { LayerLab } from "./layer-lab";
+import { RacketExplorer } from "./racket-explorer";
 import { QuickView } from "./quick-view";
 
 gsap.registerPlugin(MorphSVGPlugin, ScrollTrigger, useGSAP);
@@ -349,6 +350,7 @@ export function RacketAnatomy() {
             </details>
           </div>
         </div>
+        <RacketExplorer />
         <LayerLab />
         <BuildSteps />
       </div>

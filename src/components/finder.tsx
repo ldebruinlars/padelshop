@@ -234,6 +234,23 @@ export function Finder() {
 
   const current = QUESTIONS[step];
 
+  // Cijfertoetsen 1-5 kiezen een antwoord, Backspace gaat een vraag terug (alleen als de finder in beeld is)
+  const box = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (done) return;
+    const onKey = (e: KeyboardEvent) => {
+      const t = e.target as HTMLElement;
+      if (t.closest("input, textarea, select") || !box.current) return;
+      const r = box.current.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > window.innerHeight) return;
+      const n = Number(e.key);
+      if (n >= 1 && n <= current.answers.length) setAnswers((l) => [...l, current.answers[n - 1]]);
+      if (e.key === "Backspace" && step > 0) setAnswers((l) => l.slice(0, -1));
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [done, current, step]);
+
   return (
     <section id="finder" className="bg-ink px-4 py-24 md:px-8">
       <div className="mx-auto grid max-w-[1400px] gap-12 lg:grid-cols-[0.8fr_1.2fr]">
@@ -254,7 +271,7 @@ export function Finder() {
           )}
         </div>
 
-        <div className="rounded-[var(--radius-panel)] border border-fg/5 bg-bg p-6 md:p-10" aria-live="polite">
+        <div ref={box} className="rounded-[var(--radius-panel)] border border-fg/5 bg-bg p-6 md:p-10" aria-live="polite">
           {!done ? (
             <>
               <div className="mb-6 flex gap-1" aria-hidden="true">
@@ -266,16 +283,20 @@ export function Finder() {
                 {current.q}
               </h3>
               <p className="mt-2 text-sm text-muted">{current.help}</p>
-              <div className="mt-6 grid gap-2">
-                {current.answers.map((a) => (
+              {/* Antwoorden als compacte kaarten; kiezen kan ook met de cijfertoetsen */}
+              <div className={`mt-6 grid gap-2 sm:grid-cols-2 ${current.answers.length === 3 ? "xl:grid-cols-3" : ""}`}>
+                {current.answers.map((a, i) => (
                   <button
                     key={a.label}
                     type="button"
                     onClick={() => setAnswers((l) => [...l, a])}
-                    className="flex items-baseline justify-between gap-4 rounded-[var(--radius-control)] border border-panel-2 px-5 py-4 text-left text-lg transition-colors hover:border-accent hover:bg-panel"
+                    className="group grid min-h-[84px] grid-cols-[28px_1fr] content-start gap-x-3 rounded-[var(--radius-card)] border border-panel-2 bg-panel/40 p-4 text-left transition-[border-color,background-color,transform] duration-200 hover:-translate-y-0.5 hover:border-accent hover:bg-panel active:translate-y-0"
                   >
-                    {a.label}
-                    {a.hint && <span className="text-sm text-muted">{a.hint}</span>}
+                    <span className="row-span-2 grid size-7 place-items-center rounded-full border border-panel-2 text-xs font-bold text-fg/60 tabular-nums transition-colors group-hover:border-accent group-hover:bg-accent group-hover:text-on-accent" aria-hidden="true">
+                      {i + 1}
+                    </span>
+                    <span className="font-semibold leading-snug">{a.label}</span>
+                    {a.hint && <span className="mt-0.5 text-sm text-muted">{a.hint}</span>}
                   </button>
                 ))}
               </div>

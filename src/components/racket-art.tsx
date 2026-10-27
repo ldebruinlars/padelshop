@@ -17,7 +17,7 @@ export function RacketArt({ shape, color, label, eager, photo }: { shape: Shape 
       loading={eager ? "eager" : "lazy"}
       decoding="async"
       draggable={false}
-      className={`size-full object-contain [-webkit-user-drag:none] ${photo ? "drop-shadow-[0_10px_10px_rgb(20_17_15/0.35)]" : ""}`}
+      className={`size-full object-contain [-webkit-user-drag:none]`}
     />
   );
 }

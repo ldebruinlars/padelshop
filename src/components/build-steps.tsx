@@ -5,32 +5,32 @@ import { useEffect, useRef, useState } from "react";
 // Zo wordt een padelracket gemaakt, in de volgorde van de meeste fabrieken (bron per stap; de volgorde verschilt per merk).
 const STEPS = [
   {
-    img: "/media/maken/1-kern.webp",
+    img: "/media/maken/1-kern-v2.webp",
     title: "De kern snijden",
-    text: "De kern van EVA-rubber of foam wordt in de vorm van de kop uit een plaat gestanst. De hardheid van dat rubber bepaalt straks hoe zacht of direct het racket aanvoelt.",
+    text: "De kern van EVA-rubber of foam wordt in de vorm van de kop uit een plaat gestanst, zo'n 2 cm dik. De hardheid van dat rubber bepaalt straks hoe zacht of direct het racket aanvoelt.",
   },
   {
-    img: "/media/maken/2-vezels.webp",
+    img: "/media/maken/2-vezels-v2.webp",
     title: "Vezels opleggen",
-    text: "Om een luchtslang komt een gevlochten carbonbuis: het frame. Daarin de kern, en aan beide kanten lagen carbon of glasvezel, in een vaste volgorde en kruiselings gelegd.",
+    text: "Vellen carbon of glasvezel, al voorzien van hars (prepreg), worden met een mal op maat gesneden. Om een luchtslang komt een gevlochten carbonbuis: het frame. Daarin de kern, en aan beide kanten de lagen, in een vaste volgorde en kruiselings gelegd. Dit is handwerk.",
   },
   {
-    img: "/media/maken/3-pers.webp",
+    img: "/media/maken/3-pers-v2.webp",
     title: "Persen en uitharden",
-    text: "Alles gaat in een stalen of aluminium mal in een verwarmde pers. De luchtslang blaast op en drukt de vezels tegen de mal terwijl de hars uithardt, rond de 120 tot 180 °C. Eén mal maakt één racket per keer.",
+    text: "Alles gaat in een stalen of aluminium mal in een verwarmde pers. De luchtslang blaast op en drukt de vezels tegen de mal terwijl de hars uithardt, bij Head rond de 160 °C in 10 tot 15 minuten. Eén mal maakt één racket per keer. Er komt een rand overtollige hars uit.",
   },
   {
-    img: "/media/maken/4-boren.webp",
+    img: "/media/maken/4-boren-v2.webp",
     title: "Gaten boren",
-    text: "Een boormachine boort de gaten door slagvlak en kern. Volgens de regels zijn ze 9 tot 13 mm in het midden. Het patroon verschilt per racket en bepaalt mee hoe de bal reageert.",
+    text: "De rand hars wordt eraf geslepen (ontbramen). Daarna boort een machine de gaten door slagvlak en kern. Volgens de regels zijn ze 9 tot 13 mm in het midden. Het patroon verschilt per racket en bepaalt mee hoe de bal reageert.",
   },
   {
-    img: "/media/maken/5-lakken.webp",
+    img: "/media/maken/5-lakken-v2.webp",
     title: "Afwerken en lakken",
-    text: "Het racket wordt geschuurd, gespoten, van stickers voorzien en gelakt. Een zandruw oppervlak komt er nu op; 3D-reliëf zit al in de mal.",
+    text: "Schoonmaken, primer, drogen, spuiten, stickers en lak: veel daarvan gaat met de hand. Bij Starvie duurt een racket van begin tot eind zo'n tien dagen. Een zandruw oppervlak komt er nu op; 3D-reliëf zit al in de mal.",
   },
   {
-    img: "/media/maken/6-grip.webp",
+    img: "/media/maken/6-grip-v2.webp",
     title: "Grip, wegen en meten",
     text: "De greep wordt opgebouwd en omwikkeld, de dop en het polskoord gaan erop. Elk racket wordt gewogen en het balanspunt gemeten voordat het de fabriek verlaat.",
   },
@@ -38,6 +38,8 @@ const STEPS = [
 const SOURCES = [
   { label: "Studypadel", url: "https://www.studypadel.com/articles/how-padel-rackets-are-made" },
   { label: "Padelvida", url: "https://padelvida.com/learn/how-padel-rackets-manufactured/" },
+  { label: "Head (via Tennis Warehouse)", url: "https://www.tenniswarehouse-europe.com/learning_center/how_to/how_a_head_racket_is_made.html?lang=it" },
+  { label: "Starvie fabrieksbezoek (PadelPROShop)", url: "https://padelproshop.com/en-ar/blogs/blog/how-are-the-padel-rackets-we-visit-the-factory-starvie" },
 ];
 
 /** Zes stappen van plaat rubber tot racket. Speelt vanzelf door als je kijkt; klikken neemt het over. */

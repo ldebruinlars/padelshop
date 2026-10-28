@@ -217,7 +217,7 @@ function PaymentReturn({ id, onDone }: { id: string; onDone: () => void }) {
       )}
       <p className="mt-2">
         {paid
-          ? "We bevestigen per WhatsApp en mail. Neem je huidige racket en je padelschoenen mee; we kijken eerst naar het racket waar je nu mee speelt. Testrackets en ballen liggen klaar."
+          ? "We bevestigen per mail. Neem je huidige racket en je padelschoenen mee; we kijken eerst naar het racket waar je nu mee speelt. Testrackets en ballen liggen klaar."
           : s?.payment === "mislukt"
             ? "Je plek is weer vrijgegeven. Probeer het opnieuw of kies een ander moment."
             : "Zodra de betaling binnen is, staat je plek vast en krijg je bericht."}
@@ -355,8 +355,8 @@ export function Testcenter() {
             <p className="mt-1">
               {kindTitle} · {eur(booked.amount)}
             </p>
-            <p className="mt-3">Je krijgt de betaallink per WhatsApp. Je plek staat pas vast na betaling.</p>
-            <p className="mt-3">We bevestigen per WhatsApp en mail. Neem je huidige racket en je padelschoenen mee; we kijken eerst naar het racket waar je nu mee speelt. Testrackets en ballen liggen klaar.</p>
+            <p className="mt-3">Je krijgt de betaallink per mail. Je plek staat pas vast na betaling.</p>
+            <p className="mt-3">We bevestigen per mail. Neem je huidige racket en je padelschoenen mee; we kijken eerst naar het racket waar je nu mee speelt. Testrackets en ballen liggen klaar.</p>
             <button
               type="button"
               className="mt-4 text-sm underline"
@@ -411,7 +411,7 @@ export function Testcenter() {
                     huidig: current,
                   }).toString(),
                 }).catch(() => null);
-                // Betalen bij boeken; staat online betalen nog niet aan, dan komt de betaallink per WhatsApp
+                // Betalen bij boeken; staat online betalen nog niet aan, dan komt de betaallink per mail
                 const checkout = await startPayment(id);
                 if (checkout) {
                   window.location.href = checkout;
@@ -626,7 +626,7 @@ export function Testcenter() {
                     <input name="naam" required minLength={2} autoComplete="name" className="field" placeholder="Voor- en achternaam" />
                   </label>
                   <label className="grid gap-2">
-                    <span className="label text-muted">Telefoon (voor WhatsApp)</span>
+                    <span className="label text-muted">Telefoon</span>
                     <input name="telefoon" type="tel" required pattern="[0-9 +()\-]{8,20}" autoComplete="tel" className="field" placeholder="06 12345678" />
                   </label>
                   <label className="grid gap-2">
@@ -661,7 +661,7 @@ export function Testcenter() {
                   {sending ? "Versturen…" : !intakeDone ? "Vul eerst stap 1 in" : day && time ? `Boek en betaal ${eur(q.amount)}` : "Kies eerst een tijd"}
                 </button>
                 <p className="mt-3 text-xs text-muted">Je betaalt bij het boeken met iDEAL; je plek staat pas vast na betaling. Gratis annuleren tot 24 uur vooraf.</p>
-                <p className="mt-2 text-xs text-muted">We bevestigen per WhatsApp en mail. Neem je huidige racket en je padelschoenen mee; we kijken eerst naar het racket waar je nu mee speelt. Testrackets en ballen liggen klaar.</p>
+                <p className="mt-2 text-xs text-muted">We bevestigen per mail. Neem je huidige racket en je padelschoenen mee; we kijken eerst naar het racket waar je nu mee speelt. Testrackets en ballen liggen klaar.</p>
               </div>
             </div>
           </form>

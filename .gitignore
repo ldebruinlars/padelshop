@@ -53,5 +53,5 @@ next-env.d.ts
 docs/winkel-impressie/*.png
 docs/eigen-lijn/*.png
 docs/eigen-lijn/**/*.png
-docs/maken/*.png
+docs/maken/**/*.png
 docs/onderdelen/*.png

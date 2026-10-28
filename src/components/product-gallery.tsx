@@ -5,22 +5,23 @@ import type { OwnRacket } from "@/lib/own-line";
 import { Model3D } from "./model-3d";
 
 /**
- * Beeld van een eigen racket: groot vlak met 3D of een foto, en daaronder miniaturen om te wisselen.
+ * Beeld van een eigen racket: groot vlak met een foto (of als laatste keuze het 3D-model), en daaronder miniaturen om te wisselen.
  * Alles past in één schermhoogte, zodat de foto's in beeld blijven terwijl je rechts door de info scrolt.
  */
 export function ProductGallery({ r }: { r: OwnRacket }) {
   const shots = [
-    { id: "3d", label: "3D", src: r.images.cutout },
     { id: "voor", label: "Voorkant", src: r.images.front },
     { id: "schuin", label: "Schuin", src: r.images.angle },
     { id: "achter", label: "Achterkant", src: r.images.back },
+    ...(r.model3d ? [{ id: "3d", label: "3D", src: r.images.cutout }] : []),
   ];
-  const [pick, setPick] = useState("3d");
+  // Eerst de foto's; het 3D-model is een extraatje dat je zelf kiest
+  const [pick, setPick] = useState("voor");
   const current = shots.find((s) => s.id === pick)!;
 
   return (
     <div className="grid gap-3 lg:sticky lg:top-28 lg:self-start">
-      <div className="relative h-[min(62svh,680px)] overflow-hidden rounded-[var(--radius-panel)] bg-paper lg:h-[calc(100svh-18rem)]">
+      <div className={`relative h-[min(62svh,680px)] overflow-hidden rounded-[var(--radius-panel)] lg:h-[calc(100svh-18rem)] ${pick === "3d" ? "bg-paper" : "bg-[#d8d5d1]"}`}>
         {pick === "3d" && r.model3d ? (
           <Model3D key={r.id} src={r.model3d} poster={r.images.cutout} alt={`${r.model} in 3D`} autoStart className="size-full" />
         ) : (

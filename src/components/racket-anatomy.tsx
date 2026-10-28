@@ -23,6 +23,26 @@ const yAtMm = (mm: number) => 286 - mm * MM;
 const Z = { heart: -110, frame: -55, core: 0, face: 55, surface: 110 } as const;
 const FOAM = { zacht: "#f1e8d6", medium: "#dccaa6", hard: "#b89f78" } as const;
 
+// Echte rackets uit onze eigen lijn voor de vormweergave. top/bottom = bovenkant kop en onderkant grip in % van de
+// fotohoogte (gemeten met scripts/measure-cutouts.mjs; de kop is 26 cm breed, het racket 45,5 cm lang).
+const PHOTOS: Record<Shape, { slug: string; id: string; name: string; top: number; bottom: number }> = {
+  rond: { slug: "lab-r-tour", id: "racket-lab-lab-r-tour", name: "LAB R Tour", top: 0, bottom: 89.1 },
+  druppel: { slug: "lab-d-tour", id: "racket-lab-lab-d-tour", name: "LAB D Tour", top: 0.1, bottom: 88.8 },
+  diamant: { slug: "lab-x-pro", id: "racket-lab-lab-x-pro", name: "LAB X Pro", top: 0.1, bottom: 91.5 },
+};
+/** Van de tekening (viewBox 200 x 300, kop 156 breed vanaf x=22) naar procenten op de foto. */
+function onPhoto(shape: Shape, g: (typeof SHAPE_GUIDE)[number]) {
+  const f = PHOTOS[shape];
+  const span = f.bottom - f.top;
+  const yMm = (mm: number) => f.top + ((455 - mm) / 455) * span;
+  const ssMm = (286 - g.sweetSpot.cy) / MM;
+  const ryMm = g.sweetSpot.ry / MM;
+  return {
+    sweet: { left: ((g.sweetSpot.cx - 22) / 156) * 100, top: yMm(ssMm), w: ((2 * g.sweetSpot.rx) / 156) * 100, h: (2 * ryMm * span) / 455 },
+    balance: yMm(g.balance.at),
+  };
+}
+
 const isCarbon = (r: CatalogRacket) => /carbon/i.test(r.face ?? "") && !/glas|fibre|fiber/i.test(r.face ?? "");
 const isRough = (r: CatalogRacket) => /3d|ruw|rough|zand|sand|spin/i.test(`${r.face} ${r.description}`);
 
@@ -186,7 +206,7 @@ export function RacketAnatomy() {
             <h2 id="anatomie-titel" className="text-[clamp(30px,3.2vw,44px)] leading-[1] font-bold">
               Wat zit er in een racket?
             </h2>
-            <p className="mt-3 max-w-[62ch] text-fg/75">Kies een vorm en zie waar de sweet spot en het balanspunt zitten. Haal daarna een echt racket uit elkaar, laag voor laag.</p>
+            <p className="mt-3 max-w-[62ch] text-fg/75">Kies een vorm en zie op een echt racket waar de sweet spot en het balanspunt zitten. Haal daarna een racket uit elkaar, laag voor laag.</p>
           </div>
           <div className="flex gap-1 rounded-[var(--radius-control)] border border-panel-2 p-1" role="group" aria-label="Weergave">
             {(["vorm", "opbouw"] as const).map((m) => (
@@ -200,7 +220,36 @@ export function RacketAnatomy() {
         <div className="mt-8 grid items-start gap-10 lg:grid-cols-[1fr_1fr]">
           {/* Het racket */}
           <div className="anatomy-stage relative mx-auto aspect-[4/5] w-full max-w-[520px] [perspective:1600px]">
-            <div className="stack relative mx-auto h-full w-[62%] [transform-style:preserve-3d]">
+            <div className={`absolute inset-0 transition-opacity duration-500 ${mode === "vorm" ? "opacity-100" : "pointer-events-none opacity-0"}`}>
+              <div className="relative mx-auto aspect-[461/900] h-[calc(100%-2.5rem)]">
+                {(Object.keys(PHOTOS) as Shape[]).map((k) => (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    key={k}
+                    src={`/media/eigen-lijn/${PHOTOS[k].slug}-vrij.webp`}
+                    alt={k === shape ? `${PHOTOS[k].name}, een ${k === "rond" ? "rond" : k === "druppel" ? "druppelvormig" : "diamantvormig"} racket` : ""}
+                    loading="lazy"
+                    decoding="async"
+                    className={`absolute inset-0 size-full object-contain transition-opacity duration-500 ${k === shape ? "opacity-100" : "opacity-0"}`}
+                  />
+                ))}
+                {(() => {
+                  const o = onPhoto(shape, guide);
+                  return (
+                    <div aria-hidden="true">
+                      <span
+                        className="absolute rounded-[50%] border-2 border-dashed border-[#e3bf78] bg-[#e3bf78]/30 transition-all duration-700 ease-out"
+                        style={{ left: `${o.sweet.left}%`, top: `${o.sweet.top}%`, width: `${o.sweet.w}%`, height: `${o.sweet.h}%`, transform: "translate(-50%, -50%)" }}
+                      />
+                      <span className="absolute -inset-x-6 border-t border-dashed border-fg/80 transition-[top] duration-700 ease-out" style={{ top: `${o.balance}%` }}>
+                        <span className="absolute -top-[6px] -left-1 size-0 border-y-[6px] border-l-[10px] border-y-transparent border-l-accent" />
+                      </span>
+                    </div>
+                  );
+                })()}
+              </div>
+            </div>
+            <div className={`stack relative mx-auto h-full w-[62%] transition-opacity duration-500 [transform-style:preserve-3d] ${mode === "vorm" ? "opacity-0" : "opacity-100"}`}>
               {(Object.keys(Z) as (keyof typeof Z)[]).map((id) => (
                 <LayerArt key={id} id={id} d={initialHead} r={racket} active={mode === "opbouw" && activeLayer === id} />
               ))}
@@ -242,6 +291,13 @@ export function RacketAnatomy() {
               <div aria-live="polite">
                 <h3 className="mt-6 text-2xl font-bold">{guide.label}</h3>
                 <p className="mt-1 text-fg/75">{guide.outline}</p>
+                <p className="mt-2 text-sm text-muted">
+                  Op de foto:{" "}
+                  <a href={`/rackets/${PHOTOS[shape].id}/`} className="link">
+                    {PHOTOS[shape].name}
+                  </a>
+                  , een eigen ontwerp. Sweet spot en balanspunt staan op de plek die past bij deze vorm.
+                </p>
                 <dl className="mt-5 grid grid-cols-2 gap-x-6 text-sm sm:grid-cols-3">
                   {[
                     ["Sweet spot", guide.sweetSpot.label],

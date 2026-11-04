@@ -1,7 +1,7 @@
 // Gedeelde helpers voor de Netlify-functies. Geheimen komen uit de omgevingsvariabelen in Netlify, nooit uit de code.
 import { CONFIG } from "../../src/lib/config.ts";
 
-export const SITE_URL = process.env.URL ?? "https://racket-lab.netlify.app";
+export const SITE_URL = process.env.URL ?? "https://padelracketstudio.nl";
 const SUPABASE_URL = process.env.SUPABASE_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL ?? "https://pprmrrhiprchhxwkaocx.supabase.co";
 const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY ?? "";
 

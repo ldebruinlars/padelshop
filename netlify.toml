@@ -16,3 +16,22 @@
   for = "/_next/static/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+
+# Alles naar padelracketstudio.nl: de .com (met en zonder www) en www.nl sturen we permanent door
+[[redirects]]
+  from = "https://padelracketstudio.com/*"
+  to = "https://padelracketstudio.nl/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.padelracketstudio.com/*"
+  to = "https://padelracketstudio.nl/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.padelracketstudio.nl/*"
+  to = "https://padelracketstudio.nl/:splat"
+  status = 301
+  force = true

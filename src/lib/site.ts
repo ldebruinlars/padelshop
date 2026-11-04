@@ -3,7 +3,7 @@ export const SITE = {
   name: "Racket Lab",
   location: "Poort Padel, Neonweg 62, Almere",
   routeUrl: "https://www.google.com/maps/search/?api=1&query=Poort+Padel+Neonweg+62+Almere",
-  url: "https://racket-lab.netlify.app", // vervang door het eigen domein zodra dat er is
+  url: "https://padelracketstudio.nl",
 };
 
 // PLACEHOLDER: winkelvoorwaarden. Vervang door de echte waarden; ze worden overal op de site gebruikt

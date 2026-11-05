@@ -77,7 +77,7 @@ export default async function RacketPage({ params }: { params: Promise<{ id: str
               Rackets
             </a>{" "}
             /{" "}
-            <a href={`/merken/${r.brand}/`} className="hover:text-fg">
+            <a href={own ? "/#top" : `/merken/${r.brand}/`} className="hover:text-fg">
               {brandName(r.brand)}
             </a>{" "}
             / <span className="text-fg">{r.model}</span>

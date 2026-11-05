@@ -27,6 +27,7 @@ import { QUESTIONS, recommend, type Answer } from "@/lib/finder-logic";
 import { INTAKE_EVENT, loadIntake, type Intake } from "@/lib/intake";
 import { track } from "@/lib/track";
 import { ChevronIcon } from "./icons";
+import { More } from "./more";
 import { RevealPanel } from "./reveal-panel";
 
 /** Datum als yyyy-mm-dd in lokale tijd (niet UTC, anders schuift de dag 's avonds op). */
@@ -99,7 +100,9 @@ function Waitlist({ wish, onClearWish }: { wish: string; onClearWish: () => void
   const [state, setState] = useState<"idle" | "sending" | "done" | "error">("idle");
   const [daypart, setDaypart] = useState<string>("");
   const [persons, setPersons] = useState(1);
+  const [expanded, setExpanded] = useState(false);
   const box = useRef<HTMLDivElement>(null);
+  const showForm = expanded || Boolean(wish);
   useEffect(() => {
     if (wish) box.current?.querySelector<HTMLInputElement>("input[name=naam]")?.focus({ preventScroll: true });
   }, [wish]);
@@ -126,6 +129,12 @@ function Waitlist({ wish, onClearWish }: { wish: string; onClearWish: () => void
         )}
       </div>
       <p className="mt-1 max-w-[70ch] text-fg/75">Zet je op de wachtlijst, dan bellen of appen we je zodra er een plek vrijkomt.</p>
+      {!showForm && (
+        <button type="button" className="btn btn-line mt-4" onClick={() => setExpanded(true)}>
+          Zet me op de wachtlijst
+        </button>
+      )}
+      {showForm && (
       <form
         className="mt-4 grid gap-4 lg:grid-cols-[1fr_1fr_1.3fr_auto] lg:items-end"
         onSubmit={async (e) => {
@@ -187,6 +196,7 @@ function Waitlist({ wish, onClearWish }: { wish: string; onClearWish: () => void
           </p>
         )}
       </form>
+      )}
     </div>
   );
 }
@@ -673,11 +683,11 @@ export function Testcenter() {
           </div>
         )}
 
-        {/* Prijzen, de coaches en de testkast */}
-        <div className="mt-12 grid gap-10 border-t border-panel-2 pt-10 lg:grid-cols-[1.4fr_1fr]">
+        {/* Prijzen, de coaches en de testkast: kort zichtbaar, de rest klapt open */}
+        <More className="mt-6" title="Alle prijzen, coaches en de testkast" hint="Met 3 of 4 personen, leerlingentarief, extra's bij aankoop en de omruilgarantie">
+        <div className="grid gap-10 pt-2 lg:grid-cols-[1.4fr_1fr]">
           <div>
-            <h3 className="text-xl font-bold">Prijzen</h3>
-            <ul className="mt-4 grid gap-2.5 text-fg/80">
+            <ul className="mt-1 grid gap-2.5 text-fg/80">
               {PRICE_LIST.map((p) => (
                 <li key={p} className="flex gap-3">
                   <span className="mt-2 size-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true" />
@@ -705,6 +715,7 @@ export function Testcenter() {
             </div>
           </div>
         </div>
+        </More>
       </div>
     </RevealPanel>
   );

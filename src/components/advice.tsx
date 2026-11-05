@@ -82,29 +82,20 @@ function FaqItem({ q, a }: { q: string; a: string }) {
   );
 }
 
-// Korte adviesteksten, volledig leesbaar: geen kaarten en geen "lees verder".
-function Guide({ g }: { g: (typeof GUIDES)[number] }) {
-  return (
-    <article className="border-t border-panel-2 pt-5">
-      <h3 className="text-xl font-bold">{g.title}</h3>
-      <p className="mt-2 max-w-[62ch] text-fg/75">{g.text}</p>
-    </article>
-  );
-}
-
 /** Advies van de coaches en veelgestelde vragen. */
 export function Advice() {
   return (
-    <section id="advies" className="bg-ink py-24">
+    <section id="advies" className="cv bg-ink py-24">
       <div className="mx-auto max-w-[1400px] px-5">
         <h2 className="max-w-2xl text-[clamp(30px,3.2vw,44px)] leading-[1] font-bold">
           Racketadvies
         </h2>
-        <div className="mt-8 grid items-start gap-x-10 gap-y-8 md:grid-cols-3">
+        {/* Kort: alleen de vragen, het antwoord klapt open */}
+        <ul className="mt-8 grid border-t border-fg/10 md:grid-cols-3 md:gap-x-10 md:border-t-0">
           {GUIDES.map((g) => (
-            <Guide key={g.title} g={g} />
+            <FaqItem key={g.title} q={g.title} a={g.text} />
           ))}
-        </div>
+        </ul>
 
         <div className="mt-20 grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
           <div>

@@ -1,42 +1,35 @@
 "use client";
 
-import { useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
+import { useEffect, useRef } from "react";
 
-gsap.registerPlugin(ScrollTrigger, useGSAP);
-
-/** "Panelen die opengaan": een afgerond paneel opent vanuit het midden zodra het in beeld scrolt. */
+/**
+ * "Panelen die opengaan": een afgerond paneel komt één keer zacht binnen zodra het in beeld scrolt.
+ * Geen scroll-scrub meer: het hele paneel meeschalen tijdens het scrollen kostte elk frame een nieuwe tekening.
+ */
 export function RevealPanel({ children, className = "", id }: { children: React.ReactNode; className?: string; id?: string }) {
   const root = useRef<HTMLDivElement>(null);
 
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        // Schalen in plaats van clip-path: transform laat de grafische kaart het werk doen,
-        // clip-path moest het hele paneel elk scrollframe opnieuw tekenen.
-        gsap.fromTo(
-          root.current,
-          { scale: 0.9, opacity: 0.4 },
-          {
-            scale: 1,
-            opacity: 1,
-            ease: "none",
-            // Eindigt al op 60%, zodat ook de footer onderaan de pagina helemaal opengaat.
-            scrollTrigger: { trigger: root.current, start: "top 100%", end: "top 60%", scrub: 0.5 },
-          },
-        );
-      });
-      return () => mm.revert();
-    },
-    { scope: root },
-  );
+  useEffect(() => {
+    const el = root.current;
+    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // Pas na het laden "gewapend", zodat het paneel zonder JavaScript gewoon zichtbaar is
+    if (el.getBoundingClientRect().top < window.innerHeight) return;
+    el.classList.add("reveal-armed");
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (!e.isIntersecting) return;
+        el.classList.add("reveal-in");
+        io.disconnect();
+      },
+      { rootMargin: "0px 0px -10% 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   return (
     <div className="px-[max(10px,env(safe-area-inset-left))]">
-      <div ref={root} id={id} className={`overflow-hidden rounded-[var(--radius-panel)] will-change-transform ${className}`}>
+      <div ref={root} id={id} className={`overflow-hidden rounded-[var(--radius-panel)] ${className}`}>
         {children}
       </div>
     </div>

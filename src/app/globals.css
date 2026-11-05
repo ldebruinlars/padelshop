@@ -28,6 +28,13 @@
 html {
   background: var(--color-ink);
   scrollbar-color: var(--color-panel-2) var(--color-ink);
+  /* Ankerlinks (#testcenter, #finder) glijden; de pagina zelf scrollt native, dus op de eigen thread van de browser */
+  scroll-padding-top: 112px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 body {
@@ -197,10 +204,7 @@ body {
   border-color: var(--color-on-accent);
   color: var(--color-fg);
 }
-/* Rackets werpen een zachte schaduw op de wand */
-.hang img {
-  filter: drop-shadow(10px 14px 10px rgb(20 17 15 / 0.32));
-}
+/* De schaduw op de wand zit in de foto's zelf (-wand.webp); een CSS-filter hier kostte elk scrollframe rekenwerk */
 
 /* Racket aan de haak: zwaait vanaf de haak, niet vanaf het midden */
 .hang {
@@ -286,4 +290,23 @@ body {
   to {
     transform: scaleX(1);
   }
+}
+
+/* RevealPanel: één keer zacht binnenkomen, alleen transform en opacity */
+.reveal-armed {
+  opacity: 0.35;
+  transform: translateY(32px) scale(0.97);
+  transition:
+    opacity 0.7s ease-out,
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-armed.reveal-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Secties onder de vouw: de browser rekent ze pas uit als je in de buurt scrolt. "auto" onthoudt de echte hoogte */
+.cv {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 1100px;
 }

@@ -9,7 +9,7 @@ export function Visit() {
   const [state, setState] = useState<"idle" | "sending" | "done" | "error">("idle");
 
   return (
-    <section id="bezoek" className="bg-bg py-24">
+    <section id="bezoek" className="cv bg-bg py-24">
       <div className="mx-auto grid max-w-[1400px] gap-4 px-5 lg:grid-cols-2">
         <div className="relative min-h-[360px] overflow-hidden rounded-[var(--radius-card)] bg-panel">
           {/* eslint-disable-next-line @next/next/no-img-element */}

@@ -90,7 +90,7 @@ export function OrderPanel({ racket, interest = false }: { racket: { id: string;
       }}
     >
       <div>
-        <h2 id="bestel-titel" className="text-2xl font-bold">
+        <h2 id="bestel-titel" className="scroll-mt-32 text-2xl font-bold">
           {interest ? "Interesse in dit racket?" : "Reserveer dit racket"}
         </h2>
         <p className="mt-1 text-sm text-muted">

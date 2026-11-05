@@ -13,6 +13,7 @@ import { ChevronIcon } from "./icons";
 import { BuildSteps } from "./build-steps";
 import { LayerLab } from "./layer-lab";
 import { RacketExplorer } from "./racket-explorer";
+import { More } from "./more";
 import { QuickView } from "./quick-view";
 
 gsap.registerPlugin(MorphSVGPlugin, ScrollTrigger, useGSAP);
@@ -133,7 +134,6 @@ export function RacketAnatomy() {
     () => {
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        gsap.from(".anatomy-stage", { y: 40, opacity: 0, duration: 0.8, ease: "expo.out", scrollTrigger: { trigger: root.current, start: "top 75%", once: true } });
       });
       return () => mm.revert();
     },
@@ -199,7 +199,7 @@ export function RacketAnatomy() {
     })[id];
 
   return (
-    <section ref={root} id="anatomie" aria-labelledby="anatomie-titel" className="relative overflow-hidden bg-bg py-24">
+    <section ref={root} id="anatomie" aria-labelledby="anatomie-titel" className="cv relative overflow-hidden bg-bg py-24">
       <div className="mx-auto max-w-[1400px] px-4 md:px-8">
         <div className="flex flex-wrap items-end justify-between gap-6 border-b border-panel-2 pb-6">
           <div>
@@ -406,9 +406,12 @@ export function RacketAnatomy() {
             </details>
           </div>
         </div>
-        <RacketExplorer />
-        <LayerLab />
-        <BuildSteps />
+        {/* De verdieping: pas opbouwen als iemand hem opent, dat scheelt veel foto's en animaties bij het laden */}
+        <More lazy className="mt-12" title="Bekijk een racket van dichtbij en hoe hij gemaakt wordt" hint="Inzoomen op slagvlak, kern, frame, hart en grip, alle technieken en de zes stappen in de fabriek">
+          <RacketExplorer />
+          <LayerLab />
+          <BuildSteps />
+        </More>
       </div>
 
       <QuickView racket={open?.r ?? null} from={open?.from ?? null} list={ofShape} onChange={(r) => setOpen((o) => (o ? { ...o, r } : o))} onClose={() => setOpen(null)} />

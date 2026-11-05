@@ -4,6 +4,7 @@ import { useState } from "react";
 import { LEVELS } from "@/lib/catalog";
 import { CONFIG } from "@/lib/config";
 import { signupTestEvent } from "@/lib/shop-api";
+import { More } from "./more";
 
 const nextDate = CONFIG.nextTestEvening
   ? new Intl.DateTimeFormat("nl-NL", { weekday: "long", day: "numeric", month: "long" }).format(new Date(`${CONFIG.nextTestEvening}T12:00:00`))
@@ -36,7 +37,7 @@ export function TestEvent() {
   const [state, setState] = useState<"idle" | "sending" | "done" | "error">("idle");
   const [format, setFormat] = useState<(typeof FORMATS)[number]["id"]>("americano");
   return (
-    <section id="testdag" aria-labelledby="testdag-titel" className="border-y border-panel-2 bg-ink">
+    <section id="testdag" aria-labelledby="testdag-titel" className="cv border-y border-panel-2 bg-ink">
       <div className="mx-auto max-w-[1400px] px-4 py-20 md:px-8">
         <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr]">
           <div>
@@ -117,7 +118,8 @@ export function TestEvent() {
           </div>
         </div>
 
-        <div className="mt-14 grid gap-10 border-t border-panel-2 pt-10 lg:grid-cols-3">
+        <More className="mt-10" title="Prijzen, spelvormen en het klassement" hint="Twee kansen op een racket, Americano of Mexicano, en punten per testavond">
+          <div className="grid gap-10 pt-2 lg:grid-cols-3">
           {/* Twee kansen op een racket */}
           <div>
             <h3 className="text-xl font-bold">Twee kansen op een racket</h3>
@@ -169,6 +171,7 @@ export function TestEvent() {
             <p className="mt-2 text-xs text-muted">Het klassement start bij de eerste Racket Test Avond.</p>
           </div>
         </div>
+        </More>
       </div>
     </section>
   );

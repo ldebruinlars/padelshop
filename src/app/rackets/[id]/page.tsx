@@ -12,6 +12,7 @@ import { SITE, euro } from "@/lib/site";
 import { DELIVERY, isTestRacket } from "@/lib/test-range";
 import { BULLPADEL_SOURCE, techFor } from "@/lib/tech";
 import { ProductGallery } from "@/components/product-gallery";
+import { More } from "@/components/more";
 import { OWN_BRAND, OWN_RACKETS, type OwnRacket } from "@/lib/own-line";
 
 export function generateStaticParams() {
@@ -109,7 +110,23 @@ export default async function RacketPage({ params }: { params: Promise<{ id: str
                 </p>
               )}
               {r.price != null && <p className="mt-2 text-sm text-fg/75">{DELIVERY}</p>}
+              <ul className="mt-4 flex flex-wrap gap-1.5 text-sm" aria-label="Kernspecificaties">
+                {[r.shape, r.weight, r.balance && `balans ${r.balance}`, r.feel, r.level].filter(Boolean).map((v) => (
+                  <li key={v as string} className="rounded-[var(--radius-control)] border border-panel-2 px-2.5 py-1 first-letter:uppercase">
+                    {v}
+                  </li>
+                ))}
+              </ul>
               {r.description && <p className="mt-4 max-w-[62ch] text-lg text-fg/80">{r.description}</p>}
+              {/* Meteen de twee acties, voordat de details beginnen */}
+              <div className="mt-5 flex flex-wrap gap-2">
+                <a href="#bestel-titel" className="btn btn-primary">
+                  {own ? "Zet me op de lijst" : "Reserveer dit racket"}
+                </a>
+                <a href="/#testcenter" className="btn btn-line">
+                  {isTestRacket(r.id) ? "Test hem eerst, €30" : "Boek een racket-test"}
+                </a>
+              </div>
             </header>
 
             {own && (
@@ -118,24 +135,6 @@ export default async function RacketPage({ params }: { params: Promise<{ id: str
               </p>
             )}
             <OrderPanel racket={{ id: r.id, label: `${brandName(r.brand)} ${r.model}`, price: r.price }} interest={Boolean(own)} />
-
-            <section aria-labelledby="eigenschappen">
-              <h2 id="eigenschappen" className="text-2xl font-bold">
-                Eigenschappen
-              </h2>
-              <div className="mt-4 grid items-center gap-6 sm:grid-cols-[minmax(0,320px)_1fr]">
-                <Radar values={ratings(r).map((x) => ({ label: x.label, value: x.value }))} label={`Eigenschappen van de ${r.model}`} />
-                <div className="grid gap-y-3">
-                {ratings(r).map((x) => (
-                  <div key={x.id}>
-                    <ProfileBar label={x.label} value={x.value} color={x.color} wide />
-                    <p className="mt-1 text-xs text-muted">{x.hint}</p>
-                  </div>
-                ))}
-                </div>
-              </div>
-              <p className="mt-3 text-xs text-muted">Racket Lab-schatting op basis van vorm, balans, gewicht, kern en slagvlak. Geen labtest.</p>
-            </section>
 
             <section aria-labelledby="specs">
               <h2 id="specs" className="text-2xl font-bold">
@@ -153,11 +152,32 @@ export default async function RacketPage({ params }: { params: Promise<{ id: str
               </dl>
             </section>
 
+            {/* Kort hierboven; wie meer wil weten klapt de rest open */}
+            <More title="Eigenschappen, opbouw en technologie" hint="Kracht, controle en comfort, hoe het racket is opgebouwd en wat het merk erover zegt">
+              <div className="grid gap-8 pt-2">
+            <section aria-labelledby="eigenschappen">
+              <h3 id="eigenschappen" className="text-xl font-bold">
+                Eigenschappen
+              </h3>
+              <div className="mt-4 grid items-center gap-6 sm:grid-cols-[minmax(0,320px)_1fr]">
+                <Radar values={ratings(r).map((x) => ({ label: x.label, value: x.value }))} label={`Eigenschappen van de ${r.model}`} />
+                <div className="grid gap-y-3">
+                {ratings(r).map((x) => (
+                  <div key={x.id}>
+                    <ProfileBar label={x.label} value={x.value} color={x.color} wide />
+                    <p className="mt-1 text-xs text-muted">{x.hint}</p>
+                  </div>
+                ))}
+                </div>
+              </div>
+              <p className="mt-3 text-xs text-muted">Racket Lab-schatting op basis van vorm, balans, gewicht, kern en slagvlak. Geen labtest.</p>
+            </section>
+
             <section aria-labelledby="opbouw">
               <div className="flex flex-wrap items-baseline justify-between gap-3">
-                <h2 id="opbouw" className="text-2xl font-bold">
+                <h3 id="opbouw" className="text-xl font-bold">
                   Hoe dit racket is opgebouwd
-                </h2>
+                </h3>
                 <a href={`/?opbouw=${r.id}#anatomie`} className="link text-sm">
                   Bekijk de opbouw in 3D
                 </a>
@@ -182,9 +202,9 @@ export default async function RacketPage({ params }: { params: Promise<{ id: str
 
             {tech.length > 0 && (
               <section aria-labelledby="tech">
-                <h2 id="tech" className="text-2xl font-bold">
+                <h3 id="tech" className="text-xl font-bold">
                   Technologie in dit racket
-                </h2>
+                </h3>
                 <dl className="mt-3 grid border-t border-panel-2">
                   {tech.map((t) => (
                     <div key={t.name} className="grid gap-1 border-b border-panel-2 py-3 sm:grid-cols-[160px_1fr]">
@@ -207,12 +227,14 @@ export default async function RacketPage({ params }: { params: Promise<{ id: str
 
             {brand && (
               <section aria-labelledby="merk">
-                <h2 id="merk" className="text-2xl font-bold">
+                <h3 id="merk" className="text-xl font-bold">
                   Over {brand.name}
-                </h2>
+                </h3>
                 <p className="mt-2 max-w-[62ch] text-fg/80">{brand.about}</p>
               </section>
             )}
+              </div>
+            </More>
 
             {r.sources.length > 0 && (
               <p className="text-xs text-muted">

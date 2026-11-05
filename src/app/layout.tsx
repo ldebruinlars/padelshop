@@ -3,7 +3,6 @@ import { Archivo, Inter_Tight } from "next/font/google";
 import { CodeCatcher } from "@/components/code-catcher";
 import { Consent } from "@/components/consent";
 import { CONFIG } from "@/lib/config";
-import { SmoothScroll } from "@/components/smooth-scroll";
 import { SITE } from "@/lib/site";
 import "./globals.css";
 
@@ -50,7 +49,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className={`${interTight.variable} ${archivo.variable}`}>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
         <CodeCatcher />
-        <SmoothScroll>{children}</SmoothScroll>
+        {children}
         <Consent />
       </body>
     </html>

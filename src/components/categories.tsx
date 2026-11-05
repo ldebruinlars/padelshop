@@ -1,38 +1,11 @@
-"use client";
-
-import { useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
 import { CONFIG } from "@/lib/config";
 import { CATEGORIES } from "@/lib/site";
 
-gsap.registerPlugin(ScrollTrigger, useGSAP);
-
-/** Shop per categorie: fototegels die gestaffeld binnenkomen en langzaam inzoomen bij hover. */
+/** Shop per categorie: fototegels die langzaam inzoomen bij hover. */
 export function Categories() {
-  const root = useRef<HTMLElement>(null);
-
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        gsap.from(".cat-tile", {
-          y: 40,
-          opacity: 0,
-          duration: 0.8,
-          ease: "power3.out",
-          stagger: 0.08,
-          scrollTrigger: { trigger: root.current, start: "top 75%", once: true },
-        });
-      });
-      return () => mm.revert();
-    },
-    { scope: root },
-  );
 
   return (
-    <section ref={root} id="categorieen" className="bg-ink py-24">
+    <section id="categorieen" className="cv bg-ink py-24">
       <div className="mx-auto max-w-[1400px] px-5">
         <div className="grid gap-3 border-b border-panel-2 pb-6">
           <h2 className="text-[clamp(30px,3.2vw,44px)] leading-[1] font-bold">

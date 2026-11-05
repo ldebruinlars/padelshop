@@ -141,12 +141,21 @@ export function RacketWall() {
                 De racketwand
               </h1>
               <p className="mt-3 max-w-[48ch] text-[#4a3f37] [text-wrap:pretty] md:text-lg">
-                {OWN_RACKETS.length} rackets van {OWN_BRAND.name}, allemaal in 3D. Swipe langs de wand en klik op een racket om in te zoomen op de specs.
+                Test eerst op de baan, koop pas als het goed voelt. Klik op een racket voor de specs.
               </p>
-              <p className="mt-2 text-sm text-[#5b4f45]">
-                Eigen ontwerpen in ontwikkeling. De merken (Bullpadel, Nox en meer) vind je bij{" "}
-                <a href="/merken/" className="underline underline-offset-2 hover:text-on-accent">
-                  Merken
+              {/* De vier beloftes, kort en altijd in beeld */}
+              <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-1.5 text-sm font-semibold text-[#3b322c]">
+                {["Test 3 rackets met een coach, €30", "Alle rackets voor de adviesprijs", "30 dagen omruilgarantie", "Meteen mee of binnen een week"].map((u) => (
+                  <li key={u} className="flex items-center gap-2">
+                    <span className="size-1.5 rounded-full bg-accent" aria-hidden="true" />
+                    {u}
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-3 text-sm text-[#5b4f45]">
+                Aan de wand: {OWN_RACKETS.length} eigen ontwerpen, nog in ontwikkeling. De testrackets van Bullpadel, Nox, Head en Babolat vind je bij{" "}
+                <a href="/rackets/?test=ja" className="underline underline-offset-2 hover:text-on-accent">
+                  Rackets
                 </a>
                 .
               </p>

@@ -43,7 +43,7 @@ export function Reviews() {
   );
 
   return (
-    <section ref={root} id="reviews" className="bg-bg py-24">
+    <section ref={root} id="reviews" className="cv bg-bg py-24">
       <div className="mx-auto max-w-[1400px] px-5">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>

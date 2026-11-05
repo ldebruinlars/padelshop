@@ -86,16 +86,8 @@ export function BallPath() {
           if (now > landed && rings[now]) gsap.fromTo(rings[now], { attr: { r: 8 }, opacity: 0.9 }, { attr: { r: 46 }, opacity: 0, duration: 0.7, ease: "expo.out" });
           landed = now;
         };
-        const wide = gsap.matchMedia();
-        // Grote schermen: de baan staat stil in beeld terwijl de bal van Kies naar Koop speelt
-        wide.add("(min-width: 1024px) and (min-height: 640px)", () => {
-          ScrollTrigger.create({ trigger: el, start: "center center", end: "+=110%", pin: true, scrub: 0.4, onUpdate });
-        });
-        // Telefoons en lage schermen: de bal is klaar terwijl de hele baan nog in beeld is
-        wide.add("(max-width: 1023px), (max-height: 639px)", () => {
-          ScrollTrigger.create({ trigger: el.querySelector(".court"), start: "top 85%", end: "bottom 60%", scrub: 0.4, onUpdate });
-        });
-        return () => wide.revert();
+        // Geen vastgepinde sectie meer (die maakte scrollen zwaar): de bal is klaar terwijl de hele baan nog in beeld is
+        ScrollTrigger.create({ trigger: el.querySelector(".court"), start: "top 85%", end: "bottom 55%", scrub: 0.4, onUpdate });
       });
       // Zonder animatie: bal aan het eind, alle stappen aan
       mm.add("(prefers-reduced-motion: reduce)", () => render(1));
@@ -111,7 +103,7 @@ export function BallPath() {
           <h2 id="zo-werkt-titel" className="text-[clamp(30px,3.2vw,44px)] leading-[1] font-bold">
             Zo werkt een racket-test
           </h2>
-          <p className="max-w-[46ch] text-fg/75">Drie stappen, één middag. De testkosten krijg je terug als je een racket koopt.</p>
+          <p className="max-w-[46ch] text-fg/75">Drie stappen, een half uur op de baan. Daarna weet je welk racket bij je past.</p>
         </div>
 
         <div className="mt-10 grid items-center gap-10 lg:grid-cols-[1.25fr_1fr]">

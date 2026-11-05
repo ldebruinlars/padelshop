@@ -56,7 +56,7 @@ export function Finder() {
   }, [done, current, step]);
 
   return (
-    <section id="finder" className="bg-ink px-4 py-24 md:px-8">
+    <section id="finder" className="cv bg-ink px-4 py-24 md:px-8">
       <div className="mx-auto grid max-w-[1400px] gap-12 lg:grid-cols-[0.8fr_1.2fr]">
         <div>
           <h2 className="text-[clamp(30px,3.2vw,44px)] leading-[1] font-bold">Welk racket past bij jou?</h2>

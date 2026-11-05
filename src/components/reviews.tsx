@@ -5,18 +5,17 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { CONFIG } from "@/lib/config";
-import { EXAMPLE_REVIEWS, RATING, REVIEWS } from "@/lib/site";
+import { RATING, REVIEWS } from "@/lib/site";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 /**
  * Wat zeggen testers: tot 6 Google-reviews (naam, niveau, racket gekocht, één zin) en een knop naar Google.
- * Zolang REVIEWS in site.ts leeg is, staan er drie voorbeelden die duidelijk als voorbeeld zijn gemarkeerd.
+ * Het blok verschijnt pas als er echte reviews in site.ts staan of als de Google-reviewlink in config.ts is ingevuld.
  */
 export function Reviews() {
   const root = useRef<HTMLElement>(null);
-  const real = REVIEWS.length > 0;
-  const list = real ? REVIEWS.slice(0, 6) : EXAMPLE_REVIEWS;
+  const list = REVIEWS.slice(0, 6);
 
   useGSAP(
     () => {
@@ -42,13 +41,16 @@ export function Reviews() {
     { scope: root },
   );
 
+  // Geen echte reviews en nog geen Google-link: dan geen blok
+  if (!list.length && !CONFIG.googleReviewUrl) return null;
+
   return (
     <section ref={root} id="reviews" className="cv bg-bg py-24">
       <div className="mx-auto max-w-[1400px] px-5">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
             <h2 className="text-[clamp(30px,3.2vw,44px)] leading-[1] font-bold">Wat zeggen testers</h2>
-            <p className="mt-3 max-w-[56ch] text-fg/70">Reviews van spelers die bij ons een racket testten, uit Google.</p>
+            <p className="mt-3 max-w-[56ch] text-fg/70">{list.length ? "Reviews van spelers die bij ons een racket testten, uit Google." : "Heb je bij ons een racket getest? Laat je mening achter op Google."}</p>
           </div>
           <div className="flex flex-wrap items-center gap-5">
             {RATING && (
@@ -63,26 +65,25 @@ export function Reviews() {
               <a href={CONFIG.googleReviewUrl} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
                 Schrijf een review
               </a>
-            ) : (
-              <span className="btn btn-line pointer-events-none opacity-70">Schrijf een review (link volgt)</span>
-            )}
+            ) : null}
           </div>
         </div>
+        {list.length > 0 && (
         <ul className="mt-12 grid gap-4 md:grid-cols-3">
           {list.map((r, i) => (
-            <li key={`${r.name}-${i}`} className={`relative rounded-[var(--radius-card)] border bg-panel p-6 ${real ? "border-fg/5" : "border-dashed border-fg/25"}`}>
-              {!real && <p className="label mb-3 text-accent">Voorbeeld, geen echte review</p>}
+            <li key={`${r.name}-${i}`} className="relative rounded-[var(--radius-card)] border border-fg/5 bg-panel p-6">
               <p className="text-accent-2" aria-label={`${r.stars} van 5 sterren`}>
                 {"★".repeat(r.stars)}
                 <span className="text-fg/25">{"★".repeat(5 - r.stars)}</span>
               </p>
-              <blockquote className={`mt-4 text-lg leading-relaxed ${real ? "" : "text-fg/55"}`}>“{r.text}”</blockquote>
+              <blockquote className="mt-4 text-lg leading-relaxed">“{r.text}”</blockquote>
               <p className="mt-4 text-sm text-muted">
                 {r.name} · {r.level} · kocht de {r.racket}
               </p>
             </li>
           ))}
         </ul>
+        )}
       </div>
     </section>
   );

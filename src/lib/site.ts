@@ -1,6 +1,6 @@
 // Werktitel: vervang door de echte bedrijfsnaam.
 export const SITE = {
-  name: "Racket Lab",
+  name: "Padel Racket Studio",
   location: "Poort Padel, Neonweg 62, Almere",
   routeUrl: "https://www.google.com/maps/search/?api=1&query=Poort+Padel+Neonweg+62+Almere",
   url: "https://padelracketstudio.nl",

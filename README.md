@@ -1,4 +1,4 @@
-# Racket Lab
+# Padel Racket Studio
 
 Padel webshop met een racket-testcenter bij Poort Padel in Almere, samen met All Court Academy.
 

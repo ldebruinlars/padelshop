@@ -19,7 +19,7 @@ export async function rest(path: string, init: RequestInit = {}) {
 }
 
 /**
- * Melding naar het WhatsApp-nummer van Racket Lab via een webhook (bijv. een Make-scenario dat WhatsApp of Twilio aanstuurt).
+ * Melding naar het WhatsApp-nummer van Padel Racket Studio via een webhook (bijv. een Make-scenario dat WhatsApp of Twilio aanstuurt).
  * NOTIFY_WEBHOOK_URL krijgt { to, text, kind, record }. Zonder webhook gebeurt er niets.
  */
 export async function notify(kind: string, text: string, record: Record<string, unknown>) {

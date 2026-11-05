@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const { id } = await params;
   const r = [...CATALOG_RACKETS, ...OWN_RACKETS].find((x) => x.id === id);
   if (!r) return {};
-  const title = `${brandName(r.brand)} ${r.model} | Racket Lab`;
+  const title = `${brandName(r.brand)} ${r.model} | Padel Racket Studio`;
   return { title, description: r.description ?? undefined, alternates: { canonical: `/rackets/${r.id}/` } };
 }
 
@@ -170,7 +170,7 @@ export default async function RacketPage({ params }: { params: Promise<{ id: str
                 ))}
                 </div>
               </div>
-              <p className="mt-3 text-xs text-muted">Racket Lab-schatting op basis van vorm, balans, gewicht, kern en slagvlak. Geen labtest.</p>
+              <p className="mt-3 text-xs text-muted">Padel Racket Studio-schatting op basis van vorm, balans, gewicht, kern en slagvlak. Geen labtest.</p>
             </section>
 
             <section aria-labelledby="opbouw">

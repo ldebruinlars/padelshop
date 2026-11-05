@@ -87,7 +87,7 @@ export function encode(r: CatalogRacket) {
 const clamp10 = (n: number) => Math.round(Math.min(10, Math.max(1, n)) * 2) / 2;
 
 /**
- * Zes eigenschappen (1-10) zoals veel padelshops ze tonen. Racket Lab-schatting op basis van de specificaties,
+ * Zes eigenschappen (1-10) zoals veel padelshops ze tonen. Padel Racket Studio-schatting op basis van de specificaties,
  * met de vuistregels uit racketgidsen (o.a. padelful.com/en/how-we-score, Tennis Warehouse, LTA). Geen labtest.
  */
 export function ratings(r: CatalogRacket) {

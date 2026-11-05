@@ -345,7 +345,7 @@ export function SignupsTab() {
           Aanmeldingen Racket Test Avond <span className="text-muted tabular-nums">({rows.length})</span>
         </h2>
         {rows.length > 0 && (
-          <a className="link text-sm" href={`mailto:?bcc=${rows.map((r) => r.email).join(",")}&subject=${encodeURIComponent("Racket Lab Test Avond")}`}>
+          <a className="link text-sm" href={`mailto:?bcc=${rows.map((r) => r.email).join(",")}&subject=${encodeURIComponent("Padel Racket Studio Test Avond")}`}>
             Mail iedereen
           </a>
         )}

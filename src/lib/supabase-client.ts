@@ -3,7 +3,7 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
 // De publieke sleutel mag in de browser staan; de database laat bezoekers alleen boeken en bezette tijden zien.
-// Eigen Racket Lab-project (los van andere projecten in dezelfde Supabase-organisatie).
+// Eigen Padel Racket Studio-project (los van andere projecten in dezelfde Supabase-organisatie).
 const URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "https://pprmrrhiprchhxwkaocx.supabase.co";
 const KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "sb_publishable_KefKZ6wZjzeG3WJClyhuDQ_BOkiUu8w";
 

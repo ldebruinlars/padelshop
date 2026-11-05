@@ -6,7 +6,7 @@ import { ShapeGuide } from "@/components/shape-guide";
 import { BRAND_LIST, CATALOG_RACKETS } from "@/lib/catalog";
 
 export const metadata: Metadata = {
-  title: "Padel rackets | Racket Lab",
+  title: "Padel rackets | Padel Racket Studio",
   description: `${CATALOG_RACKETS.length} padel rackets van ${BRAND_LIST.length} topmerken. Filter op vorm, hardheid, speelstijl en niveau, en test ze eerst in Almere.`,
   alternates: { canonical: "/rackets/" },
 };

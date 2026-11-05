@@ -170,7 +170,7 @@ export function Admin() {
       <header className="border-b border-panel-2 bg-bg print:hidden">
         <div className="mx-auto flex h-16 max-w-[1400px] items-center justify-between gap-4 px-4 md:px-8">
           <a href="/" className="flex items-center gap-2 font-display text-lg font-bold">
-            <Logo className="size-6" /> Racket Lab · Beheer
+            <Logo className="size-6" /> Padel Racket Studio · Beheer
           </a>
           <div className="flex items-center gap-3 text-sm">
             <span className="text-muted max-sm:hidden">{session.user.email}</span>

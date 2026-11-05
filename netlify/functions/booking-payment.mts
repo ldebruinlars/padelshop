@@ -19,7 +19,7 @@ export default async (req: Request) => {
     headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
     body: JSON.stringify({
       amount: { currency: "EUR", value: Number(b.amount).toFixed(2) },
-      description: `Racket Lab ${KIND_LABEL[b.kind]} ${b.slot_date} ${b.slot_time.slice(0, 5)}`,
+      description: `Padel Racket Studio ${KIND_LABEL[b.kind]} ${b.slot_date} ${b.slot_time.slice(0, 5)}`,
       redirectUrl: `${SITE_URL}/?boeking=${b.id}#testcenter`,
       webhookUrl: `${SITE_URL}/.netlify/functions/mollie-webhook`,
       method: "ideal",

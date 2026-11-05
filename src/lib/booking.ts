@@ -1,4 +1,4 @@
-// Racket Fit boeken: vaste testslots, drie vormen, de wachtlijst en de koppeling met Supabase (eigen Racket Lab-project).
+// Racket Fit boeken: vaste testslots, drie vormen, de wachtlijst en de koppeling met Supabase (eigen Padel Racket Studio-project).
 // De prijzen en het rooster staan ook in supabase/migrations/0004_racket_fit.sql; pas ze daar mee aan.
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { COACH_PROFILES } from "./config";
@@ -153,7 +153,7 @@ export async function startPayment(id: string): Promise<string | null> {
   }
 }
 
-/** Melding naar het WhatsApp-nummer van Racket Lab. De functie zoekt de gegevens zelf op en stuurt elke melding één keer. */
+/** Melding naar het WhatsApp-nummer van Padel Racket Studio. De functie zoekt de gegevens zelf op en stuurt elke melding één keer. */
 export function notifyTeam(type: "booking" | "waitlist", id: string) {
   fetch("/.netlify/functions/notify", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ type, id }), keepalive: true }).catch(() => null);
 }

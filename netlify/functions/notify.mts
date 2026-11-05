@@ -1,4 +1,4 @@
-// Melding naar Racket Lab bij een nieuwe boeking of wachtlijst-inschrijving. De browser stuurt alleen het id;
+// Melding naar Padel Racket Studio bij een nieuwe boeking of wachtlijst-inschrijving. De browser stuurt alleen het id;
 // de gegevens halen we zelf uit de database en elke melding gaat één keer (notified_at).
 import { bookingText, json, notify, rest, type BookingRow } from "../lib/shared.mts";
 

@@ -1,4 +1,4 @@
-// Bestellen, coachcodes en testdag-aanmeldingen via de eigen Racket Lab-database (zie supabase/migrations).
+// Bestellen, coachcodes en testdag-aanmeldingen via de eigen Padel Racket Studio-database (zie supabase/migrations).
 import { db as getDb } from "./booking";
 
 export type Source = "web" | "wand" | "balie" | "testdag";

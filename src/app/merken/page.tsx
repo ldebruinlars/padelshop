@@ -4,7 +4,7 @@ import { Nav } from "@/components/nav";
 import { BRAND_LIST, CATALOG_RACKETS } from "@/lib/catalog";
 
 export const metadata: Metadata = {
-  title: "Merken | Racket Lab",
+  title: "Merken | Padel Racket Studio",
   description: `Padel rackets van ${BRAND_LIST.map((b) => b.name).join(", ")}. Bekijk per merk alle modellen en test ze in Almere.`,
   alternates: { canonical: "/merken/" },
 };

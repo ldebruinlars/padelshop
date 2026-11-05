@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const b = BRAND_LIST.find((x) => x.slug === slug);
   if (!b) return {};
   return {
-    title: `${b.name} padel rackets | Racket Lab`,
+    title: `${b.name} padel rackets | Padel Racket Studio`,
     description: `Alle ${b.name} padel rackets met specificaties. ${b.about}`,
     alternates: { canonical: `/merken/${b.slug}/` },
   };

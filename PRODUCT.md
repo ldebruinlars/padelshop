@@ -10,7 +10,7 @@ web
 Padel players around Almere, from beginners to competition players, who want a new racket but are unsure which one fits. Their job: narrow 30+ models down to a few, feel them on court at Poort Padel, then buy. Online visitors from elsewhere in the Netherlands are a second audience.
 
 ## Product Purpose
-Racket Lab is a padel racket shop with its own test center at Poort Padel in Almere. Visitors browse the range by brand, shape, feel, playstyle and level, book a 45-minute racket test (3 to 5 rackets), and buy the one that feels right. Success: a visitor finds two or three candidate rackets and books a test or buys.
+Padel Racket Studio is a padel racket shop with its own test center at Poort Padel in Almere. Visitors browse the range by brand, shape, feel, playstyle and level, book a 45-minute racket test (3 to 5 rackets), and buy the one that feels right. Success: a visitor finds two or three candidate rackets and books a test or buys.
 
 ## Positioning
 Test before you buy: rackets from ten top brands that you can play on a real court in Almere before paying, with the test fee refunded on purchase.
@@ -25,7 +25,7 @@ Players compare rackets by shape (round, teardrop, diamond), balance, core hardn
 - Shop facts (free shipping threshold, return days, pay-later, home test, warranty, test price) are placeholders until the owner confirms them. The owner chose to keep them visible on the site in the meantime (decided 2026-10-18); replace them in `src/lib/site.ts` (SHOP) when the real values arrive.
 
 ## Brand Commitments
-- Name: Racket Lab, with the existing "A" logo mark.
+- Name: Padel Racket Studio, with the existing "A" logo mark.
 - Do not mention All Court Academy anywhere on the site.
 - Colours: the approved Gravel Night palette (espresso grounds, chalk text, gravel orange accent, sand), no blue.
 - The look must be its own: not a copy of allcourtacademy.com (no stripe eyebrows, italic accent words in every heading or pill buttons with arrows).

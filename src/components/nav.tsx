@@ -71,8 +71,8 @@ export function Nav() {
         }}
         aria-label="Hoofdmenu"
       >
-        <div className="mx-auto flex h-16 max-w-[1400px] items-center gap-8 px-4 md:px-8">
-        <a href="/" className="flex items-center gap-2 font-display text-[19px] font-bold tracking-tight whitespace-nowrap [font-stretch:90%]">
+        <div className="mx-auto flex h-16 max-w-[1400px] items-center gap-3 px-4 sm:gap-8 md:px-8">
+        <a href="/" className="flex min-w-0 items-center gap-2 font-display text-[16px] font-bold tracking-tight whitespace-nowrap [font-stretch:90%] sm:text-[19px]">
           <Logo className="size-6" />
           {SITE.name}
         </a>
@@ -102,12 +102,14 @@ export function Nav() {
           <a href="/rackets/" className="btn btn-line btn-sm max-sm:hidden">
             Alle rackets
           </a>
-          <a href="/#testcenter" className="btn btn-sand btn-sm">
-            Boek een test
+          <a href="/#testcenter" className="btn btn-sand btn-sm whitespace-nowrap">
+            <span>
+              Boek <span className="max-[400px]:hidden">een </span>test
+            </span>
           </a>
           <button
             type="button"
-            className="grid size-10 place-items-center rounded-[var(--radius-control)] border border-panel-2 lg:hidden"
+            className="grid size-10 shrink-0 place-items-center rounded-[var(--radius-control)] border border-panel-2 lg:hidden"
             onClick={() => setSheet((s) => !s)}
             aria-expanded={sheet}
             aria-controls="mobiel-menu"

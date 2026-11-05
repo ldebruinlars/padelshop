@@ -233,7 +233,7 @@ export function QuickView({
                 <ProfileBar label={x.label} value={x.value} color={x.color} wide />
               </div>
             ))}
-            <p className="text-xs text-muted sm:col-span-2">Racket Lab-schatting op basis van vorm, balans, gewicht, kern en slagvlak. Geen labtest; voel het verschil zelf in het testcenter.</p>
+            <p className="text-xs text-muted sm:col-span-2">Padel Racket Studio-schatting op basis van vorm, balans, gewicht, kern en slagvlak. Geen labtest; voel het verschil zelf in het testcenter.</p>
           </div>
           <dl className="qv-in grid grid-cols-2 gap-x-6 border-t border-fg/10 pt-4 text-sm sm:grid-cols-3">
             {specs

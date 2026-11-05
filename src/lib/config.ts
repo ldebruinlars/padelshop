@@ -2,7 +2,7 @@
 // Geheime sleutels (Mollie, Meta, de meldingswebhook) staan NIET hier maar als omgevingsvariabelen in Netlify:
 // MOLLIE_API_KEY, META_CAPI_TOKEN, NOTIFY_WEBHOOK_URL, SUPABASE_SERVICE_ROLE_KEY.
 export const CONFIG = {
-  // PLACEHOLDER: WhatsApp Business-nummer van Racket Lab, internationaal zonder + of spaties, bijv. "31612345678".
+  // PLACEHOLDER: WhatsApp Business-nummer van Padel Racket Studio, internationaal zonder + of spaties, bijv. "31612345678".
   // Wordt gebruikt voor de WhatsApp-knop en als ontvanger van de meldingen bij boekingen en de wachtlijst.
   whatsappNumber: "31621246509", // voorlopig het nummer van All Court Academy
   // PLACEHOLDER: link naar "Schrijf een review" op het Google Business-profiel (g.page/r/.../review).

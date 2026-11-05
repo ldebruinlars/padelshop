@@ -1,5 +1,5 @@
 ---
-name: Racket Lab
+name: Padel Racket Studio
 description: Padel racket shop with its own test center at Poort Padel, Almere. The site is the racket wall of the shop.
 colors:
   bg: "#14110f"
@@ -153,7 +153,7 @@ components:
     height: "64px"
 ---
 
-# Design System: Racket Lab
+# Design System: Padel Racket Studio
 
 ## Overview
 
@@ -296,7 +296,7 @@ A horizontal strip of pegs over a price rail. A mouse drag engages after 4px so 
 The racket zooms off its hook. The backdrop (Wall Shadow at 85%) fades in over 0.35s; the image on the hook hides and the racket FLIPs from its place on the wall to the media side over 0.6s on power3.inOut, from -8 degrees to a slight overshoot (108%, 2 degrees), then settles on expo.out over 0.35s. The Espresso panel with its Label Paper media side fades in at 0.5s and the content staggers in from 16px at 0.62s (expo.out, 35ms). Previous/next by chevron buttons with a count, a horizontal swipe over the image or the arrow keys; the next racket slides in 70px with 4 degrees (expo.out, 0.45s). Closing fades the content, flies the racket back to its hook (expo.inOut, 0.45s) when it is still the one opened and on screen, then fades panel and backdrop. Under reduced motion it opens and closes without animation.
 
 ### Rating Bars
-Six estimated ratings (Kracht, Controle, Wendbaarheid, Sweet spot, Balafgifte, Comfort) as profile bars in the quick view: label style in Dust, a 6px fully rounded Deep Groove track filled with a playstyle colour, and the value in tabular figures. Always followed by a note that they are a Racket Lab estimate from the specs, not a lab test.
+Six estimated ratings (Kracht, Controle, Wendbaarheid, Sweet spot, Balafgifte, Comfort) as profile bars in the quick view: label style in Dust, a 6px fully rounded Deep Groove track filled with a playstyle colour, and the value in tabular figures. Always followed by a note that they are a Padel Racket Studio estimate from the specs, not a lab test.
 
 ### Brand Marquee
 A full-width Espresso band between hairlines with every brand name in large condensed Archivo, separated by small Gravel Orange dots and faded out at both edges. It runs left to right (45s, linear), pauses on hover and offscreen, and stands still under reduced motion. Each name links to its brand page.

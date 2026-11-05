@@ -24,7 +24,7 @@ export function Visit() {
             </p>
             <div className="mt-5 flex flex-wrap gap-2">
               {whatsappUrl() ? (
-                <a href={whatsappUrl("Hoi Racket Lab, ik heb een vraag over een racket-test.")} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
+                <a href={whatsappUrl("Hoi Padel Racket Studio, ik heb een vraag over een racket-test.")} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
                   App ons op WhatsApp
                 </a>
               ) : (

@@ -1,10 +1,10 @@
-// Racket Lab eigen lijn: vier eigen ontwerpen (concept, in ontwikkeling). Beelden en 3D-modellen gemaakt met
+// Padel Racket Studio eigen lijn: vier eigen ontwerpen (concept, in ontwikkeling). Beelden en 3D-modellen gemaakt met
 // Higgsfield (ontwerp: GPT Image, 3D: Meshy). De specificaties zijn ontwerpdoelen, nog geen geproduceerd racket.
 import type { Brand, CatalogRacket } from "./catalog";
 
 export const OWN_BRAND: Brand = {
   slug: "racket-lab",
-  name: "Racket Lab",
+  name: "Padel Racket Studio",
   about: "Onze eigen lijn, ontworpen in Almere: tweeëndertig rackets in drie vormen, van junior tot tourmodel. Nog in ontwikkeling; meld je aan en test ze als eerste.",
 };
 

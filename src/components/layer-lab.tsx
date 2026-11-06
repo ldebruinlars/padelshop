@@ -1,5 +1,6 @@
 "use client";
 
+import { More } from "./more";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { BULLPADEL_SOURCE, FIBRE_SCALE, RUBBER_SCALE, TECH } from "@/lib/tech";
@@ -242,13 +243,17 @@ export function FaceLab() {
   );
 }
 
-/** Alle technieken uit de Bullpadel-catalogus per onderdeel, als naslag onder de racketverkenner. */
+/** Alle technieken uit de Bullpadel-catalogus per onderdeel, in een uitklapkaart onder de racketverkenner. */
 export function LayerLab() {
   const groups = [...new Set(TECH.map((t) => t.group))];
   return (
-    <details className="mt-8 rounded-[var(--radius-card)] border border-panel-2 px-5 py-4">
-      <summary className="cursor-pointer list-none font-semibold [&::-webkit-details-marker]:hidden">Alle technieken uitgelegd ({TECH.length})</summary>
-      <div className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <More
+      className="mt-10"
+      image="/media/onderdelen/slagvlak.webp"
+      title={`Alle technieken uitgelegd (${TECH.length})`}
+      hint="Van MultiEva en Hesacore tot TopSpin en CarbonTube: wat elke techniek doet, per onderdeel"
+    >
+      <div className="mt-1 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {groups.map((g) => (
           <div key={g}>
             <p className="label text-muted">{g}</p>
@@ -265,6 +270,6 @@ export function LayerLab() {
       <a href={BULLPADEL_SOURCE.url} target="_blank" rel="noopener noreferrer" className="link mt-4 inline-block text-xs text-muted">
         {BULLPADEL_SOURCE.label}. Demping en spin zijn claims van het merk.
       </a>
-    </details>
+    </More>
   );
 }

@@ -24,9 +24,20 @@ function wallOrder(shape: Shape | "") {
 
 const reducedMotion = () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+/** De grote foto voor de snelle weergave alvast ophalen, zodat hij er is als het racket naar voren vliegt. */
+const preloaded = new Set<string>();
+function preload(r: CatalogRacket) {
+  const src = photoOf(r, "groot");
+  if (!src || preloaded.has(src)) return;
+  preloaded.add(src);
+  const img = new Image();
+  img.decoding = "async";
+  img.src = src;
+}
+
 function Peg({ r, onOpen, eager }: { r: CatalogRacket; onOpen: (r: CatalogRacket, from: HTMLElement) => void; eager: boolean }) {
   return (
-    <li data-id={r.id} className="peg-slot group relative flex w-[clamp(150px,15vw,210px)] shrink-0 snap-start flex-col items-center max-sm:w-[44vw]">
+    <li data-id={r.id} onPointerEnter={() => preload(r)} onFocus={() => preload(r)} className="peg-slot group relative flex w-[clamp(150px,15vw,210px)] shrink-0 snap-start flex-col items-center max-sm:w-[44vw]">
       <button
         type="button"
         onClick={(e) => onOpen(r, e.currentTarget.closest("li") as HTMLElement)}

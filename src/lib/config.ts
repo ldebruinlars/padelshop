@@ -11,8 +11,6 @@ export const CONFIG = {
   googleBusinessUrl: "",
   // PLACEHOLDER: Meta Pixel-ID (alleen cijfers). Leeg = geen pixel en geen cookiemelding.
   metaPixelId: "",
-  // PLACEHOLDER: datum van de volgende Racket Test Avond als yyyy-mm-dd. Leeg = "datum per mail".
-  nextTestEvening: "2026-11-28", // voorbeelddatum, pas aan zodra de echte vaststaat
   // Is er een fysieke winkel bij Poort Padel? false = accessoires zijn online te bestellen en liggen op de baan.
   hasShop: false,
   // Leerlingenregel tonen. Let op: eerder was de afspraak om All Court Academy niet op de site te noemen.

@@ -10,15 +10,10 @@ export const UPSELLS: Extra[] = [
 ];
 
 export const EXTRAS: Extra[] = [
-  { id: "grip-op-maat", name: "Grip op maat", why: "Overgrip of basisgrip op maat. Hesacore eraf en een normale grip erop kan ook. Gratis bij een racket dat je op de baan bestelt.", price: null, priceText: "€5 tot €10" },
+  { id: "grip-op-maat", name: "Grip op maat", why: "Overgrip of basisgrip op maat. Hesacore eraf en een normale grip erop kan ook.", price: null, priceText: "€5 tot €10" },
   { id: "hesacore", name: "Hesacore Tour Grip", why: "Honingraatgrip die trilling dempt. Ook als Gel-versie voor beginners en mensen met armklachten.", price: null },
   { id: "gewicht", name: "CustomWeight-gewichtjes", why: "Gelplaatjes van 3 gram voor meer kracht in de kop, of een grip-dop van 5 gram voor meer controle.", price: null },
   { id: "dempers", name: "EasyVibe-dempers", why: "Dempertjes in de gaten tegen trillingen; de plek bepaalt of je kracht of controle wint.", price: null },
   { id: "polsband", name: "Polsbandjes (2 stuks)", why: "Houden zweet uit je hand, zodat de grip droog blijft.", price: null },
   { id: "cover", name: "Racketcover", why: "Beschermt je racket in je tas en tegen warmte en kou.", price: null },
 ];
-
-/** Bij rackets vanaf dit bedrag hoort een gratis inspeel-les. Geen korting in euro's. */
-export const LESSON_FROM = 250;
-export const LESSON_PERK = "Gratis inspeel-les van 30 minuten bij een racket vanaf €250";
-export const ON_COURT_PERK = "Bestel je direct op de baan? Dan krijg je een gratis grip-pakket: overgrip en bumper, ter plekke opgezet.";

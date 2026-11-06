@@ -152,13 +152,10 @@ export default async function RacketPage({ params }: { params: Promise<{ id: str
               </dl>
             </section>
 
-            {/* Kort hierboven; wie meer wil weten klapt de rest open */}
-            <More title="Eigenschappen, opbouw en technologie" hint="Kracht, controle en comfort, hoe het racket is opgebouwd en wat het merk erover zegt">
-              <div className="grid gap-8 pt-2">
             <section aria-labelledby="eigenschappen">
-              <h3 id="eigenschappen" className="text-xl font-bold">
+              <h2 id="eigenschappen" className="text-2xl font-bold">
                 Eigenschappen
-              </h3>
+              </h2>
               <div className="mt-4 grid items-center gap-6 sm:grid-cols-[minmax(0,320px)_1fr]">
                 <Radar values={ratings(r).map((x) => ({ label: x.label, value: x.value }))} label={`Eigenschappen van de ${r.model}`} />
                 <div className="grid gap-y-3">
@@ -173,16 +170,13 @@ export default async function RacketPage({ params }: { params: Promise<{ id: str
               <p className="mt-3 text-xs text-muted">Padel Racket Studio-schatting op basis van vorm, balans, gewicht, kern en slagvlak. Geen labtest.</p>
             </section>
 
-            <section aria-labelledby="opbouw">
-              <div className="flex flex-wrap items-baseline justify-between gap-3">
-                <h3 id="opbouw" className="text-xl font-bold">
-                  Hoe dit racket is opgebouwd
-                </h3>
-                <a href={`/?opbouw=${r.id}#anatomie`} className="link text-sm">
-                  Bekijk de opbouw in 3D
-                </a>
-              </div>
-              <ol className="mt-3 grid">
+            {/* Alleen de opbouw klapt open; de rest blijft in beeld */}
+            <More
+              image="/media/onderdelen/doorsnede.webp"
+              title="Hoe dit racket is opgebouwd"
+              hint="Slagvlak, kern en frame van dit racket, en wat de vorm betekent voor je spel"
+            >
+              <ol className="grid">
                 {LAYERS.filter((l) => l.id === "face" || l.id === "core" || l.id === "frame").map((l) => (
                   <li key={l.id} className="grid gap-1 border-b border-panel-2 py-3 sm:grid-cols-[160px_1fr]">
                     <span className="font-semibold">{l.name}</span>
@@ -198,13 +192,16 @@ export default async function RacketPage({ params }: { params: Promise<{ id: str
                   <strong className="font-semibold">{shape.label}:</strong> {shape.outline} Sweet spot {shape.sweetSpot.label.toLowerCase()}, balans {shape.balance.mm}. Past bij {shape.suits.toLowerCase()}.
                 </p>
               )}
-            </section>
+              <a href={`/?opbouw=${r.id}#anatomie`} className="link mt-4 inline-block text-sm">
+                Bekijk de opbouw laag voor laag
+              </a>
+            </More>
 
             {tech.length > 0 && (
               <section aria-labelledby="tech">
-                <h3 id="tech" className="text-xl font-bold">
+                <h2 id="tech" className="text-2xl font-bold">
                   Technologie in dit racket
-                </h3>
+                </h2>
                 <dl className="mt-3 grid border-t border-panel-2">
                   {tech.map((t) => (
                     <div key={t.name} className="grid gap-1 border-b border-panel-2 py-3 sm:grid-cols-[160px_1fr]">
@@ -227,14 +224,12 @@ export default async function RacketPage({ params }: { params: Promise<{ id: str
 
             {brand && (
               <section aria-labelledby="merk">
-                <h3 id="merk" className="text-xl font-bold">
+                <h2 id="merk" className="text-2xl font-bold">
                   Over {brand.name}
-                </h3>
+                </h2>
                 <p className="mt-2 max-w-[62ch] text-fg/80">{brand.about}</p>
               </section>
             )}
-              </div>
-            </More>
 
             {r.sources.length > 0 && (
               <p className="text-xs text-muted">

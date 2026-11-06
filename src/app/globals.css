@@ -30,6 +30,8 @@ html {
   scrollbar-color: var(--color-panel-2) var(--color-ink);
   /* Ankerlinks (#testcenter, #finder) glijden; de pagina zelf scrollt native, dus op de eigen thread van de browser */
   scroll-padding-top: 112px;
+  /* Ruimte voor de scrollbalk blijft staan, ook als een dialoog het scrollen stopt: geen verspringende wand */
+  scrollbar-gutter: stable;
 }
 @media (prefers-reduced-motion: no-preference) {
   html {

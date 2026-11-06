@@ -80,12 +80,28 @@ export function QuickView({
       closeBtn.current?.focus({ preventScroll: true });
       const src = sourceImg(from);
       if (reduced()) return;
-      if (src) gsap.set(src, { opacity: 0 });
       // Eerst dimt de wand, dan vliegt het racket zichtbaar van de haak naar voren (iets voorbij zijn maat),
       // en pas als het geland is bouwt de snelle weergave zich eromheen op.
       const tl = gsap.timeline();
       tl.fromTo(backdrop.current, { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "power2.out" }, 0);
       gsap.set([bg.current, ...content], { opacity: 0 });
+      // De haak wordt pas leeg op het moment dat het racket loskomt
+      if (src) tl.set(src, { opacity: 0 }, 0.05);
+      // Is de grote foto nog niet binnen, dan wachten we heel even; anders vliegt er een leeg vlak naar voren
+      const big = art.current.querySelector("img");
+      if (big && !big.complete) {
+        tl.pause();
+        gsap.set(art.current, { opacity: 0 });
+        let started = false;
+        const start = () => {
+          if (started) return;
+          started = true;
+          gsap.set(art.current, { opacity: 1 });
+          tl.play();
+        };
+        big.decode().then(start, start);
+        setTimeout(start, 250);
+      }
       if (src) {
         const f = flipFrom(art.current, src.getBoundingClientRect());
         tl.fromTo(art.current, { ...f, rotation: -8 }, { x: 0, y: 0, scale: 1.08, rotation: 2, duration: 0.6, ease: "power3.inOut" }, 0.05);

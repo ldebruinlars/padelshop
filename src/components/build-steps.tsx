@@ -67,10 +67,8 @@ export function BuildSteps() {
   };
 
   return (
-    <div ref={root} className="mt-14 border-t border-panel-2 pt-10">
-      <h3 className="text-2xl font-bold">Zo wordt een racket gemaakt</h3>
-      <p className="mt-2 max-w-[64ch] text-fg/75">Van een plaat rubber tot het racket aan de wand, in zes stappen.</p>
-      <div className="mt-6 grid gap-8 lg:grid-cols-[1.2fr_1fr]">
+    <div ref={root} className="pt-1">
+      <div className="grid gap-8 lg:grid-cols-[1.2fr_1fr]">
         <div className="relative aspect-[4/3] overflow-hidden rounded-[var(--radius-card)] bg-panel">
           {STEPS.map((s, n) => (
             // eslint-disable-next-line @next/next/no-img-element

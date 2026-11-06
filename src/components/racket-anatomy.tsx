@@ -1,11 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import gsap from "gsap";
-import { MorphSVGPlugin } from "gsap/MorphSVGPlugin";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
-import HEADS from "@/lib/racket-heads.json";
 import { brandName, type CatalogRacket, type Shape } from "@/lib/catalog";
 import { ALL_RACKETS } from "@/lib/all-rackets";
 import { LAYERS, RULES, SHAPE_GUIDE, SHAPE_SOURCES, type Layer } from "@/lib/racket-guide";
@@ -16,13 +11,20 @@ import { RacketExplorer } from "./racket-explorer";
 import { More } from "./more";
 import { QuickView } from "./quick-view";
 
-gsap.registerPlugin(MorphSVGPlugin, ScrollTrigger, useGSAP);
-
 // viewBox 200 x 300: de hele racket (45,5 cm) loopt van y=10 tot y=286, dus 1 mm = 276 / 455 eenheden.
 const MM = 276 / 455;
-const yAtMm = (mm: number) => 286 - mm * MM;
-const Z = { heart: -110, frame: -55, core: 0, face: 55, surface: 110 } as const;
-const FOAM = { zacht: "#f1e8d6", medium: "#dccaa6", hard: "#b89f78" } as const;
+
+// Opbouw: renders uit Blender (scripts/render-opbouw.py). Per laag een beeld waarin die laag naar voren komt.
+const BUILD = "/media/opbouw";
+const LAYER_SHOT: Record<Layer["id"], string> = { surface: "laag-slagvlak", face: "laag-achterkant", core: "laag-kern", frame: "laag-frame", heart: "laag-frame" };
+const SHOTS = ["samen", "uit-elkaar", "laag-slagvlak", "laag-achterkant", "laag-kern", "laag-frame"];
+// Waar elke laag op het uit-elkaar-beeld staat (procent), berekend in Blender met screen_positions()
+const BUILD_LABELS: { id: Layer["id"]; label: string; x: number; y: number }[] = [
+  { id: "surface", label: "Slagvlak voor", x: 19, y: 35 },
+  { id: "core", label: "Kern", x: 47, y: 42 },
+  { id: "frame", label: "Frame en grip", x: 74, y: 52 },
+  { id: "face", label: "Slagvlak achter", x: 83, y: 30 },
+];
 
 // Echte rackets uit onze eigen lijn voor de vormweergave. top/bottom = bovenkant kop en onderkant grip in % van de
 // fotohoogte (gemeten met scripts/measure-cutouts.mjs; de kop is 26 cm breed, het racket 45,5 cm lang).
@@ -44,74 +46,7 @@ function onPhoto(shape: Shape, g: (typeof SHAPE_GUIDE)[number]) {
   };
 }
 
-const isCarbon = (r: CatalogRacket) => /carbon/i.test(r.face ?? "") && !/glas|fibre|fiber/i.test(r.face ?? "");
 const isRough = (r: CatalogRacket) => /3d|ruw|rough|zand|sand|spin/i.test(`${r.face} ${r.description}`);
-
-function Head({ d, className, ...rest }: React.SVGProps<SVGPathElement> & { d: string }) {
-  return <path className={`head ${className ?? ""}`} d={d} {...rest} />;
-}
-
-/** Eén laag van het racket, als losse SVG zodat hij in 3D van de andere af kan schuiven. */
-function LayerArt({ id, d, r, active }: { id: Layer["id"]; d: string; r: CatalogRacket; active: boolean }) {
-  const carbon = isCarbon(r);
-  return (
-    <svg viewBox="0 0 200 300" className={`layer layer-${id} absolute inset-0 size-full overflow-visible`} data-active={active || undefined} aria-hidden="true">
-      <defs>
-        <pattern id={`holes-${id}`} width="14" height="30" patternUnits="userSpaceOnUse" x="51" y="51">
-          <circle cx="7" cy="7" r="3.2" fill="#0c0a09" />
-          <circle cx="14" cy="22" r="3.2" fill="#0c0a09" />
-          <circle cx="0" cy="22" r="3.2" fill="#0c0a09" />
-        </pattern>
-        <pattern id="weave-carbon" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-          <rect width="6" height="6" fill="#1f1b18" />
-          <rect width="3" height="3" fill="#2f2924" />
-          <rect x="3" y="3" width="3" height="3" fill="#2f2924" />
-        </pattern>
-        <pattern id="weave-glass" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-          <rect width="6" height="6" fill="#d9dcd6" />
-          <rect width="3" height="3" fill="#c3c7bf" />
-          <rect x="3" y="3" width="3" height="3" fill="#c3c7bf" />
-        </pattern>
-        <pattern id="grit" width="5" height="5" patternUnits="userSpaceOnUse">
-          <circle cx="1" cy="1" r="0.7" fill="#f6efe6" fillOpacity="0.35" />
-          <circle cx="3.5" cy="3" r="0.6" fill="#f6efe6" fillOpacity="0.25" />
-        </pattern>
-        <clipPath id={`clip-${id}`}>
-          <Head d={d} />
-        </clipPath>
-      </defs>
-      {id === "heart" && (
-        <g>
-          <path d="M78 168l22 26 22-26" fill="none" stroke="#3a312b" strokeWidth="10" strokeLinejoin="round" />
-          <rect x="88" y="182" width="24" height="104" rx="9" fill="#2b2622" />
-          <rect x="89" y="200" width="22" height="72" rx="6" fill="#e9e0d1" />
-          <path d="M89 214l22-8M89 230l22-8M89 246l22-8M89 262l22-8" stroke="#c9bda8" strokeWidth="2" />
-        </g>
-      )}
-      {id === "frame" && <Head d={d} fill="none" stroke="#f06a30" strokeWidth="9" />}
-      {id === "core" && (
-        <g clipPath={`url(#clip-${id})`}>
-          <Head d={d} fill={FOAM[r.feel ?? "medium"]} />
-          <rect x="52" y="50" width="96" height="108" fill={`url(#holes-${id})`} />
-        </g>
-      )}
-      {id === "face" && (
-        <g clipPath={`url(#clip-${id})`} opacity="0.96">
-          <Head d={d} fill={carbon ? "url(#weave-carbon)" : "url(#weave-glass)"} />
-          <rect x="52" y="50" width="96" height="108" fill={`url(#holes-${id})`} />
-        </g>
-      )}
-      {id === "surface" && (
-        <g clipPath={`url(#clip-${id})`}>
-          <Head d={d} fill="#1c1917" fillOpacity="0.55" />
-          <Head d={d} fill={isRough(r) ? "url(#grit)" : "none"} />
-          <path d="M30 120 L170 64 L170 92 L30 148z" fill="#f06a30" opacity="0.85" />
-          <rect x="52" y="50" width="96" height="108" fill={`url(#holes-${id})`} />
-        </g>
-      )}
-    </svg>
-  );
-}
 
 /**
  * Vorm en opbouw van een racket. In "Vorm" morpht één racket tussen rond, druppel en diamant: sweet spot en
@@ -122,63 +57,46 @@ export function RacketAnatomy() {
   const root = useRef<HTMLElement>(null);
   const [mode, setMode] = useState<"vorm" | "opbouw">("vorm");
   const [shape, setShape] = useState<Shape>("druppel");
-  const [initialHead] = useState(() => HEADS.druppel);
   const ofShape = useMemo(() => ALL_RACKETS.filter((r) => r.shape === shape), [shape]);
   const [pickedId, setPickedId] = useState<string | null>(null);
   const racket = ofShape.find((r) => r.id === pickedId) ?? ofShape[0];
-  const [activeLayer, setActiveLayer] = useState<Layer["id"]>("core");
+  const [activeLayer, setActiveLayer] = useState<Layer["id"] | null>(null);
+  // Opbouwbeelden pas laden bij de eerste keer "Opbouw bekijken"; eerst samen, dan valt hij uit elkaar
+  const [built, setBuilt] = useState(false);
+  const [apart, setApart] = useState(false);
   const [open, setOpen] = useState<{ r: CatalogRacket; from: HTMLElement } | null>(null);
   const guide = SHAPE_GUIDE.find((g) => g.id === shape)!;
 
-  const { contextSafe } = useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-      });
-      return () => mm.revert();
-    },
-    { scope: root },
-  );
-
-  // Vorm wisselen: alle koppen morphen tegelijk, sweet spot en balanspunt schuiven mee
-  const changeShape = contextSafe((next: Shape) => {
+  const changeShape = (next: Shape) => {
     setShape(next);
     setPickedId(null);
-    const g = SHAPE_GUIDE.find((s) => s.id === next)!;
-    const quick = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 0.7;
-    gsap.to(".head", { morphSVG: HEADS[next], duration: quick, ease: "expo.out" });
-    gsap.to(".sweet", { attr: { cx: g.sweetSpot.cx, cy: g.sweetSpot.cy, rx: g.sweetSpot.rx, ry: g.sweetSpot.ry }, duration: quick, ease: "expo.out" });
-    gsap.to(".balance", { y: yAtMm(g.balance.at) - yAtMm(265), duration: quick, ease: "expo.out" });
-  });
+  };
 
-  // Vorm of opbouw: kantelen en uit elkaar schuiven, of terug plat tegen elkaar
-  const changeMode = contextSafe((next: "vorm" | "opbouw") => {
+  const changeMode = (next: "vorm" | "opbouw") => {
     setMode(next);
-    const quick = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 1;
-    const apart = next === "opbouw";
-    gsap.to(".stack", { rotateX: apart ? 60 : 0, rotateZ: apart ? -28 : 0, scale: apart ? 0.86 : 1, duration: 0.9 * quick, ease: "expo.inOut" });
-    (Object.keys(Z) as (keyof typeof Z)[]).forEach((id, i) =>
-      gsap.to(`.layer-${id}`, { z: apart ? Z[id] : 0, duration: 0.9 * quick, delay: apart ? 0.15 + i * 0.05 : 0, ease: "expo.inOut" }),
-    );
-    gsap.to(".overlay", { opacity: apart ? 0 : 1, duration: 0.3 * quick });
-  });
+    if (next === "opbouw") {
+      setBuilt(true);
+      setApart(false);
+      setActiveLayer(null);
+      const quick = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      window.setTimeout(() => setApart(true), quick ? 0 : 700);
+    }
+  };
 
-  // De gekozen laag komt een stukje los uit de stapel (geen gloed: diepte door beweging)
-  const pickLayer = contextSafe((id: Layer["id"]) => {
-    setActiveLayer(id);
-    if (mode !== "opbouw") return;
-    (Object.keys(Z) as (keyof typeof Z)[]).forEach((k) => gsap.to(`.layer-${k}`, { z: Z[k] + (k === id ? 40 : 0), x: k === id ? 18 : 0, duration: 0.5, ease: "expo.out" }));
-  });
+  const pickLayer = (id: Layer["id"]) => {
+    setApart(true);
+    setActiveLayer((cur) => (cur === id ? null : id));
+  };
 
   // Vanuit de snelle weergave ("Bekijk de opbouw") of een link /?opbouw=<id>: open de opbouw van dat racket
-  const showBuild = contextSafe((id: string) => {
+  const showBuild = (id: string) => {
     const r = ALL_RACKETS.find((x) => x.id === id);
     if (!r?.shape) return;
     changeShape(r.shape);
     setPickedId(r.id);
     changeMode("opbouw");
     root.current?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
-  });
+  };
   const showBuildRef = useRef(showBuild);
   showBuildRef.current = showBuild;
   useEffect(() => {
@@ -249,21 +167,38 @@ export function RacketAnatomy() {
                 })()}
               </div>
             </div>
-            <div className={`stack relative mx-auto h-full w-[62%] transition-opacity duration-500 [transform-style:preserve-3d] ${mode === "vorm" ? "opacity-0" : "opacity-100"}`}>
-              {(Object.keys(Z) as (keyof typeof Z)[]).map((id) => (
-                <LayerArt key={id} id={id} d={initialHead} r={racket} active={mode === "opbouw" && activeLayer === id} />
-              ))}
-              {/* Sweet spot en balanspunt, alleen in de vormweergave */}
-              <svg viewBox="0 0 200 300" className="overlay absolute inset-0 size-full overflow-visible" aria-hidden="true">
-                <ellipse className="sweet" cx={104} cy={88} rx={34} ry={32} fill="#e3bf78" fillOpacity="0.28" stroke="#e3bf78" strokeWidth="1.5" strokeDasharray="3 3" />
-                <g className="balance">
-                  <line x1="18" x2="182" y1={yAtMm(265)} y2={yAtMm(265)} stroke="#f6efe6" strokeWidth="1" strokeDasharray="2 3" />
-                  <path d={`M10 ${yAtMm(265) - 5}l8 5-8 5z`} fill="#f06a30" />
-                </g>
-                <line x1="196" x2="196" y1="10" y2="286" stroke="#6b5f55" strokeWidth="1" />
-                <text x="199" y="290" fontSize="7" fill="#b3a595">0 mm</text>
-                <text x="199" y="14" fontSize="7" fill="#b3a595">455</text>
-              </svg>
+            {/* Opbouw: het racket valt uit elkaar en de gekozen laag komt naar voren (renders, lopen in elkaar over) */}
+            <div className={`absolute inset-0 overflow-hidden rounded-[var(--radius-panel)] bg-[#e7e4df] transition-opacity duration-500 ${mode === "opbouw" ? "opacity-100" : "pointer-events-none opacity-0"}`}>
+              <div className="absolute inset-x-0 top-1/2 aspect-[937/894] -translate-y-1/2">
+              {built &&
+                SHOTS.map((n) => (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    key={n}
+                    src={`${BUILD}/${n}.webp`}
+                    alt={n === (mode === "opbouw" ? (!apart ? "samen" : activeLayer ? LAYER_SHOT[activeLayer] : "uit-elkaar") : "") ? "Opengewerkt padelracket: slagvlak, kern van rubber, frame met handvat en de achterkant los van elkaar" : ""}
+                    decoding="async"
+                    className={`absolute inset-0 size-full object-contain transition-opacity duration-700 ease-out ${n === (mode === "opbouw" ? (!apart ? "samen" : activeLayer ? LAYER_SHOT[activeLayer] : "uit-elkaar") : "") ? "opacity-100" : "opacity-0"}`}
+                  />
+                ))}
+              {built &&
+                BUILD_LABELS.map((l, i) => (
+                  <button
+                    key={l.id}
+                    type="button"
+                    onClick={() => pickLayer(l.id)}
+                    style={{ left: `${l.x}%`, top: `${l.y}%` }}
+                    className={`absolute flex -translate-x-1/2 -translate-y-1/2 items-center gap-1.5 rounded-full py-1 pr-2.5 pl-1 text-xs font-semibold whitespace-nowrap shadow-[0_4px_12px_rgb(20_17_15/0.35)] transition-[opacity,background-color] duration-500 ${
+                      apart ? "opacity-100" : "pointer-events-none opacity-0"
+                    } ${activeLayer === l.id ? "bg-accent text-on-accent" : "bg-ink/85 text-fg hover:bg-ink"}`}
+                    aria-pressed={activeLayer === l.id}
+                  >
+                    <span className={`grid size-5 place-items-center rounded-full text-[11px] tabular-nums ${activeLayer === l.id ? "bg-on-accent/15" : "bg-accent text-on-accent"}`}>{i + 1}</span>
+                    {l.label}
+                  </button>
+                ))}
+              </div>
+              <p className="absolute bottom-3 left-3 rounded-[3px] bg-ink/75 px-2 py-1 text-xs text-fg/80">Illustratie, geen echt product</p>
             </div>
             {mode === "vorm" && (
               <div className="pointer-events-none absolute inset-x-0 bottom-0 flex justify-between text-sm">
@@ -406,10 +341,16 @@ export function RacketAnatomy() {
             </details>
           </div>
         </div>
-        {/* De verdieping: pas opbouwen als iemand hem opent, dat scheelt veel foto's en animaties bij het laden */}
-        <More lazy className="mt-12" title="Bekijk een racket van dichtbij en hoe hij gemaakt wordt" hint="Inzoomen op slagvlak, kern, frame, hart en grip, alle technieken en de zes stappen in de fabriek">
-          <RacketExplorer />
-          <LayerLab />
+        <RacketExplorer />
+        <LayerLab />
+        {/* Zes fabrieksfoto's: pas laden als iemand de kaart opent */}
+        <More
+          lazy
+          className="mt-4"
+          image="/media/maken/1-kern-v2.webp"
+          title="Zo wordt een racket gemaakt"
+          hint="Van een plaat rubber tot het racket aan de wand, in zes stappen"
+        >
           <BuildSteps />
         </More>
       </div>

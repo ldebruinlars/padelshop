@@ -22,12 +22,12 @@ import {
   type Taken,
 } from "@/lib/booking";
 import { CONFIG, COACH_PROFILES } from "@/lib/config";
+import { SITE } from "@/lib/site";
 import { brandName } from "@/lib/catalog";
 import { QUESTIONS, recommend, type Answer } from "@/lib/finder-logic";
 import { INTAKE_EVENT, loadIntake, type Intake } from "@/lib/intake";
 import { track } from "@/lib/track";
 import { ChevronIcon } from "./icons";
-import { More } from "./more";
 import { RevealPanel } from "./reveal-panel";
 
 /** Datum als yyyy-mm-dd in lokale tijd (niet UTC, anders schuift de dag 's avonds op). */
@@ -56,7 +56,6 @@ const PRICE_LIST = [
   "Met 3 of 4 personen? Boek twee slots achter elkaar.",
   ...(CONFIG.academy.show ? [`Leerlingen van ${CONFIG.academy.name}: gratis tijdens je eigen les. Op een los testslot €15.`] : []),
   "Alleen gekomen? Kies \"koppel mij\" en we zetten je bij een andere tester van jouw niveau. Je betaalt dan het duo-tarief van €26,25.",
-  "Bestel je direct op de baan? Gratis grip-pakket (overgrip, bumper, ter plekke opgezet). Bij rackets vanaf €250 een gratis inspeel-les van 30 minuten.",
   "Alle rackets voor de adviesprijs. 30 dagen omruilgarantie: past het racket na 30 dagen spelen toch niet, ruil je hem één keer om voor een ander model uit de testrange.",
 ];
 
@@ -683,39 +682,41 @@ export function Testcenter() {
           </div>
         )}
 
-        {/* Prijzen, de coaches en de testkast: kort zichtbaar, de rest klapt open */}
-        <More className="mt-6" title="Alle prijzen, coaches en de testkast" hint="Met 3 of 4 personen, leerlingentarief, extra's bij aankoop en de omruilgarantie">
-        <div className="grid gap-10 pt-2 lg:grid-cols-[1.4fr_1fr]">
-          <div>
-            <ul className="mt-1 grid gap-2.5 text-fg/80">
-              {PRICE_LIST.map((p) => (
-                <li key={p} className="flex gap-3">
-                  <span className="mt-2 size-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true" />
-                  <span>{p}</span>
-                </li>
-              ))}
-            </ul>
-            <p className="mt-3 text-sm text-muted">Het testgeld betaal je voor de test zelf. Het wordt niet verrekend als je daarna een racket koopt.</p>
-          </div>
-          <div className="grid content-start gap-6">
+        {/* Alles wat je moet weten voor je test: altijd zichtbaar */}
+        <section aria-labelledby="test-info" className="mt-12 border-t border-panel-2 pt-10">
+          <h3 id="test-info" className="text-2xl font-bold">
+            Alles over de test
+          </h3>
+          <div className="mt-6 grid gap-10 lg:grid-cols-[1.3fr_1fr]">
             <div>
-              <h3 className="text-xl font-bold">Je coaches</h3>
-              <ul className="mt-3 grid gap-2">
-                {COACH_PROFILES.map((c) => (
-                  <li key={c.id}>
-                    <strong className="font-semibold">{c.name}</strong>
-                    {c.bio && <span className="text-fg/75">. {c.bio}</span>}
+              <p className="label text-muted">Prijzen</p>
+              <ul className="mt-3 grid gap-2.5 text-fg/85">
+                {PRICE_LIST.map((p) => (
+                  <li key={p} className="flex gap-3">
+                    <span className="mt-2 size-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true" />
+                    <span>{p}</span>
                   </li>
                 ))}
               </ul>
+              <p className="mt-3 text-sm text-muted">Het testgeld betaal je voor de test zelf. Het wordt niet verrekend als je daarna een racket koopt.</p>
             </div>
-            <div className="rounded-[var(--radius-card)] border border-dashed border-panel-2 p-4">
-              <p className="label text-accent">Testkast, binnenkort</p>
-              <p className="mt-2 text-fg/80">Vanaf begin 2027 staat bij Poort Padel een testkast: pinpas tikken, racket pakken, na je potje terugzetten. €10 per test, borg komt automatisch terug.</p>
-            </div>
+            <dl className="grid content-start gap-4 text-fg/85">
+              {[
+                ["Waar", `${SITE.location}.`],
+                ["Wanneer", `Testslots op ${SCHEDULE_TEXT}. Past dat niet, zet je dan op de wachtlijst.`],
+                ["Hoe het gaat", "We kiezen vooraf 3 rackets voor jouw spel op basis van je antwoorden. Op de baan speel je met elk racket en krijg je per racket een eerlijk oordeel."],
+                ["Neem mee", "Je huidige racket en je padelschoenen. We kijken eerst naar het racket waar je nu mee speelt. Testrackets en ballen liggen klaar."],
+                ["Betalen en annuleren", "Je betaalt bij het boeken met iDEAL; je plek staat pas vast na betaling. Gratis annuleren tot 24 uur vooraf."],
+                ["Je coaches", COACH_PROFILES.map((c) => (c.bio ? `${c.name}: ${c.bio}` : c.name)).join(" en ") + "."],
+              ].map(([k, v]) => (
+                <div key={k} className="grid gap-1 border-b border-panel-2 pb-3 sm:grid-cols-[150px_1fr]">
+                  <dt className="font-semibold text-fg">{k}</dt>
+                  <dd>{v}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
-        </div>
-        </More>
+        </section>
       </div>
     </RevealPanel>
   );

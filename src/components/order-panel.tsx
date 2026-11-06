@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { EXTRAS, LESSON_FROM, LESSON_PERK, ON_COURT_PERK, UPSELLS, type Extra } from "@/lib/extras";
+import { EXTRAS, UPSELLS, type Extra } from "@/lib/extras";
 import { euro } from "@/lib/site";
 import { SOURCES, checkCoachCode, requestOrder, type Source } from "@/lib/shop-api";
 import { rememberedCode } from "./code-catcher";
@@ -18,8 +18,6 @@ export function OrderPanel({ racket, interest = false }: { racket: { id: string;
   const [coach, setCoach] = useState<{ coach_name: string; discount_pct: number } | null>(null);
   const [codeState, setCodeState] = useState<"idle" | "ok" | "unknown">("idle");
   const [extras, setExtras] = useState<string[]>([]);
-  const [lesson, setLesson] = useState(true);
-  const lessonOk = racket.price != null && racket.price >= LESSON_FROM;
   const [state, setState] = useState<"idle" | "sending" | "done" | "error">("idle");
   const done = useRef<HTMLDivElement>(null);
 
@@ -81,7 +79,7 @@ export function OrderPanel({ racket, interest = false }: { racket: { id: string;
             phone: String(data.get("telefoon") ?? ""),
             coachCode: codeState === "ok" ? code : "",
             source,
-            wantsLesson: interest || !lessonOk ? false : lesson,
+            wantsLesson: false,
           });
           setState("done");
         } catch {
@@ -119,7 +117,6 @@ export function OrderPanel({ racket, interest = false }: { racket: { id: string;
             );
           })}
         </div>
-        <p className="mt-2 text-sm text-fg/75">{ON_COURT_PERK}</p>
         <details className="mt-3">
           <summary className="cursor-pointer text-sm font-semibold">Meer extra&apos;s</summary>
           <div className="mt-2 grid gap-1.5 sm:grid-cols-2">
@@ -142,13 +139,6 @@ export function OrderPanel({ racket, interest = false }: { racket: { id: string;
         </details>
       </fieldset>
 
-      <label className={`flex cursor-pointer items-start gap-3 rounded-[var(--radius-control)] bg-panel p-3 ${interest || !lessonOk ? "hidden" : ""}`}>
-        <input type="checkbox" className="mt-1 size-4 accent-[var(--color-accent)]" checked={lesson} onChange={(e) => setLesson(e.target.checked)} />
-        <span>
-          <span className="font-semibold">Ja, ik wil de inspeel-les</span>
-          <span className="mt-0.5 block text-sm text-muted">{LESSON_PERK}. We nemen contact op om een moment te plannen.</span>
-        </span>
-      </label>
 
       <div className="grid gap-3 sm:grid-cols-2">
         <label className="grid gap-2">

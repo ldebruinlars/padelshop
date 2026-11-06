@@ -38,13 +38,10 @@ const FAQ = [
     : []),
   { q: "Wanneer betaal ik en tot wanneer kan ik annuleren?", a: "Je betaalt bij het boeken met iDEAL; je plek staat pas vast na betaling. Annuleren is gratis tot 24 uur vooraf." },
   { q: "Geen slot dat past?", a: "Zet je op de wachtlijst met je telefoonnummer en het dagdeel dat jou past. We bellen of appen je zodra er een plek vrijkomt." },
-  {
-    q: "Krijg ik iets extra als ik direct bestel?",
-    a: "Bestel je direct op de baan, dan krijg je een gratis grip-pakket: overgrip en bumper, ter plekke opgezet. Bij rackets vanaf €250 krijg je er een gratis inspeel-les van 30 minuten bij. Alle rackets verkopen we voor de adviesprijs.",
-  },
+
   {
     q: "Kan ik een grip op maat krijgen?",
-    a: "Ja. We zetten een overgrip of basisgrip op maat, en halen de Hesacore eraf voor een normale grip als je dat liever hebt. Dat kost €5 tot €10, en is gratis bij een racket dat je op de baan bestelt.",
+    a: "Ja. We zetten een overgrip of basisgrip op maat, en halen de Hesacore eraf voor een normale grip als je dat liever hebt. Dat kost €5 tot €10.",
   },
   {
     q: "Wat als het racket toch niet past?",

@@ -41,7 +41,7 @@ export function Visit() {
           <h2 className="text-[clamp(26px,2.6vw,36px)] leading-[1.05] font-bold">
             Nieuwe rackets als eerste testen
           </h2>
-          <p className="mt-3 max-w-md text-fg/70">Nieuwe modellen in het testcenter, tips van de coaches en de datum van de volgende Racket Test Avond. Afmelden kan altijd.</p>
+          <p className="mt-3 max-w-md text-fg/70">Nieuwe modellen in het testcenter en tips van de coaches. Afmelden kan altijd.</p>
           {state === "done" ? (
             <p className="mt-6 rounded-[var(--radius-card)] bg-accent px-5 py-4 font-semibold text-on-accent" role="status">
               Gelukt. Je staat op de lijst.

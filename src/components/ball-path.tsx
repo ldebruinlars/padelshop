@@ -16,7 +16,7 @@ const SERVICE = 347.5;
 const STATIONS = [
   { x: 120, y: 360, title: "Kies", text: "Doe de racketfinder of de korte intake bij het boeken. Je komt uit op drie rackets uit de testrange die bij je spel passen." },
   { x: 430, y: 150, title: "Test", text: "Een Racket Fit van 30 minuten bij Poort Padel: 3 rackets op maat en per racket een eerlijk oordeel van je coach. Zonder coach? Boek het balmachine-uur." },
-  { x: 860, y: 300, title: "Koop", text: "Neem je favoriet meteen mee na je test, of hij is binnen een week geleverd. Bestel je op de baan, dan zetten we er gratis een grip-pakket op." },
+  { x: 860, y: 300, title: "Koop", text: "Neem je favoriet meteen mee na je test, of hij is binnen een week geleverd." },
 ];
 const ARC = [170, 210]; // hoogte van de boog per slag, in eenheden
 

@@ -31,18 +31,10 @@ export function RacketCard({ r, onOpen }: { r: CatalogRacket; onOpen: (r: Catalo
         aria-label={`Bekijk ${brandName(r.brand)} ${r.model}`}
       />
       <div className="racket-media relative aspect-square overflow-hidden bg-paper">
-        <div className="absolute inset-x-6 top-11 bottom-2 transition-transform duration-500 ease-out group-hover:-translate-y-1.5 group-hover:-rotate-3">
+        <div className="absolute inset-x-6 top-9 bottom-2 transition-transform duration-500 ease-out group-hover:-translate-y-1.5 group-hover:-rotate-3">
           <RacketArt shape={r.shape} color={color} photo={photoOf(r)} label={photoOf(r) ? r.model : `${r.model}, productfoto volgt`} />
         </div>
-        <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
-          {r.playstyle && (
-            <span className="rounded-[var(--radius-control)] px-3 py-1 label text-on-accent" style={{ background: color }}>
-              {PLAYSTYLES.find((s) => s.id === r.playstyle)?.label}
-            </span>
-          )}
-          {r.shape && <span className="rounded-[var(--radius-control)] bg-bg px-3 py-1 label text-fg">{r.shape}</span>}
-          {isTestRacket(r.id) && <span className="rounded-[var(--radius-control)] bg-accent px-3 py-1 label text-on-accent">Testracket</span>}
-        </div>
+        {isTestRacket(r.id) && <span className="absolute top-3 left-3 rounded-[var(--radius-control)] bg-accent px-2.5 py-1 label text-on-accent">Testracket</span>}
       </div>
       <div className="grid flex-1 content-start gap-2.5 p-3 sm:p-4">
         <p className="label text-accent">{brandName(r.brand)}</p>
@@ -50,7 +42,12 @@ export function RacketCard({ r, onOpen }: { r: CatalogRacket; onOpen: (r: Catalo
           <h3 className="text-base leading-snug font-semibold sm:text-lg">{r.model}</h3>
           {r.price != null && <span className="shrink-0 font-semibold tabular-nums sm:text-lg" title="Adviesprijs">{euro(r.price)}</span>}
         </div>
-        <p className="text-[13px] text-muted sm:text-sm">{[r.weight, r.balance && `balans ${r.balance}`, r.feel, r.level].filter(Boolean).join(" · ")}</p>
+        <p className="text-[13px] text-muted sm:text-sm">
+          {r.playstyle && (
+            <span className="mr-1.5 inline-block size-2 rounded-full align-middle" style={{ background: color }} aria-hidden="true" />
+          )}
+          {[PLAYSTYLES.find((s) => s.id === r.playstyle)?.label, r.shape, r.weight, r.feel].filter(Boolean).join(" · ")}
+        </p>
         <ProfileBar label="Kracht" value={p.power} color="#ff4a4a" />
         <ProfileBar label="Controle" value={p.control} color="#d9a48f" />
       </div>

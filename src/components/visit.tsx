@@ -10,7 +10,7 @@ export function Visit() {
 
   return (
     <section id="bezoek" className="cv bg-bg py-24">
-      <div className="mx-auto grid max-w-[1400px] gap-4 px-5 lg:grid-cols-2">
+      <div className="mx-auto grid max-w-[1400px] gap-4 px-4 md:px-8 lg:grid-cols-2">
         <div className="relative min-h-[360px] overflow-hidden rounded-[var(--radius-card)] bg-panel">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img loading="lazy" decoding="async" src={MEDIA.coach} alt="Coach met een testracket bij Poort Padel" className="absolute inset-0 size-full object-cover" />
@@ -87,9 +87,9 @@ export function Visit() {
                 required
                 autoComplete="email"
                 placeholder="naam@voorbeeld.nl"
-                className="field min-w-0 flex-1 bg-bg"
+                className="field min-w-0 flex-1 bg-bg max-sm:basis-full"
               />
-              <button type="submit" disabled={state === "sending"} className="btn btn-primary">
+              <button type="submit" disabled={state === "sending"} className="btn btn-sand max-sm:w-full">
                 {state === "sending" ? "Bezig..." : "Aanmelden"}
               </button>
               {state === "error" && (

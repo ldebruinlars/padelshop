@@ -47,6 +47,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="nl">
       <body className={`${interTight.variable} ${archivo.variable}`}>
+        <a href="#inhoud" className="btn btn-sand fixed top-3 left-3 z-[100] -translate-y-20 focus:translate-y-0">
+          Naar inhoud
+        </a>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
         <CodeCatcher />
         {children}

@@ -30,7 +30,7 @@ export default async function BrandPage({ params }: { params: Promise<{ slug: st
   return (
     <>
       <Nav />
-      <main className="pt-[calc(96px+env(safe-area-inset-top))]">
+      <main id="inhoud" tabIndex={-1} className="pt-[calc(96px+env(safe-area-inset-top))]">
         <header className="mx-auto grid max-w-[1400px] gap-8 px-4 pt-10 pb-12 md:px-8 lg:grid-cols-[1.4fr_1fr] lg:items-end">
           <div>
             <nav aria-label="Kruimelpad" className="rise text-sm text-muted">

@@ -14,7 +14,7 @@ export function Footer() {
   return (
     <footer className="pb-[calc(10px+env(safe-area-inset-bottom))]">
       <RevealPanel className="bg-bg">
-        <div className="mx-auto grid max-w-[1400px] gap-10 px-6 py-16 md:grid-cols-[1.2fr_1fr] md:px-12">
+        <div className="mx-auto grid max-w-[1400px] gap-10 px-6 py-16 md:grid-cols-[1.2fr_1fr] md:px-8">
           <div>
             <a href="/" className="flex items-center gap-3 font-display text-2xl font-bold [font-stretch:90%]">
               <Logo className="size-8" />
@@ -50,7 +50,7 @@ export function Footer() {
           </div>
         </div>
       </RevealPanel>
-      <div className="mx-auto flex max-w-[1400px] flex-wrap justify-between gap-4 px-6 py-6 text-xs text-muted">
+      <div className="mx-auto flex max-w-[1400px] flex-wrap justify-between gap-4 px-4 py-6 text-xs md:px-8 text-muted">
         <span>© 2026 {SITE.name}</span>
         <span>Verzenden en retour · Algemene voorwaarden · Privacy</span>
       </div>

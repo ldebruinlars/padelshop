@@ -247,6 +247,7 @@ export function Testcenter() {
   const [range, setRange] = useState<{ min: string; max: string } | null>(null);
   const [view, setView] = useState<{ y: number; m: number } | null>(null);
   const [taken, setTaken] = useState<Taken[]>([]);
+  const [slotsFailed, setSlotsFailed] = useState(false);
   const [intake, setIntake] = useState<Intake | null>(null);
   const [editIntake, setEditIntake] = useState(false);
   const [short, setShort] = useState<Record<string, string>>({});
@@ -267,8 +268,14 @@ export function Testcenter() {
 
   const loadTaken = (r: { min: string; max: string }) =>
     takenSlots(r.min, r.max)
-      .then(setTaken)
-      .catch(() => setTaken([]));
+      .then((t) => {
+        setTaken(t);
+        setSlotsFailed(false);
+      })
+      .catch(() => {
+        setTaken([]);
+        setSlotsFailed(true);
+      });
 
   useEffect(() => {
     const min = new Date();
@@ -332,7 +339,7 @@ export function Testcenter() {
 
   return (
     <RevealPanel id="testcenter" className="bg-bg">
-      <div className="p-6 md:p-12">
+      <div className="p-6 md:px-8 md:py-12">
         <div className="flex flex-wrap items-end justify-between gap-6 border-b border-panel-2 pb-6">
           <div>
             <h2 className="text-[clamp(34px,4vw,56px)] leading-[0.95] font-bold">Boek een racket-test</h2>
@@ -465,7 +472,7 @@ export function Testcenter() {
                       <a href="#finder" className="link">
                         Doe de racketfinder
                       </a>
-                      .
+                      , dan plannen we je test samen.
                     </p>
                     {INTAKE_QUESTIONS.map((x) => (
                       <label key={x.id} className="grid gap-1.5">
@@ -593,6 +600,15 @@ export function Testcenter() {
                 </div>
 
                 <div ref={timesRef} className="mt-5 scroll-mt-28">
+                  {slotsFailed && (
+                    <p className="mb-4 rounded-[var(--radius-card)] bg-accent-2 px-4 py-3 text-sm text-on-accent" role="alert">
+                      Het rooster laadt nu niet, dus online boeken lukt even niet.{" "}
+                      <a className="font-semibold underline" href={`https://wa.me/${CONFIG.whatsappNumber}`} target="_blank" rel="noopener">
+                        App ons
+                      </a>
+                      , dan plannen we je test samen.
+                    </p>
+                  )}
                   {day ? (
                     <>
                       <p className="mb-3 text-sm text-fg/70 first-letter:uppercase">

@@ -187,9 +187,11 @@ export function OrderPanel({ racket, interest = false }: { racket: { id: string;
         <button type="submit" className="btn btn-primary" disabled={state === "sending"}>
           {state === "sending" ? "Versturen…" : interest ? "Zet me op de lijst" : racket.price != null ? `Reserveer voor ${euro(racket.price)}` : "Reserveer"}
         </button>
-        <a href="/#testcenter" className="btn btn-line">
-          Eerst testen
-        </a>
+        {!interest && (
+          <a href="/#testcenter" className="btn btn-line">
+            Test hem eerst, €30
+          </a>
+        )}
       </div>
     </form>
   );

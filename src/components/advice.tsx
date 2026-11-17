@@ -83,7 +83,7 @@ function FaqItem({ q, a }: { q: string; a: string }) {
 export function Advice() {
   return (
     <section id="advies" className="cv bg-ink py-24">
-      <div className="mx-auto max-w-[1400px] px-5">
+      <div className="mx-auto max-w-[1400px] px-4 md:px-8">
         <h2 className="max-w-2xl text-[clamp(30px,3.2vw,44px)] leading-[1] font-bold">
           Racketadvies
         </h2>

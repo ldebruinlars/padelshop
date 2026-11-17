@@ -15,7 +15,7 @@ export default function RacketsPage() {
   return (
     <>
       <Nav />
-      <main className="pt-[calc(96px+env(safe-area-inset-top))]">
+      <main id="inhoud" tabIndex={-1} className="pt-[calc(96px+env(safe-area-inset-top))]">
         <header className="mx-auto max-w-[1400px] px-4 pt-10 pb-8 md:px-8">
           <h1 className="rise text-[clamp(40px,5.4vw,76px)] leading-[0.92] font-bold" style={{ "--i": 1 } as React.CSSProperties}>
             Alle rackets

@@ -6,7 +6,7 @@ export function Categories() {
 
   return (
     <section id="categorieen" className="cv bg-ink py-24">
-      <div className="mx-auto max-w-[1400px] px-5">
+      <div className="mx-auto max-w-[1400px] px-4 md:px-8">
         <div className="grid gap-3 border-b border-panel-2 pb-6">
           <h2 className="text-[clamp(30px,3.2vw,44px)] leading-[1] font-bold">
             Meer dan rackets

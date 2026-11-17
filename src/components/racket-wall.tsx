@@ -35,11 +35,12 @@ function preload(r: CatalogRacket) {
   img.src = src;
 }
 
-function Peg({ r, onOpen, eager }: { r: CatalogRacket; onOpen: (r: CatalogRacket, from: HTMLElement) => void; eager: boolean }) {
+function Peg({ r, onOpen, eager, active }: { r: CatalogRacket; onOpen: (r: CatalogRacket, from: HTMLElement) => void; eager: boolean; active: boolean }) {
   return (
     <li data-id={r.id} onPointerEnter={() => preload(r)} onFocus={() => preload(r)} className="peg-slot group relative flex w-[clamp(150px,15vw,210px)] shrink-0 snap-start flex-col items-center max-sm:w-[44vw]">
       <button
         type="button"
+        tabIndex={active ? 0 : -1}
         onClick={(e) => onOpen(r, e.currentTarget.closest("li") as HTMLElement)}
         className="absolute inset-0 z-10 rounded-[var(--radius-card)] focus-visible:outline-offset-[-2px]"
         aria-label={`${brandName(r.brand)} ${r.model}, ${r.price != null ? euro(r.price) : r.brand === OWN_BRAND.slug ? "concept, prijs volgt" : "prijs op aanvraag"}. Bekijk specificaties`}
@@ -74,6 +75,17 @@ function Peg({ r, onOpen, eager }: { r: CatalogRacket; onOpen: (r: CatalogRacket
 
 function Row({ items, label, eager, onOpen }: { items: CatalogRacket[]; label: string; eager: boolean; onOpen: (r: CatalogRacket, from: HTMLElement) => void }) {
   const { ref, handlers } = useDragScroll<HTMLUListElement>();
+  // Eén tabstop per rij; met de pijltjes ga je langs de rackets in die rij
+  const [active, setActive] = useState(0);
+  const onKeyDown = (e: React.KeyboardEvent<HTMLUListElement>) => {
+    const step = { ArrowRight: 1, ArrowLeft: -1, Home: -Infinity, End: Infinity }[e.key];
+    if (step === undefined) return;
+    e.preventDefault();
+    e.stopPropagation();
+    const next = Math.max(0, Math.min(items.length - 1, active + step));
+    setActive(next);
+    ref.current?.querySelectorAll<HTMLButtonElement>(".peg-slot > button")[next]?.focus();
+  };
   const by = (dir: 1 | -1) => {
     const el = ref.current;
     if (el) el.scrollBy({ left: dir * el.clientWidth * 0.8, behavior: reducedMotion() ? "auto" : "smooth" });
@@ -85,12 +97,13 @@ function Row({ items, label, eager, onOpen }: { items: CatalogRacket[]; label: s
       <ul
         ref={ref}
         {...handlers}
-        aria-label={label}
+        aria-label={`${label}. Gebruik de pijltjes om door de rackets te gaan.`}
+        onKeyDown={onKeyDown}
         className="relative flex snap-x snap-mandatory scroll-px-4 gap-3 overflow-x-auto px-4 pt-2 pb-6 [scrollbar-width:none] select-none md:cursor-grab md:scroll-px-8 md:gap-5 md:px-8 md:active:cursor-grabbing [&::-webkit-scrollbar]:hidden"
       >
         {/* Alleen de rackets die meteen in beeld hangen laden direct; de rest pas bij het swipen */}
         {items.map((r, i) => (
-          <Peg key={r.id} r={r} onOpen={onOpen} eager={eager && i < 6} />
+          <Peg key={r.id} r={r} onOpen={onOpen} eager={eager && i < 6} active={i === Math.min(active, items.length - 1)} />
         ))}
       </ul>
       <div className="pointer-events-none absolute inset-y-0 right-0 left-0 flex items-center justify-between px-2 max-md:hidden">

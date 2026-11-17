@@ -15,7 +15,7 @@ export default function Home() {
   return (
     <>
       <Nav />
-      <main>
+      <main id="inhoud" tabIndex={-1}>
         <RacketWall />
         <BrandMarquee />
         <Testcenter />

@@ -70,7 +70,7 @@ export default async function RacketPage({ params }: { params: Promise<{ id: str
     <>
       {!own && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productLd) }} />}
       <Nav />
-      <main className="pt-[calc(96px+env(safe-area-inset-top))]">
+      <main id="inhoud" tabIndex={-1} className="pt-[calc(96px+env(safe-area-inset-top))]">
         <div className="mx-auto max-w-[1400px] px-4 pt-6 md:px-8">
           <nav aria-label="Kruimelpad" className="text-sm text-muted">
             <a href="/rackets/" className="hover:text-fg">
@@ -118,15 +118,6 @@ export default async function RacketPage({ params }: { params: Promise<{ id: str
                 ))}
               </ul>
               {r.description && <p className="mt-4 max-w-[62ch] text-lg text-fg/80">{r.description}</p>}
-              {/* Meteen de twee acties, voordat de details beginnen */}
-              <div className="mt-5 flex flex-wrap gap-2">
-                <a href="#bestel-titel" className="btn btn-primary">
-                  {own ? "Zet me op de lijst" : "Reserveer dit racket"}
-                </a>
-                <a href="/#testcenter" className="btn btn-line">
-                  {isTestRacket(r.id) ? "Test hem eerst, €30" : "Boek een racket-test"}
-                </a>
-              </div>
             </header>
 
             {own && (

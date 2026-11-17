@@ -132,6 +132,8 @@ export function QuickView({
     const done = () => {
       if (src) gsap.set(src, { clearProps: "opacity" });
       onClose();
+      // Toetsenbord en screenreader houden hun plek: de focus gaat terug naar het racket op de wand
+      (from?.querySelector<HTMLElement>("button") ?? from)?.focus({ preventScroll: true });
     };
     if (reduced() || !art.current) return done();
     const tl = gsap.timeline({ onComplete: done });
@@ -228,7 +230,7 @@ export function QuickView({
               <p className="qv-in label text-accent">{brandName(racket.brand)}</p>
               <h2 className="qv-in mt-2 text-3xl leading-tight font-bold">{racket.model}</h2>
             </div>
-            <button ref={closeBtn} type="button" onClick={close} className="qv-in grid size-10 shrink-0 place-items-center rounded-[var(--radius-control)] border border-panel-2 hover:border-fg/40" aria-label="Sluiten">
+            <button ref={closeBtn} type="button" onClick={close} className="qv-in z-10 grid size-10 shrink-0 place-items-center rounded-[var(--radius-control)] border border-panel-2 bg-bg hover:border-fg/40 max-md:fixed max-md:top-5 max-md:right-5" aria-label="Sluiten">
               <CloseIcon className="size-3.5" />
             </button>
           </div>
@@ -261,12 +263,13 @@ export function QuickView({
                 </div>
               ))}
           </dl>
-          <div className="qv-in flex flex-wrap gap-2">
-            <a href={`/rackets/${racket.id}/`} className="btn btn-primary">
-              {photoOf(racket) ? "Bekijk in 3D" : "Bekijk en reserveer"}
-            </a>
-            <a href="/#testcenter" onClick={onClose} className="btn btn-line">
+          {/* Op mobiel blijft de actiebalk onderin staan terwijl je door de details scrolt */}
+          <div className="qv-in flex flex-wrap items-center gap-x-4 gap-y-2 max-md:sticky max-md:bottom-0 max-md:-mx-6 max-md:border-t max-md:border-panel-2 max-md:bg-bg max-md:px-6 max-md:py-3">
+            <a href="/#testcenter" onClick={onClose} className="btn btn-primary max-sm:flex-1">
               Test dit racket
+            </a>
+            <a href={`/rackets/${racket.id}/`} className="btn btn-line max-sm:flex-1">
+              {photoOf(racket) ? "Bekijk in 3D" : "Bekijk en reserveer"}
             </a>
             <a
               href={`/?opbouw=${racket.id}#anatomie`}
@@ -277,7 +280,7 @@ export function QuickView({
                 window.dispatchEvent(new CustomEvent("racketlab:opbouw", { detail: racket.id }));
                 onClose();
               }}
-              className="btn btn-line"
+              className="link text-sm"
             >
               Bekijk de opbouw
             </a>

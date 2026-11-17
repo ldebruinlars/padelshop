@@ -52,6 +52,9 @@ function Chips({ label, value, options, onChange }: { label: string; value: stri
 export function CatalogBrowser({ brand }: { brand?: string }) {
   const [f, setF] = useState<Filters>(EMPTY);
   const [open, setOpen] = useState<{ r: CatalogRacket; from: HTMLElement } | null>(null);
+  // Op telefoon en tablet staan de filters in een paneel dat van onderen opschuift
+  const [sheet, setSheet] = useState(false);
+  const sheetBtn = useRef<HTMLButtonElement>(null);
   const grid = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -115,13 +118,35 @@ export function CatalogBrowser({ brand }: { brand?: string }) {
     setOpen(null);
   }, [open]);
 
+  const closeSheet = useCallback(() => {
+    setSheet(false);
+    sheetBtn.current?.focus({ preventScroll: true });
+  }, []);
+  useEffect(() => {
+    if (!sheet) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && closeSheet();
+    window.addEventListener("keydown", onKey);
+    document.documentElement.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.documentElement.style.overflow = "";
+    };
+  }, [sheet, closeSheet]);
+
   const brandsInUse = [OWN_BRAND, ...BRAND_LIST].filter((b) => ALL_RACKETS.some((r) => r.brand === b.slug));
   const active = Object.entries(f).filter(([k, v]) => v && k !== "sort").length;
 
   return (
     <div className="mx-auto grid max-w-[1400px] gap-8 px-4 pb-24 md:px-8 lg:grid-cols-[280px_1fr]">
       {/* Filters blijven naast de rackets staan; zijn ze hoger dan het scherm, dan scrollen ze zelf mee (eigen balk) */}
-      <aside data-lenis-prevent className="grid content-start gap-6 lg:sticky lg:top-28 lg:max-h-[calc(100svh-8rem)] lg:self-start lg:overflow-y-auto lg:overscroll-contain lg:pr-3 lg:[scrollbar-width:thin]" aria-label="Filters">
+      {sheet && <div className="fixed inset-0 z-[55] bg-ink/70 lg:hidden" onClick={closeSheet} aria-hidden="true" />}
+      <aside
+        data-lenis-prevent
+        role={sheet ? "dialog" : undefined}
+        aria-modal={sheet || undefined}
+        className={`${sheet ? "max-lg:fixed max-lg:inset-x-0 max-lg:bottom-0 max-lg:z-[56] max-lg:max-h-[85svh] max-lg:overflow-y-auto max-lg:overscroll-contain max-lg:rounded-t-[var(--radius-panel)] max-lg:border-t max-lg:border-panel-2 max-lg:bg-bg max-lg:p-5" : "max-lg:hidden"} grid content-start gap-6 lg:sticky lg:top-28 lg:max-h-[calc(100svh-8rem)] lg:self-start lg:overflow-y-auto lg:overscroll-contain lg:pr-3 lg:[scrollbar-width:thin]`}
+        aria-label="Filters"
+      >
         <Chips label="Op de baan" value={f.test} options={[{ id: "ja", label: "Testrackets" }]} onChange={set("test")} />
         {!brand && <Chips label="Merk" value={f.merk} options={brandsInUse.map((b) => ({ id: b.slug, label: b.name }))} onChange={set("merk")} />}
         <Chips label="Vorm" value={f.vorm} options={SHAPES} onChange={set("vorm")} />
@@ -133,15 +158,23 @@ export function CatalogBrowser({ brand }: { brand?: string }) {
             Wis filters ({active})
           </button>
         )}
+        {sheet && (
+          <button type="button" onClick={closeSheet} className="btn btn-primary sticky bottom-0 w-full lg:hidden">
+            Toon {list.length} {list.length === 1 ? "racket" : "rackets"}
+          </button>
+        )}
       </aside>
 
       <div>
         <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
-          <p className="text-sm text-muted" aria-live="polite">
+          <p className="text-sm text-muted max-lg:hidden" aria-live="polite">
             {list.length} {list.length === 1 ? "racket" : "rackets"}
           </p>
+          <button ref={sheetBtn} type="button" onClick={() => setSheet(true)} className="btn btn-line btn-sm lg:hidden" aria-expanded={sheet}>
+            Filters{active > 0 && ` (${active})`} · {list.length} {list.length === 1 ? "racket" : "rackets"}
+          </button>
           <label className="flex items-center gap-2 text-sm">
-            <span className="text-muted">Sorteer</span>
+            <span className="text-muted max-sm:sr-only">Sorteer</span>
             <select value={f.sort} onChange={(e) => set("sort")(e.target.value)} className="field min-h-[38px] w-auto">
               {SORTS.map((s) => (
                 <option key={s.id} value={s.id}>
@@ -152,7 +185,7 @@ export function CatalogBrowser({ brand }: { brand?: string }) {
           </label>
         </div>
         <h2 className="sr-only">Rackets</h2>
-        <div ref={grid} className="grid grid-cols-2 gap-3 md:gap-4 xl:grid-cols-3">
+        <div ref={grid} className="grid grid-cols-2 gap-3 md:gap-4 xl:grid-cols-4">
           {list.map((r) => (
             <RacketCard key={r.id} r={r} onOpen={(racket, from) => setOpen({ r: racket, from })} />
           ))}

@@ -1,5 +1,6 @@
 "use client";
 
+import { ToggleIcon } from "./icons";
 import { useEffect, useRef, useState } from "react";
 import { EXTRAS, UPSELLS, type Extra } from "@/lib/extras";
 import { euro } from "@/lib/site";
@@ -118,7 +119,10 @@ export function OrderPanel({ racket, interest = false }: { racket: { id: string;
           })}
         </div>
         <details className="mt-3">
-          <summary className="cursor-pointer text-sm font-semibold">Meer extra&apos;s</summary>
+          <summary className="flex cursor-pointer list-none items-center gap-3 text-sm font-semibold [&::-webkit-details-marker]:hidden">
+            <ToggleIcon />
+            Meer extra&apos;s
+          </summary>
           <div className="mt-2 grid gap-1.5 sm:grid-cols-2">
             {EXTRAS.map((x) => {
               const on = extras.includes(x.id);

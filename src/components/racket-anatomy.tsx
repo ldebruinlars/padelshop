@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { brandName, type CatalogRacket, type Shape } from "@/lib/catalog";
 import { ALL_RACKETS } from "@/lib/all-rackets";
 import { LAYERS, RULES, SHAPE_GUIDE, SHAPE_SOURCES, type Layer } from "@/lib/racket-guide";
-import { ChevronIcon } from "./icons";
+import { ToggleIcon } from "./icons";
 import { BuildSteps } from "./build-steps";
 import { LayerLab } from "./layer-lab";
 import { RacketExplorer } from "./racket-explorer";
@@ -117,7 +117,7 @@ export function RacketAnatomy() {
     })[id];
 
   return (
-    <section ref={root} id="anatomie" aria-labelledby="anatomie-titel" className="cv relative overflow-hidden bg-bg py-24">
+    <section ref={root} id="anatomie" aria-labelledby="anatomie-titel" className="cv relative overflow-hidden bg-bg py-16 md:py-24">
       <div className="mx-auto max-w-[1400px] px-4 md:px-8">
         <div className="flex flex-wrap items-end justify-between gap-6 border-b border-panel-2 pb-6">
           <div>
@@ -324,7 +324,7 @@ export function RacketAnatomy() {
 
             <details className="mt-8 rounded-[var(--radius-card)] border border-panel-2 px-4 py-3 text-sm">
               <summary className="flex cursor-pointer list-none items-center gap-2 font-semibold [&::-webkit-details-marker]:hidden">
-                <ChevronIcon className="size-3 transition-transform [details[open]_&]:rotate-90" />
+                <ToggleIcon />
                 Wat zeggen de regels?
               </summary>
               <dl className="mt-3 grid grid-cols-2 gap-x-6">

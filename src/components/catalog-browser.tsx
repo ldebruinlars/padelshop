@@ -138,13 +138,13 @@ export function CatalogBrowser({ brand }: { brand?: string }) {
 
   return (
     <div className="mx-auto grid max-w-[1400px] gap-8 px-4 pb-24 md:px-8 lg:grid-cols-[280px_1fr]">
-      {/* Filters blijven naast de rackets staan; zijn ze hoger dan het scherm, dan scrollen ze zelf mee (eigen balk) */}
+      {/* Filters staan naast de rackets en scrollen gewoon mee met de pagina (geen tweede scrollbalk) */}
       {sheet && <div className="fixed inset-0 z-[55] bg-ink/70 lg:hidden" onClick={closeSheet} aria-hidden="true" />}
       <aside
         data-lenis-prevent
         role={sheet ? "dialog" : undefined}
         aria-modal={sheet || undefined}
-        className={`${sheet ? "max-lg:fixed max-lg:inset-x-0 max-lg:bottom-0 max-lg:z-[56] max-lg:max-h-[85svh] max-lg:overflow-y-auto max-lg:overscroll-contain max-lg:rounded-t-[var(--radius-panel)] max-lg:border-t max-lg:border-panel-2 max-lg:bg-bg max-lg:p-5" : "max-lg:hidden"} grid content-start gap-6 lg:sticky lg:top-28 lg:max-h-[calc(100svh-8rem)] lg:self-start lg:overflow-y-auto lg:overscroll-contain lg:pr-3 lg:[scrollbar-width:thin]`}
+        className={`${sheet ? "max-lg:fixed max-lg:inset-x-0 max-lg:bottom-0 max-lg:z-[56] max-lg:max-h-[85svh] max-lg:overflow-y-auto max-lg:overscroll-contain max-lg:rounded-t-[var(--radius-panel)] max-lg:border-t max-lg:border-panel-2 max-lg:bg-bg max-lg:p-5" : "max-lg:hidden"} grid content-start gap-6 lg:self-start`}
         aria-label="Filters"
       >
         <Chips label="Op de baan" value={f.test} options={[{ id: "ja", label: "Testrackets" }]} onChange={set("test")} />

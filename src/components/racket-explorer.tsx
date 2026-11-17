@@ -175,7 +175,7 @@ export function RacketExplorer() {
           <div className="flex flex-wrap gap-2" role="group" aria-label="Onderdeel">
             {choices.map((x, i) => (
               <button key={x.name} type="button" className="chip" aria-pressed={part === x.id} onClick={() => (x.id ? zoomTo(x.id) : zoomOut())}>
-                <span className="tabular-nums opacity-50">{i + 1}</span> {x.name}
+                <span className="tabular-nums opacity-70">{i + 1}</span> {x.name}
               </button>
             ))}
           </div>
@@ -210,18 +210,8 @@ export function RacketExplorer() {
               <>
                 <h4 className="mt-6 text-2xl font-bold">Het hele racket</h4>
                 <p className="mt-2 max-w-[64ch] text-fg/80">
-                  Een padelracket bestaat uit vijf delen die samen bepalen hoe hij speelt: het slagvlak waar de bal op komt, de kern van rubber of foam daaronder, het frame eromheen, het hart waar de kop overgaat in de grip, en de grip zelf. Kies een onderdeel om in te zoomen.
+                  Een padelracket bestaat uit vijf delen die samen bepalen hoe hij speelt: het slagvlak waar de bal op komt, de kern van rubber of foam daaronder, het frame eromheen, het hart waar de kop overgaat in de grip, en de grip zelf. Kies een onderdeel op het racket of met de knoppen om in te zoomen.
                 </p>
-                <ul className="mt-4 grid gap-1.5 text-sm text-fg/75 sm:grid-cols-2">
-                  {PARTS.map((x, i) => (
-                    <li key={x.id}>
-                      <button type="button" onClick={() => zoomTo(x.id)} className="flex w-full items-center gap-3 rounded-[var(--radius-control)] border border-panel-2 px-3 py-2 text-left transition-colors hover:border-fg/40">
-                        <span className="grid size-6 place-items-center rounded-full bg-accent text-xs font-bold text-on-accent tabular-nums">{i + 2}</span>
-                        {x.name}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
               </>
             )}
           </div>

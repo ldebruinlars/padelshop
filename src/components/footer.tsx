@@ -25,10 +25,10 @@ export function Footer() {
           <div className="grid grid-cols-2 gap-8 text-sm">
             <nav aria-label="Shop">
               <p className="label text-muted">Shop</p>
-              <ul className="mt-4 grid gap-2">
+              <ul className="mt-2 grid">
                 {CATEGORIES.map((c) => (
                   <li key={c.id}>
-                    <a href={c.online ? "/rackets/" : CONFIG.hasShop ? "/#bezoek" : "/rackets/"} className="text-fg/85 hover:text-accent">
+                    <a href={c.online ? "/rackets/" : CONFIG.hasShop ? "/#bezoek" : "/rackets/"} className="inline-block py-2 text-fg/85 hover:text-accent">
                       {c.label}
                     </a>
                   </li>
@@ -37,10 +37,10 @@ export function Footer() {
             </nav>
             <nav aria-label="Service">
               <p className="label text-muted">Service</p>
-              <ul className="mt-4 grid gap-2">
+              <ul className="mt-2 grid">
                 {SERVICE.map((s) => (
                   <li key={s.label}>
-                    <a href={s.href} className="text-fg/85 hover:text-accent">
+                    <a href={s.href} className="inline-block py-2 text-fg/85 hover:text-accent">
                       {s.label}
                     </a>
                   </li>

@@ -3,7 +3,7 @@
 import { useId, useState } from "react";
 import { CONFIG } from "@/lib/config";
 import { SHOP, euro } from "@/lib/site";
-import { PlusIcon } from "./icons";
+import { ToggleIcon } from "./icons";
 
 const GUIDES = [
   {
@@ -64,9 +64,7 @@ function FaqItem({ q, a }: { q: string; a: string }) {
       <h3>
         <button type="button" aria-expanded={open} aria-controls={id} onClick={() => setOpen((o) => !o)} className="flex w-full items-center justify-between gap-4 py-5 text-left text-lg font-medium">
           {q}
-          <span className={`grid size-8 shrink-0 place-items-center rounded-[var(--radius-control)] border border-panel-2 transition-transform duration-300 ${open ? "rotate-45" : ""}`} aria-hidden="true">
-            <PlusIcon className="size-3" />
-          </span>
+          <ToggleIcon open={open} />
         </button>
       </h3>
       {/* Hoogte animeren met grid-rows 0fr -> 1fr */}
@@ -82,7 +80,7 @@ function FaqItem({ q, a }: { q: string; a: string }) {
 /** Advies van de coaches en veelgestelde vragen. */
 export function Advice() {
   return (
-    <section id="advies" className="cv bg-ink py-24">
+    <section id="advies" className="cv bg-ink py-16 md:py-24">
       <div className="mx-auto max-w-[1400px] px-4 md:px-8">
         <h2 className="max-w-2xl text-[clamp(30px,3.2vw,44px)] leading-[1] font-bold">
           Racketadvies

@@ -5,7 +5,7 @@ import { CATEGORIES } from "@/lib/site";
 export function Categories() {
 
   return (
-    <section id="categorieen" className="cv bg-ink py-24">
+    <section id="categorieen" className="cv bg-ink py-16 md:py-24">
       <div className="mx-auto max-w-[1400px] px-4 md:px-8">
         <div className="grid gap-3 border-b border-panel-2 pb-6">
           <h2 className="text-[clamp(30px,3.2vw,44px)] leading-[1] font-bold">
@@ -28,7 +28,7 @@ export function Categories() {
                   decoding="async"
                   src={c.image}
                   alt=""
-                  className={`size-full transition-transform duration-[1200ms] ease-out group-hover:scale-105 ${c.id === "rackets" ? "object-contain p-6" : "object-cover"}`}
+                  className={`size-full transition-transform duration-[1200ms] ease-out group-hover:scale-105 ${c.id === "rackets" ? "object-contain p-6" : "warm object-cover"}`}
                 />
                 <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 bg-gradient-to-t from-bg/90 via-bg/50 to-transparent p-4 pt-16 sm:p-5 sm:pt-20">
                   <div>

@@ -1,5 +1,6 @@
 "use client";
 
+import { ToggleIcon } from "./icons";
 import { useEffect, useId, useState } from "react";
 
 /**
@@ -62,11 +63,7 @@ export function More({
             {hint && <span className="mt-1 block text-sm text-muted">{hint}</span>}
             <span className="mt-2 block text-sm font-semibold text-accent">{open ? "Minder tonen" : cta}</span>
           </span>
-          {/* Plus wordt min */}
-          <span className="relative grid size-10 shrink-0 place-items-center rounded-full bg-accent text-on-accent" aria-hidden="true">
-            <span className="absolute h-0.5 w-4 rounded-full bg-current" />
-            <span className={`absolute h-4 w-0.5 rounded-full bg-current transition-transform duration-300 ${open ? "scale-y-0" : ""}`} />
-          </span>
+          <ToggleIcon open={open} strong />
         </button>
       </h3>
       <div id={id} className={`grid transition-[grid-template-rows] duration-300 ease-out motion-reduce:transition-none ${open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}>

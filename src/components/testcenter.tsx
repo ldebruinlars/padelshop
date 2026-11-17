@@ -347,7 +347,7 @@ export function Testcenter() {
               Voor €30 sla je een half uur met drie rackets die ik voor jouw spel uitkies, en je krijgt per racket een eerlijk oordeel. Daarna weet je zeker welk racket je moet kopen, in plaats van €200 te gokken op een review.
             </p>
           </div>
-          <div className="text-right">
+          <div className="lg:text-right">
             <p className="font-display text-4xl font-bold text-accent tabular-nums">€30</p>
             <p className="text-sm text-muted">30 minuten met een coach</p>
           </div>
@@ -540,7 +540,7 @@ export function Testcenter() {
             {/* 3. Datum en tijd: alleen de dagen met testslots */}
             <div className="grid content-start gap-8">
               <Step n={3} title="Kies een moment" done={!!time}>
-                <div className="rounded-[var(--radius-card)] border border-panel-2 p-4 xl:max-w-[480px]">
+                <div className="rounded-[var(--radius-card)] border border-panel-2 p-4">
                   <div className="flex items-center justify-between">
                     <button type="button" onClick={() => moveMonth(-1)} disabled={!canPrev} className="grid size-9 place-items-center rounded-[var(--radius-control)] hover:bg-panel disabled:opacity-30" aria-label="Vorige maand">
                       <ChevronIcon className="size-3.5 rotate-180" />
@@ -559,7 +559,7 @@ export function Testcenter() {
                       </span>
                     ))}
                   </div>
-                  <div className="grid min-h-[246px] grid-cols-7 gap-1">
+                  <div className="grid grid-cols-7 gap-1">
                     {cells.map((c, i) => {
                       if (!c) return <span key={`leeg-${i}`} />;
                       const k = ymd(c);
@@ -578,22 +578,22 @@ export function Testcenter() {
                             setTime(null);
                             if (window.matchMedia("(max-width: 1023px)").matches) timesRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
                           }}
-                          className={`relative flex aspect-square flex-col items-center justify-center rounded-[var(--radius-control)] text-sm tabular-nums transition-colors ${
-                            picked ? "bg-accent font-bold text-on-accent" : !open ? "text-fg/20" : free === 0 ? "text-fg/45 line-through hover:bg-panel" : "font-medium hover:bg-panel"
+                          className={`relative flex aspect-square flex-col items-center justify-center rounded-[var(--radius-control)] text-sm lg:aspect-auto lg:h-14 tabular-nums transition-colors ${
+                            picked ? "bg-fg font-bold text-on-accent" : !open ? "text-muted/50" : free === 0 ? "border border-dashed border-panel-2 text-fg/55 line-through hover:bg-panel" : "border border-panel-2 font-medium hover:border-fg/40 hover:bg-panel"
                           }`}
                         >
                           {c.getDate()}
-                          {open && free > 0 && !picked && <span className={`absolute bottom-1.5 size-1 rounded-full ${free <= 2 ? "bg-accent-2" : "bg-accent"}`} aria-hidden="true" />}
+                          {open && free > 0 && !picked && <span className={`absolute bottom-1.5 ${free <= 2 ? "h-0.5 w-3 bg-accent-2" : "size-1.5 rounded-[1px] bg-accent"}`} aria-hidden="true" />}
                         </button>
                       );
                     })}
                   </div>
                   <p className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted">
                     <span className="flex items-center gap-1.5">
-                      <span className="size-1.5 rounded-full bg-accent" /> Plek vrij
+                      <span className="size-1.5 rounded-[1px] bg-accent" /> Plek vrij
                     </span>
                     <span className="flex items-center gap-1.5">
-                      <span className="size-1.5 rounded-full bg-accent-2" /> Bijna vol
+                      <span className="h-0.5 w-3 bg-accent-2" /> Bijna vol
                     </span>
                     <span>Testslots op {SCHEDULE_TEXT}</span>
                   </p>

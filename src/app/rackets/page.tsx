@@ -4,6 +4,8 @@ import { Footer } from "@/components/footer";
 import { Nav } from "@/components/nav";
 import { ShapeGuide } from "@/components/shape-guide";
 import { BRAND_LIST, CATALOG_RACKETS } from "@/lib/catalog";
+import { ALL_RACKETS } from "@/lib/all-rackets";
+import { OWN_RACKETS } from "@/lib/own-line";
 
 export const metadata: Metadata = {
   title: "Padel rackets | Padel Racket Studio",
@@ -21,7 +23,7 @@ export default function RacketsPage() {
             Alle rackets
           </h1>
           <p className="rise mt-5 max-w-xl text-lg text-fg/75" style={{ "--i": 2 } as React.CSSProperties}>
-            {CATALOG_RACKETS.length} modellen van {BRAND_LIST.length} merken. Klik op een racket voor alle specificaties, of kies eerst een vorm.
+            {ALL_RACKETS.length} rackets: {CATALOG_RACKETS.length} van {BRAND_LIST.length} merken en {OWN_RACKETS.length} eigen ontwerpen. Klik op een racket voor alle specificaties, of kies eerst een vorm.
           </p>
         </header>
         <ShapeGuide />

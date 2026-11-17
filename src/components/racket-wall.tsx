@@ -58,7 +58,7 @@ function Peg({ r, onOpen, eager, active }: { r: CatalogRacket; onOpen: (r: Catal
       </div>
       {/* Prijskaartje op de rail */}
       <div className="wall-label relative z-[1] mt-2 w-[calc(100%-10px)] rounded-[3px] bg-bg px-3 py-2.5 text-fg shadow-[0_8px_16px_-8px_rgb(20_17_15/0.6)] transition-transform duration-200 group-hover:-translate-y-0.5">
-        <p className="label text-[11px] text-muted">{brandName(r.brand)}</p>
+        {r.brand !== OWN_BRAND.slug && <p className="label text-[11px] text-muted">{brandName(r.brand)}</p>}
         <p className="mt-0.5 line-clamp-2 min-h-[2.6em] text-[15px] leading-[1.3] font-semibold">{r.model}</p>
         <p className="mt-1 flex items-baseline justify-between gap-2">
           <span className="text-[12px] text-muted capitalize">{r.shape}</span>

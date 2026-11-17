@@ -4,7 +4,6 @@ import { Footer } from "@/components/footer";
 import { Nav } from "@/components/nav";
 import { OrderPanel } from "@/components/order-panel";
 import { ProfileBar } from "@/components/racket-card";
-import { Radar } from "@/components/radar";
 import { RacketArt } from "@/components/racket-art";
 import { BRAND_LIST, CATALOG_RACKETS, PLAYSTYLES, brandName, ratings, styleColor } from "@/lib/catalog";
 import { LAYERS, SHAPE_GUIDE } from "@/lib/racket-guide";
@@ -147,9 +146,8 @@ export default async function RacketPage({ params }: { params: Promise<{ id: str
               <h2 id="eigenschappen" className="text-2xl font-bold">
                 Eigenschappen
               </h2>
-              <div className="mt-4 grid items-center gap-6 sm:grid-cols-[minmax(0,320px)_1fr]">
-                <Radar values={ratings(r).map((x) => ({ label: x.label, value: x.value }))} label={`Eigenschappen van de ${r.model}`} />
-                <div className="grid gap-y-3">
+              <div className="mt-4">
+                <div className="grid gap-x-10 gap-y-3 sm:grid-cols-2">
                 {ratings(r).map((x) => (
                   <div key={x.id}>
                     <ProfileBar label={x.label} value={x.value} color={x.color} wide />

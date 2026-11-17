@@ -98,6 +98,13 @@ body {
     opacity: 0.45;
     cursor: not-allowed;
   }
+  /* Uitgeschakelde hoofdknop: geen doorschijnend oranje (2.3:1), maar een lijnknop die "nog niet" zegt */
+  .btn-primary:disabled {
+    opacity: 1;
+    background: transparent;
+    border: 1px solid var(--color-panel-2);
+    color: var(--color-muted);
+  }
   .btn-primary {
     background: var(--color-accent);
     color: var(--color-on-accent);
@@ -123,6 +130,10 @@ body {
     min-height: 36px;
     padding: 0 14px;
     font-size: 14px;
+  }
+  /* No Blue Rule: elke sfeerfoto krijgt dezelfde warme grade (DESIGN.md) */
+  .warm {
+    filter: sepia(0.55) saturate(0.7) hue-rotate(-8deg) brightness(0.92);
   }
   /* Tekstlink met onderstreping, zoals "Bekijk alles" in een winkel */
   .link {

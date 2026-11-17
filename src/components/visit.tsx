@@ -9,12 +9,12 @@ export function Visit() {
   const [state, setState] = useState<"idle" | "sending" | "done" | "error">("idle");
 
   return (
-    <section id="bezoek" className="cv bg-bg py-24">
+    <section id="bezoek" className="cv bg-bg py-16 md:py-24">
       <div className="mx-auto grid max-w-[1400px] gap-4 px-4 md:px-8 lg:grid-cols-2">
         <div className="relative min-h-[360px] overflow-hidden rounded-[var(--radius-card)] bg-panel">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img loading="lazy" decoding="async" src={MEDIA.coach} alt="Coach met een testracket bij Poort Padel" className="absolute inset-0 size-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/40 to-transparent" />
+          <img loading="lazy" decoding="async" src={MEDIA.coach} alt="Coach met een testracket bij Poort Padel" className="warm absolute inset-0 size-full object-cover" />
+          <div className="absolute inset-x-0 bottom-0 h-3/4 bg-gradient-to-t from-ink/90 via-ink/60 to-transparent" />
           <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8">
             <h2 className="text-[clamp(26px,2.6vw,36px)] leading-[1.05] font-bold">
               Kom langs bij Poort Padel

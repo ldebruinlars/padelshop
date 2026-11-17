@@ -129,7 +129,7 @@ export function BallPath() {
                 <g key={s.title}>
                   <circle className="ring" cx={s.x} cy={s.y} r="8" fill="none" stroke="#f06a30" strokeWidth="3" opacity="0" />
                   <circle cx={s.x} cy={s.y} r="7" fill="#f06a30" />
-                  <g transform={`translate(${s.x + (i === 2 ? -150 : 18)} ${s.y + 14})`}>
+                  <g className="max-md:hidden" transform={`translate(${s.x + (i === 2 ? -150 : 18)} ${s.y + 14})`}>
                     <rect width="132" height="44" rx="3" fill="#14110f" stroke="#2c241f" />
                     <text x="14" y="30" fill="#f6efe6" fontSize="22" fontWeight="700" style={{ fontFamily: "var(--font-archivo)" }}>
                       {s.title}

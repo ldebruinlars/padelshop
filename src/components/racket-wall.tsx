@@ -56,7 +56,7 @@ function Peg({ r, onOpen, eager }: { r: CatalogRacket; onOpen: (r: CatalogRacket
         </div>
       </div>
       {/* Prijskaartje op de rail */}
-      <div className="wall-label relative z-[1] mt-2 w-[calc(100%-10px)] rounded-[3px] bg-ink px-3 py-2.5 text-fg shadow-[0_8px_16px_-8px_rgb(20_17_15/0.6)] transition-transform duration-200 group-hover:-translate-y-0.5">
+      <div className="wall-label relative z-[1] mt-2 w-[calc(100%-10px)] rounded-[3px] bg-bg px-3 py-2.5 text-fg shadow-[0_8px_16px_-8px_rgb(20_17_15/0.6)] transition-transform duration-200 group-hover:-translate-y-0.5">
         <p className="label text-[11px] text-muted">{brandName(r.brand)}</p>
         <p className="mt-0.5 line-clamp-2 min-h-[2.6em] text-[15px] leading-[1.3] font-semibold">{r.model}</p>
         <p className="mt-1 flex items-baseline justify-between gap-2">
@@ -81,7 +81,7 @@ function Row({ items, label, eager, onOpen }: { items: CatalogRacket[]; label: s
   return (
     <div className="relative">
       {/* Prijsrail onder de rij */}
-      <span className="absolute inset-x-0 bottom-[30px] h-[30px] border-t-2 border-[#3d7a5c] bg-[#143526] shadow-[0_8px_12px_-6px_rgb(20_17_15/0.5)]" aria-hidden="true" />
+      <span className="absolute inset-x-0 bottom-[30px] h-[30px] border-t-2 border-[#8d8072] bg-[#2a221d] shadow-[0_8px_12px_-6px_rgb(20_17_15/0.5)]" aria-hidden="true" />
       <ul
         ref={ref}
         {...handlers}

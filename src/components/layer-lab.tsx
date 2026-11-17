@@ -107,7 +107,7 @@ export function CoreLab() {
         {rubber === "MultiEva" && <rect x="112" y="24" width="10" height="172" fill="#9c8668" opacity="0.7" />}
         {rubber === "MultiEva" && <rect x="140" y="24" width="10" height="172" fill="#9c8668" opacity="0.7" />}
         <path className="lab-skin" d="M151 24 Q151 110 151 196" fill="none" stroke="#2b2622" strokeWidth="5" />
-        <text x="129" y="214" textAnchor="middle" fontSize="11" fill="#b7c6bb">
+        <text x="129" y="214" textAnchor="middle" fontSize="11" fill="#b3a595">
           kern
         </text>
         {/* Bal */}
@@ -117,12 +117,12 @@ export function CoreLab() {
             <path d="M-11 -10c6 5 6 15 0 20M11 -10c-6 5-6 15 0 20" fill="none" stroke="#f6f7e0" strokeWidth="2" />
           </g>
         </g>
-        <g className="lab-trail" opacity="0" stroke="#f2462e" strokeWidth="2.5" strokeLinecap="round">
+        <g className="lab-trail" opacity="0" stroke="#f06a30" strokeWidth="2.5" strokeLinecap="round">
           <line x1="200" x2={200 + exit * 150} y1="100" y2="100" />
           <line x1="210" x2={210 + exit * 130} y1="110" y2="110" />
           <line x1="200" x2={200 + exit * 150} y1="120" y2="120" />
         </g>
-        <text x="390" y="20" textAnchor="end" fontSize="11" fill="#b7c6bb">
+        <text x="390" y="20" textAnchor="end" fontSize="11" fill="#b3a595">
           {fast ? "harde smash" : "rustige bal"}
         </text>
       </svg>
@@ -206,15 +206,15 @@ export function FaceLab() {
         <g clipPath="url(#lab-lens)">
           <rect x="0" y="0" width="200" height="220" fill="url(#lab-weave)" />
         </g>
-        <circle cx="100" cy="110" r="78" fill="none" stroke="#8fa597" strokeWidth="3" />
-        <path d="M156 166l26 26" stroke="#8fa597" strokeWidth="8" strokeLinecap="round" />
+        <circle cx="100" cy="110" r="78" fill="none" stroke="#6b5f55" strokeWidth="3" />
+        <path d="M156 166l26 26" stroke="#6b5f55" strokeWidth="8" strokeLinecap="round" />
         <path className="lab-face" d="M290 24 Q290 110 290 196" fill="none" stroke={f.stiff > 0.5 ? "#2f2924" : "#c3c7bf"} strokeWidth="7" strokeLinecap="round" />
         <g className="lab-ball2" transform="translate(70 0)">
           <g transform="translate(308 110)">
             <circle r="14" fill="#e3e86a" />
           </g>
         </g>
-        <text x="290" y="214" textAnchor="middle" fontSize="11" fill="#b7c6bb">
+        <text x="290" y="214" textAnchor="middle" fontSize="11" fill="#b3a595">
           van opzij
         </text>
       </svg>

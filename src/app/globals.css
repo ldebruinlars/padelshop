@@ -1,19 +1,19 @@
 @import "tailwindcss";
 
-/* 60-30-10: Oat Milk (#F0E8DA) als basis, Forest Green (#1D4A35) voor de donkere vlakken, Tomato Red (#F2462E) als accent */
+/* Gravel Night met een lichte racketwand: espresso vlakken, krijtwitte tekst, donkere prijskaartjes, gravel-oranje prijs en knoppen */
 @theme {
-  --color-bg: #f0e8da;
-  --color-panel: #e7ddcb;
-  --color-panel-2: #d6c9b2;
-  --color-ink: #1d4a35;
-  --color-fg: #15291f;
-  --color-muted: #5a6a5f;
-  --color-accent: #f2462e;
-  --color-accent-2: #e2c79c;
-  /* Productafbeeldingen en planklabels: iets lichter dan de basis, zodat ze loskomen */
-  --color-paper: #f7f2e8;
-  /* Donkere tekst op tomaatrood, zand en de speelstijlkleuren (wit op tomaatrood haalt geen AA) */
-  --color-on-accent: #1a120f;
+  --color-bg: #14110f;
+  --color-panel: #201a16;
+  --color-panel-2: #2c241f;
+  --color-ink: #0c0a09;
+  --color-fg: #f6efe6;
+  --color-muted: #b3a595;
+  --color-accent: #f06a30;
+  --color-accent-2: #e8d3a8;
+  /* Planklabels en de achtergrond van de productafbeeldingen */
+  --color-paper: #ede4d3;
+  /* Donkere tekst op accent, zand en de speelstijlkleuren (wit op oranje haalt geen AA) */
+  --color-on-accent: #14110f;
 
   --font-sans: var(--font-inter-tight), system-ui, sans-serif;
   --font-display: var(--font-archivo), var(--font-inter-tight), system-ui, sans-serif;
@@ -26,8 +26,8 @@
 }
 
 html {
-  background: var(--color-bg);
-  scrollbar-color: var(--color-panel-2) var(--color-bg);
+  background: var(--color-ink);
+  scrollbar-color: var(--color-panel-2) var(--color-ink);
   /* Ankerlinks (#testcenter, #finder) glijden; de pagina zelf scrollt native, dus op de eigen thread van de browser */
   scroll-padding-top: 112px;
   /* Ruimte voor de scrollbalk blijft staan, ook als een dialoog het scrollen stopt: geen verspringende wand */
@@ -40,7 +40,7 @@ html {
 }
 
 body {
-  background: var(--color-bg);
+  background: var(--color-ink);
   color: var(--color-fg);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
@@ -99,7 +99,7 @@ body {
     color: var(--color-on-accent);
   }
   .btn-primary:hover:not(:disabled) {
-    background: #ff5f48;
+    background: #ff7b45;
   }
   .btn-sand {
     background: var(--color-accent-2);
@@ -160,7 +160,7 @@ body {
   .chip[aria-selected="true"] {
     border-color: var(--color-fg);
     background: var(--color-fg);
-    color: var(--color-bg);
+    color: var(--color-on-accent);
     font-weight: 600;
   }
   .field {
@@ -202,9 +202,9 @@ body {
   border-color: rgb(20 17 15 / 0.6);
 }
 .slatwall .chip[aria-pressed="true"] {
-  background: var(--color-ink);
-  border-color: var(--color-ink);
-  color: #f0e8da;
+  background: var(--color-on-accent);
+  border-color: var(--color-on-accent);
+  color: var(--color-fg);
 }
 /* De schaduw op de wand zit in de foto's zelf (-wand.webp); een CSS-filter hier kostte elk scrollframe rekenwerk */
 
@@ -311,25 +311,4 @@ body {
 .cv {
   content-visibility: auto;
   contain-intrinsic-size: auto 1100px;
-}
-
-/* Groene zones (30%): alles met een bg-ink-achtergrond krijgt lichte tekst en groene vlakken.
-   Zo blijven text-fg, text-muted, bg-panel en bg-bg binnen die blokken leesbaar zonder elke klasse te wijzigen. */
-[class~="bg-ink"],
-[class*="bg-ink/"] {
-  --color-fg: #f0e8da;
-  --color-muted: #b7c6bb;
-  --color-panel: #24563e;
-  --color-panel-2: #2f6a4e;
-  --color-bg: #183f2d;
-  --accent-text: #ff9a85;
-  color: var(--color-fg);
-}
-
-/* Tomaatrood als tekst is te licht op Oat Milk; op lichte vlakken een donkerdere tint, op groen een lichtere */
-:root {
-  --accent-text: #b8301d;
-}
-.text-accent {
-  color: var(--accent-text);
 }

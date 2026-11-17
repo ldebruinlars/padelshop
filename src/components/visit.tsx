@@ -11,7 +11,7 @@ export function Visit() {
   return (
     <section id="bezoek" className="cv bg-bg py-24">
       <div className="mx-auto grid max-w-[1400px] gap-4 px-5 lg:grid-cols-2">
-        <div className="relative min-h-[360px] overflow-hidden rounded-[var(--radius-card)] bg-panel">
+        <div className="relative min-h-[360px] overflow-hidden rounded-[var(--radius-card)] bg-ink">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img loading="lazy" decoding="async" src={MEDIA.coach} alt="Coach met een testracket bij Poort Padel" className="absolute inset-0 size-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/40 to-transparent" />

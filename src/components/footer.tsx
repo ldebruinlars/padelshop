@@ -13,7 +13,7 @@ const SERVICE = [
 export function Footer() {
   return (
     <footer className="pb-[calc(10px+env(safe-area-inset-bottom))]">
-      <RevealPanel className="bg-bg">
+      <RevealPanel className="bg-ink">
         <div className="mx-auto grid max-w-[1400px] gap-10 px-6 py-16 md:grid-cols-[1.2fr_1fr] md:px-12">
           <div>
             <a href="/" className="flex items-center gap-3 font-display text-2xl font-bold [font-stretch:90%]">

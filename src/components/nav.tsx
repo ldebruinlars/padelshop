@@ -102,7 +102,7 @@ export function Nav() {
           <a href="/rackets/" className="btn btn-line btn-sm max-sm:hidden">
             Alle rackets
           </a>
-          <a href="/#testcenter" className="btn btn-sand btn-sm whitespace-nowrap">
+          <a href="/#testcenter" className="btn btn-primary btn-sm whitespace-nowrap">
             <span>
               Boek <span className="max-[400px]:hidden">een </span>test
             </span>

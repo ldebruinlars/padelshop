@@ -111,27 +111,27 @@ export function BallPath() {
             <svg viewBox={`-30 -230 ${W + 60} ${H + 270}`} className="w-full overflow-visible">
               {/* Glas rondom en de baan */}
               <rect x="-14" y="-14" width={W + 28} height={H + 28} rx="4" fill="none" stroke="#3a312b" strokeWidth="3" />
-              <rect x="0" y="0" width={W} height={H} fill="#201a16" />
-              <g fill="none" stroke="#f6efe6" strokeOpacity="0.7" strokeWidth="2.5">
+              <rect x="0" y="0" width={W} height={H} fill="#1d4a35" />
+              <g fill="none" stroke="#f0e8da" strokeOpacity="0.7" strokeWidth="2.5">
                 <rect className="court-line" x="0" y="0" width={W} height={H} />
                 <line className="court-line" x1={W / 2 - SERVICE} y1="0" x2={W / 2 - SERVICE} y2={H} />
                 <line className="court-line" x1={W / 2 + SERVICE} y1="0" x2={W / 2 + SERVICE} y2={H} />
                 <line className="court-line" x1={W / 2 - SERVICE} y1={H / 2} x2={W / 2 + SERVICE} y2={H / 2} />
               </g>
               {/* Net met palen */}
-              <line className="court-line" x1={W / 2} y1="-6" x2={W / 2} y2={H + 6} stroke="#f6efe6" strokeWidth="6" />
-              <circle cx={W / 2} cy="-8" r="6" fill="#f6efe6" />
-              <circle cx={W / 2} cy={H + 8} r="6" fill="#f6efe6" />
+              <line className="court-line" x1={W / 2} y1="-6" x2={W / 2} y2={H + 6} stroke="#f0e8da" strokeWidth="6" />
+              <circle cx={W / 2} cy="-8" r="6" fill="#f0e8da" />
+              <circle cx={W / 2} cy={H + 8} r="6" fill="#f0e8da" />
 
-              <path className="trail" fill="none" stroke="#f06a30" strokeWidth="2.5" strokeLinecap="round" strokeOpacity="0.85" />
+              <path className="trail" fill="none" stroke="#f2462e" strokeWidth="2.5" strokeLinecap="round" strokeOpacity="0.85" />
 
               {STATIONS.map((s, i) => (
                 <g key={s.title}>
-                  <circle className="ring" cx={s.x} cy={s.y} r="8" fill="none" stroke="#f06a30" strokeWidth="3" opacity="0" />
-                  <circle cx={s.x} cy={s.y} r="7" fill="#f06a30" />
+                  <circle className="ring" cx={s.x} cy={s.y} r="8" fill="none" stroke="#f2462e" strokeWidth="3" opacity="0" />
+                  <circle cx={s.x} cy={s.y} r="7" fill="#f2462e" />
                   <g transform={`translate(${s.x + (i === 2 ? -150 : 18)} ${s.y + 14})`}>
-                    <rect width="132" height="44" rx="3" fill="#14110f" stroke="#2c241f" />
-                    <text x="14" y="30" fill="#f6efe6" fontSize="22" fontWeight="700" style={{ fontFamily: "var(--font-archivo)" }}>
+                    <rect width="132" height="44" rx="3" fill="#15291f" stroke="#2f6a4e" />
+                    <text x="14" y="30" fill="#f0e8da" fontSize="22" fontWeight="700" style={{ fontFamily: "var(--font-archivo)" }}>
                       {s.title}
                     </text>
                   </g>

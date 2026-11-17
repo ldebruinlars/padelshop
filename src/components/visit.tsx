@@ -93,7 +93,7 @@ export function Visit() {
                 {state === "sending" ? "Bezig..." : "Aanmelden"}
               </button>
               {state === "error" && (
-                <p className="w-full text-sm text-accent-2" role="alert">
+                <p className="w-full rounded-[var(--radius-control)] bg-accent-2 px-4 py-3 text-sm text-on-accent" role="alert">
                   Aanmelden lukte niet. Controleer je verbinding en probeer het opnieuw.
                 </p>
               )}

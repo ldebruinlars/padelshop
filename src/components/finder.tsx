@@ -58,7 +58,8 @@ export function Finder() {
   return (
     <section id="finder" className="cv bg-ink py-16 md:py-24">
       <div className="mx-auto grid max-w-[1400px] gap-12 px-4 md:px-8 lg:grid-cols-[0.8fr_1.2fr]">
-        <div>
+        {/* Intro blijft naast de vragen en het (lange) resultaat staan */}
+        <div className="lg:sticky lg:top-28 lg:self-start">
           <h2 className="text-[clamp(30px,3.2vw,44px)] leading-[1] font-bold">Welk racket past bij jou?</h2>
           <p className="mt-4 max-w-md text-fg/75">
             Negen korte vragen, zoals een verkoper in de winkel ze stelt. Daarna krijg je drie rackets uit onze testrange met de reden waarom ze passen. Die liggen op de baan klaar voor je test.
@@ -66,16 +67,25 @@ export function Finder() {
           {!done && (
             <ol className="mt-8 hidden gap-1 text-sm lg:grid" aria-label="Voortgang">
               {QUESTIONS.map((q, i) => (
-                <li key={q.id} className={`flex items-baseline justify-between gap-4 border-b border-panel-2 py-2 ${i === step ? "text-fg" : "text-muted"}`}>
-                  <span>{q.q}</span>
-                  <span className="shrink-0 text-right text-xs">{answers[i]?.label ?? ""}</span>
+                <li key={q.id} className="border-b border-panel-2">
+                  {/* Een beantwoorde vraag is een knop: terug naar die vraag om het antwoord te wijzigen */}
+                  {i < step ? (
+                    <button type="button" onClick={() => setAnswers((l) => l.slice(0, i))} className="flex w-full items-baseline justify-between gap-4 py-2 text-left text-muted hover:text-fg">
+                      <span>{q.q}</span>
+                      <span className="shrink-0 text-right text-xs text-fg/80 underline decoration-fg/30 underline-offset-4">{answers[i]?.label}</span>
+                    </button>
+                  ) : (
+                    <span className={`flex items-baseline justify-between gap-4 py-2 ${i === step ? "font-semibold text-fg" : "text-muted"}`} aria-current={i === step ? "step" : undefined}>
+                      {q.q}
+                    </span>
+                  )}
                 </li>
               ))}
             </ol>
           )}
         </div>
 
-        <div ref={box} className="rounded-[var(--radius-panel)] border border-fg/5 bg-bg p-6 md:p-10" aria-live="polite">
+        <div ref={box} className="self-start rounded-[var(--radius-panel)] border border-fg/5 bg-bg p-6 md:p-10" aria-live="polite">
           {!done ? (
             <>
               <div className="mb-6 flex gap-1" aria-hidden="true">

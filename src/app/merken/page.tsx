@@ -14,8 +14,11 @@ export default function BrandsPage() {
     <>
       <Nav />
       <main id="inhoud" tabIndex={-1} className="pt-[calc(96px+env(safe-area-inset-top))] pb-24">
-        <header className="mx-auto max-w-[1400px] px-4 pt-10 pb-8 md:px-8">
-          <h1 className="rise text-[clamp(40px,5.4vw,76px)] leading-[0.92] font-bold" style={{ "--i": 1 } as React.CSSProperties}>
+        <header className="mx-auto max-w-[1400px] px-4 pt-6 pb-8 md:px-8">
+          <nav aria-label="Kruimelpad" className="text-sm text-muted">
+            <a href="/" className="hover:text-fg">Home</a> / <span className="text-fg">Merken</span>
+          </nav>
+          <h1 className="rise mt-4 text-[clamp(40px,5.4vw,76px)] leading-[0.92] font-bold" style={{ "--i": 1 } as React.CSSProperties}>
             Tien topmerken
           </h1>
         </header>

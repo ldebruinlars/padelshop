@@ -166,8 +166,8 @@ export function OrderPanel({ racket, interest = false }: { racket: { id: string;
               setCodeState("idle");
             }}
             onBlur={() => verify(code)}
-            className="field uppercase"
-            placeholder="Van je coach"
+            className="field uppercase placeholder:normal-case"
+            placeholder="Code van je coach"
             aria-describedby="code-status"
           />
           <span id="code-status" className="text-xs" aria-live="polite">

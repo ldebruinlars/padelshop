@@ -108,7 +108,7 @@ export function Model3D({ src, poster, alt, autoStart = false, onStart, classNam
             "environment-image": "neutral",
             ar: true,
             "ar-modes": "webxr scene-viewer quick-look",
-            "camera-orbit": "20deg 80deg auto",
+            "camera-orbit": "20deg 80deg 115%",
             style: { width: "100%", height: "100%", background: "transparent", "--poster-color": "transparent" },
           })}
           {/* Bediening: aanzichten links, zoom en volledig scherm rechts */}
@@ -139,7 +139,10 @@ export function Model3D({ src, poster, alt, autoStart = false, onStart, classNam
               </button>
             </div>
           </div>
-          {!canZoom && <p className="pointer-events-none absolute top-3 right-3 rounded-[4px] bg-bg/80 px-2 py-1 text-[11px] text-fg/80 max-sm:hidden">Klik op het racket om met scrollen te zoomen</p>}
+          {/* Eén hint: draaien kan altijd, zoomen pas na een klik */}
+          <p className="pointer-events-none absolute top-3 left-3 rounded-[4px] bg-bg/80 px-2 py-1 text-[11px] text-fg/80">
+            Sleep om te draaien{!canZoom && <span className="max-sm:hidden"> · klik om te zoomen</span>}
+          </p>
         </>
       ) : (
         <button

@@ -31,7 +31,7 @@ export default async function BrandPage({ params }: { params: Promise<{ slug: st
     <>
       <Nav />
       <main id="inhoud" tabIndex={-1} className="pt-[calc(96px+env(safe-area-inset-top))]">
-        <header className="mx-auto grid max-w-[1400px] gap-8 px-4 pt-10 pb-12 md:px-8 lg:grid-cols-[1.4fr_1fr] lg:items-end">
+        <header className="mx-auto grid max-w-[1400px] gap-8 px-4 pt-6 pb-12 md:px-8 lg:grid-cols-[1.4fr_1fr] lg:items-end">
           <div>
             <nav aria-label="Kruimelpad" className="rise text-sm text-muted">
               <a href="/" className="hover:text-fg">Home</a> / <a href="/merken/" className="hover:text-fg">Merken</a> / <span className="text-fg">{b.name}</span>

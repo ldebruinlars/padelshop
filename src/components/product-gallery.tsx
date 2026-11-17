@@ -28,7 +28,7 @@ export function ProductGallery({ r }: { r: OwnRacket }) {
           // eslint-disable-next-line @next/next/no-img-element
           <img src={current.src} alt={`${r.model}, ${current.label.toLowerCase()}`} className="size-full object-contain" />
         )}
-        <p className="label pointer-events-none absolute top-3 left-4 text-on-accent/70">{pick === "3d" ? "Concept · sleep om te draaien" : `Concept · ${current.label.toLowerCase()}`}</p>
+        {pick !== "3d" && <p className="label pointer-events-none absolute top-3 left-4 text-on-accent/70">Concept · {current.label.toLowerCase()}</p>}
       </div>
       <div className="grid grid-cols-4 gap-2" role="radiogroup" aria-label="Kies een beeld">
         {shots.map((s) => (
@@ -38,11 +38,14 @@ export function ProductGallery({ r }: { r: OwnRacket }) {
             role="radio"
             aria-checked={pick === s.id}
             onClick={() => setPick(s.id)}
-            className={`relative h-20 overflow-hidden rounded-[var(--radius-control)] border bg-[#e6e3de] transition-colors ${pick === s.id ? "border-accent ring-1 ring-accent" : "border-transparent hover:border-fg/30"}`}
+            className={`group grid gap-1 text-center text-[11px] font-semibold ${pick === s.id ? "text-fg" : "text-muted hover:text-fg"}`}
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={s.src} alt="" loading="lazy" className={`size-full ${s.id === "3d" ? "object-contain p-1" : "object-cover"}`} />
-            <span className="absolute inset-x-0 bottom-0 bg-ink/70 py-0.5 text-center text-[11px] font-semibold text-fg">{s.label}</span>
+            {/* Het hele racket in beeld (contain), het label eronder in plaats van eroverheen */}
+            <span className={`block h-20 overflow-hidden rounded-[var(--radius-control)] border bg-[#d8d5d1] transition-colors ${pick === s.id ? "border-accent ring-1 ring-accent" : "border-transparent group-hover:border-fg/30"}`}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={s.src} alt="" loading="lazy" className="size-full object-contain p-1" />
+            </span>
+            {s.label}
           </button>
         ))}
       </div>
